@@ -1,0 +1,29 @@
+@startgantt "Projet ESP SeatSwift"
+language fr
+
+Project starts 2024-02-01
+
+then [Recherche et développement] as [DCU] on {Michoux} lasts 4 day
+then [Création du diagramme de cas d'utilisation] as [CC] on {Michoux} lasts 1 day
+then [Création du diagramme de classe] as [CD] on {Michoux} lasts 1 day
+then [Création du diagramme de séquence] as [CS] on {Michoux} lasts 1 day
+then [Création du diagramme de base de données] as [DBD] on {Michoux} lasts 1 day
+[Création de la base de données] as [PT] on {Michoux} starts at [DBD]'s start and lasts 1 day
+then [Création des plans de test] as [PDT] on {Michoux} lasts 1 day
+then [Création des maquettes] as [CDM] on {Michoux} lasts 1 day
+then [Création des interfaces de l'application de gestion] as [ADG] on {Michoux} lasts 4 day
+then [Remise du cahier de conception] as [RCC] on {Michoux} lasts 1 day
+[Création des interfaces du gichet autonome] as [AGA] on {Michoux} starts at [ADG]'s end and lasts 5 day
+then [Création de la DLL du modèle] as [DLL] on {Michoux} lasts 2 day
+then [Création des ViewModels pour l'application de gestion] as [CVM] on {Michoux} lasts 4 day
+then [Présentation du prototype au client] as [PPC] on {Michoux} lasts 1 day
+[Création des ViewModels du gichet autonome] as [CVMGA] on {Michoux} starts at [CVM]'s end and lasts 5 day
+then [Finalisation de l'application pour présentation finale (À ajuster selon les besoins)] as [FA] on {Michoux} lasts 12 day
+then [Correction au besoin] as [CA] on {Michoux} lasts 2 day
+
+
+hide ressources name
+hide ressources footbox
+
+' printscale daily zoom 3
+@endgantt
