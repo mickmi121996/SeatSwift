@@ -1,0 +1,188 @@
+@startuml "SeatSwift - Diagramme de classes"
+skinparam Linetype ortho
+allow_mixing
+
+enum SeatType {
+    Classic
+    ReducedMobility
+}
+
+enum SeatStatus {
+    Available
+    Reserved
+    OutOfService
+}
+
+enum RowStatus {
+    Available
+    OutOfService
+}
+
+enum SectionStatus {
+    Available
+    OutOfService
+}
+
+enum ShowStatus {
+    ComingSoon
+    Available
+    Completed
+    Canceled
+}
+
+enum ShowType {
+    Concert
+    Movie
+    Theater
+    Humor
+}
+
+class Client {
+    -id: int
+    -IsActive: bool
+    --
+    +FirstName: string
+    +LastName: string
+    +Email: string
+    +City: string
+    +PasswordHash: Bytes[]
+    +PasswordSalt: Bytes[]
+    --
+    +Client()
+    +Client(FirstName: string, LastName: string, Email: string)
+    --
+}
+
+class PurchaseHistory {
+    -id: int
+    -IsActive: bool
+    --
+    +Client: Client
+    +Show: Show
+    +PurchaseDate: DateTime
+    +NumberOfTickets: int
+    --
+    +PurchaseHistory()
+    +PurchaseHistory(Client: Client, Show: Show, PurchaseDate: DateTime, NumberOfTickets: int, TotalPrice: Decimal)
+    --
+}
+
+class Accountant {
+    -id: int
+    -IsActive: bool
+    --
+    +FirstName: string
+    +LastName: string
+    +employeeNumber: string
+    +Email: string
+    +PhoneNumber: string
+    +PasswordHash: Bytes[]
+    +PasswordSalt: Bytes[]
+    --
+    +Accountant()
+    +Accountant(FirstName: string, LastName: string, employeeNumber: string, Email: string, PhoneNumber: string)
+    --
+}
+
+class Admin {
+    +Admin()
+    +Admin(FirstName: string, LastName: string, employeeNumber: string, Email: string, PhoneNumber: string)
+    --
+}
+
+class Seat {
+    -id: int
+    IsActive: bool
+    --
+    +SeatNumber: int
+    +SeatStatus: SeatStatus
+    +SeatType: SeatType
+    --
+    +Seat()
+    +Seat(SeatNumber: int, SeatStatus: SeatStatus, SeatType: SeatType)
+    --
+}
+
+class Row {
+    -id: int
+    IsActive: bool
+    --
+    +RowNumber: int
+    +RowStatus: RowStatus
+    +Seats: Seat[]
+    --
+    +row()
+    +row(RowNumber: int, Seats: Seat[])
+    --
+}
+
+class Section {
+    -id: int
+    IsActive: bool
+    --
+    +SectionNumber: int
+    +SectionStatus: SectionStatus
+    +SectionMultiplier: Decimal
+    +Rows: row[]
+    --
+    +Section()
+    +Section(SectionNumber: int, SectionStatus: SectionStatus, SectionMultiplier: Decimal, Rows: row[])
+    --
+}
+
+Class Auditorium {
+    -id: int
+    IsActive: bool
+    --
+    +AuditoriumName: string
+    +Sections: Section[]
+    --
+    +Auditorium()
+    +Auditorium(AuditoriumName: string, Sections: Section[])
+    --
+}
+
+class Show {
+    -id: int
+    IsActive: bool
+    --
+    +ShowName: string
+    +Artist: string
+    +ShowType: ShowType
+    +ShowDate: DateTime
+    +ShowStatus: ShowStatus
+    +Auditorium: Auditorium
+    +description: string
+    +NumberOfTicketsMaxByClient: int
+    +BaseTicketPrice: Decimal
+    +Image: string
+    --
+    +Show()
+    +Show(ShowName: string, Artist: string, ShowType: ShowType, ShowDate: DateTime, ShowStatus: ShowStatus, Auditorium: Auditorium, description: string, NumberOfTicketsMaxByClient: int, BaseTicketPrice: Decimal)
+    --
+}
+
+Admin -u-|> Accountant
+
+Auditorium o-- Section : contains
+Section o-- Row : contains
+Row o-- Seat : contains
+
+Show -- Auditorium : takes place in
+
+Seat -- SeatType : has
+Seat -- SeatStatus : has
+
+Row -- RowStatus : has
+
+Section -- SectionStatus : has
+
+Show -- ShowStatus : has
+Show -- ShowType : has
+
+Admin -- Show : Create
+Client -- Show : Purchase
+
+PurchaseHistory -- Client : has
+
+@enduml
