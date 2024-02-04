@@ -37,6 +37,11 @@ enum ShowType {
     Humor
 }
 
+enum TicketStatus {
+    Available
+    Sold
+}
+
 class Client {
     -id: int
     -IsActive: bool
@@ -53,17 +58,33 @@ class Client {
     --
 }
 
-class PurchaseHistory {
+class Order {
     -id: int
     -IsActive: bool
     --
+    +OrderNumber: string
+    +OrderDate: DateTime
+    +OrderTotal: Decimal
     +Client: Client
     +Show: Show
-    +PurchaseDate: DateTime
-    +NumberOfTickets: int
+    +Tickets: Ticket[]
     --
-    +PurchaseHistory()
-    +PurchaseHistory(Client: Client, Show: Show, PurchaseDate: DateTime, NumberOfTickets: int, TotalPrice: Decimal)
+    +Order()
+    +Order(OrderNumber: string, OrderDate: DateTime, OrderTotal: Decimal, Client: Client, Show: Show, Tickets: Ticket[])
+    --
+}
+
+class Ticket {
+    -id: int
+    -IsActive: bool
+    --
+    +TicketNumber: string
+    +TicketStatus: TicketStatus
+    +Show: Show
+    +Seat: Seat
+    --
+    +Ticket()
+    +Ticket(TicketNumber: string, TicketStatus: TicketStatus, Show: Show, Seat: Seat)
     --
 }
 
@@ -183,6 +204,13 @@ Show -- ShowType : has
 Admin -- Show : Create
 Client -- Show : Purchase
 
-PurchaseHistory -- Client : has
+Order -- Client : has
+
+Ticket -- Show : has
+
+Ticket -- Seat : has
+
+Ticket -- TicketStatus : has
+
 
 @enduml
