@@ -170,9 +170,7 @@ class Show {
     +ShowName: string
     +Artist: string
     +ShowType: ShowType
-    +ShowDate: DateTime
     +ShowStatus: ShowStatus
-    +Auditorium: Auditorium
     +description: string
     +NumberOfTicketsMaxByClient: int
     +BaseTicketPrice: Decimal
@@ -183,13 +181,28 @@ class Show {
     --
 }
 
+class Represantation {
+    -id: int
+    IsActive: bool
+    --
+    +Show: Show
+    +ShowDate: DateTime
+    +Auditorium: Auditorium
+    --
+    +Represantation()
+    +Represantation(Show: Show, ShowDate: DateTime, Auditorium: Auditorium)
+    --
+}
+
 Admin -u-|> Accountant
 
-Auditorium o-- Section : contains
-Section o-- Row : contains
-Row o-- Seat : contains
+Show "1" o-- "1..*" Represantation : has
+Represantation "1" o-- "1" Auditorium : takes place in
 
-Show -- Auditorium : takes place in
+Auditorium "1 " o-- " 1..*" Section : contains
+Section "1" o-- " 1..*" Row : contains
+Row "1" o-- " 1..*" Seat : contains
+
 
 Seat -- SeatType : has
 Seat -- SeatStatus : has
@@ -204,11 +217,11 @@ Show -- ShowType : has
 Admin -- Show : Create
 Client -- Show : Purchase
 
-Order -- Client : has
+Order "1" -- "0..*" Client : has
 
-Ticket -- Show : has
+Ticket "1..*" -- "1" Show : has
 
-Ticket -- Seat : has
+Ticket "1" -- "1" Seat : has
 
 Ticket -- TicketStatus : has
 
