@@ -58,6 +58,7 @@ class Client {
     --
 }
 
+
 class Order {
     -id: int
     -IsActive: bool
@@ -163,6 +164,18 @@ Class Auditorium {
     --
 }
 
+Class Configuration {
+    -id: int
+    IsActive: bool
+    --
+    +ConfigurationName: string
+    +Auditorium: Auditorium
+    --
+    +Configuration()
+    +Configuration(ConfigurationName: string, ConfigurationValue: string)
+    --
+}
+
 class Show {
     -id: int
     IsActive: bool
@@ -187,17 +200,20 @@ class Represantation {
     --
     +Show: Show
     +ShowDate: DateTime
-    +Auditorium: Auditorium
+    +Configuration : Configuration
     --
     +Represantation()
-    +Represantation(Show: Show, ShowDate: DateTime, Auditorium: Auditorium)
+    +Represantation(Show: Show, ShowDate: DateTime, Configuration: Configuration)
     --
 }
 
 Admin -u-|> Accountant
 
 Show "1" o-- "1..*" Represantation : has
-Represantation "1" o-- "1" Auditorium : takes place in
+
+Configuration "1" o-- "1" Auditorium : has
+
+Configuration "1" o-- "1..*" Represantation : has
 
 Auditorium "1 " o-- " 1..*" Section : contains
 Section "1" o-- " 1..*" Row : contains
