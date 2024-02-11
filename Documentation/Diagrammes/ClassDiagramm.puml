@@ -67,7 +67,6 @@ class Order {
     +OrderDate: DateTime
     +OrderTotal: Decimal
     +Client: Client
-    +Show: Show
     +Tickets: Ticket[]
     --
     +Order()
@@ -81,7 +80,7 @@ class Ticket {
     --
     +TicketNumber: string
     +TicketStatus: TicketStatus
-    +Show: Show
+    +Representation : Represantation
     +Seat: Seat
     --
     +Ticket()
@@ -194,7 +193,7 @@ class Show {
     --
 }
 
-class Represantation {
+class Representation {
     -id: int
     IsActive: bool
     --
@@ -202,43 +201,36 @@ class Represantation {
     +ShowDate: DateTime
     +Configuration : Configuration
     --
-    +Represantation()
-    +Represantation(Show: Show, ShowDate: DateTime, Configuration: Configuration)
+    +Representation()
+    +Representation(Show: Show, ShowDate: DateTime, Configuration: Configuration)
     --
 }
 
 Admin -u-|> Accountant
+Admin -- Show : Create
 
-Show "1" o-- "1..*" Represantation : has
+Show "1" o-- "1..*" Representation : has
+Show -- ShowStatus : has
+Show -- ShowType : has
 
-Configuration "1" o-- "1" Auditorium : has
-
-Configuration "1" o-- "1..*" Represantation : has
+Configuration "1..*" o-- "1" Auditorium : has
+Configuration "1" o-- "1..*" Representation : has
 
 Auditorium "1 " o-- " 1..*" Section : contains
 Section "1" o-- " 1..*" Row : contains
 Row "1" o-- " 1..*" Seat : contains
-
+Row -- RowStatus : has
 
 Seat -- SeatType : has
 Seat -- SeatStatus : has
 
-Row -- RowStatus : has
-
 Section -- SectionStatus : has
 
-Show -- ShowStatus : has
-Show -- ShowType : has
+Order "1" -- "0..*" Ticket : has
+Order "0..*" -- "1 " Client : has
 
-Admin -- Show : Create
-Client -- Show : Purchase
-
-Order "1" -- "0..*" Client : has
-
-Ticket "1..*" -- "1" Show : has
-
+Ticket "1..*" -- "1" Representation : has
 Ticket "1" -- "1" Seat : has
-
 Ticket -- TicketStatus : has
 
 

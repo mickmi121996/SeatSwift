@@ -1,0 +1,134 @@
+@startuml "Diagramme logique de base de données"
+skinparam Linetype ortho
+allow_mixing
+
+class Show {
+    int Id <<**PK**>>
+    Boolean IsActive
+    ---
+    string ShowName <<**unique**>>
+    string Artiste
+    string Description
+    string ShowType
+    string ShowStatus
+    string Description
+    string ImageUrl
+    int NumberOfTicketsMaxByClient
+    int BaseTicketPrice
+}
+
+class Representation {
+    int Id <<**PK**>>
+    int ShowId <<**FK**>>
+    int ConfigurationId <<**FK**>>
+    Boolean IsActive
+    ---
+    DateTime Date
+}
+
+Class Configuration {
+    int Id <<**PK**>>
+    int Auditorium <<**FK**>>
+    Boolean IsActive
+    ---
+    string ConfigurationName <<**unique**>>
+}
+
+class Auditorium {
+    int Id <<**PK**>>
+    Boolean IsActive
+    ---
+    string AuditoriumName <<**unique**>>
+}
+
+class Section {
+    int Id <<**PK**>>
+    int AuditoriumId <<**FK**>>
+    Boolean IsActive
+    ---
+    string SectionName <<**unique**>>
+    string SectionStatus
+    Decimal SectionMultiplier
+}
+
+class Row {
+    int Id <<**PK**>>
+    int SectionId <<**FK**>>
+    Boolean IsActive
+    ---
+    string RowName
+    string RowStatus
+    int RowNumber <<**unique**>>
+}
+
+class Seat {
+    int Id <<**PK**>>
+    int RowId <<**FK**>>
+    Boolean IsActive
+    ---
+    string SeatStatus
+    string SeatType
+    int SeatNumber
+}
+
+class Ticket {
+    int Id <<**PK**>>
+    int RepresentationId <<**FK**>>
+    int SeatId <<**FK**>>
+    Boolean IsActive
+    ---
+    string TicketStatus
+    int TicketNumber <<**unique**>>
+}
+
+class Order {
+    int Id <<**PK**>>
+    int ClientId <<**FK**>>
+    int RepresentationId <<**FK**>>
+    Boolean IsActive
+    ---
+    string OrderNumber <<**unique**>>
+    DateTime OrderDate
+    Decimal TotalPrice
+    int NumberOfTickets
+    Decimal TotalPrice
+}
+
+class Client {
+    int Id <<**PK**>>
+    Boolean IsActive
+    ---
+    string FirstName
+    string LastName
+    string Email <<**unique**>>
+    Byte[] PasswordHash
+    Byte[] PasswordSalt
+    string Phone <<**Nullable**>>
+    string City <<**Nullable**>>
+}
+
+class User {
+    int Id <<**PK**>>
+    Boolean IsActive
+    ---
+    string FirstName
+    string LastName
+    string EmployeeNumber <<**unique**>>
+    string Email <<**unique**>>
+    string Phone
+    Byte[] PasswordHash
+    Byte[] PasswordSalt
+}
+
+Show ||--o{ Representation
+Representation }|--|| Configuration
+Configuration }o--|| Auditorium
+Auditorium ||--o{ Section
+Section ||--o{ Row
+Row ||--o{ Seat
+Representation ||--|{ Ticket
+Client ||--o{ Order
+Order ||--|{ Ticket
+
+
+@enduml
