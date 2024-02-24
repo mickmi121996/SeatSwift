@@ -1,0 +1,55 @@
+﻿<Window x:Class="AppGestion.Views.Windows.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppGestion.Views.Windows"
+        mc:Ignorable="d"
+        Title="About" Height="450" Width="800"        
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Background="Transparent" AllowsTransparency="True"
+        FontFamily="Poppins">
+    <Border Background="{DynamicResource PrimaryBackgroundColor}"
+            BorderBrush="{DynamicResource SecondaryBackGroundColor}"
+            BorderThickness="1"
+            CornerRadius="8">
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" Margin="10,5,0,0" Orientation="Horizontal" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Border Width="25" Height="25">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Resources/Logo.png" Stretch="Uniform"/>
+                    </Border.Background>
+                </Border>
+
+                <Label Content="À propos" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}"></Label>
+            </StackPanel>
+
+
+            <!-- region Button Close | Restore | Minimize -->
+            <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,10,0" Height="30" Orientation="Horizontal" FlowDirection="RightToLeft" Grid.RowSpan="2">
+                <Button x:Name="AlertColor" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}" Click="AlertColor_Click" Tag="IsCloseButton"/>
+                <Button x:Name="btnRestore" Margin="5,0" Click="btnRestore_Click">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IconButtonsStyle}">
+                            <Setter Property="Content" Value="{DynamicResource maximize}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=home, Path=WindowState}" Value="Maximized">
+                                    <Setter Property="Content" Value="{DynamicResource restore}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button x:Name="btnMinimize" Style="{DynamicResource IconButtonsStyle}" Content="{DynamicResource minimize}" Click="btnMinimize_Click"/>
+            </StackPanel>
+            <!-- EndRegion Button Close | Restore | Minimize -->
+
+
+        </Grid>
+    </Border>
+</Window>
