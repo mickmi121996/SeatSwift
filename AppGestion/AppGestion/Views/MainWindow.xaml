@@ -8,7 +8,7 @@
         xmlns:viewModel="clr-namespace:AppGestion.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewModel:VMMainWindow}"
         mc:Ignorable="d" Name="home"
-        Title="MainWindow" Height="650" Width="1000"
+        Title="MainWindow" Height="700" Width="1200"
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         Background="Transparent" AllowsTransparency="True"
         FontFamily="Poppins">
@@ -52,7 +52,7 @@
                     <!-- region MenuItem -->
                     <StackPanel Grid.Row="1" Margin="-1 40 0 20">
                         <Button x:Name="btnHome" Style="{DynamicResource PopupButtonStyle}"  MouseEnter="btnHome_MouseEnter" MouseLeave="btnHome_MouseLeave" Click="btnHome_Click">
-                            <ctls:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryGreenColor}" Icon="{DynamicResource home}" IconWidth="16" Text="Accueil" VerticalAlignment="Center"/>
+                            <ctls:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryGreenColor}" IsSelected="True" Icon="{DynamicResource home}" IconWidth="16" Text="Accueil" VerticalAlignment="Center"/>
                         </Button>
                         <Button x:Name="btnDashboard" Style="{DynamicResource PopupButtonStyle}"  MouseEnter="btnDashboard_MouseEnter" MouseLeave="btnDashboard_MouseLeave" Click="btnDashboard_Click">
                             <ctls:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryGreenColor}" Icon="{DynamicResource dashboard}" IconWidth="16" Text="Tableau de bord" VerticalAlignment="Center"/>
@@ -61,7 +61,7 @@
                             <ctls:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryGreenColor}" Icon="{DynamicResource users}" IconWidth="16" Text="Employés" VerticalAlignment="Center"/>
                         </Button>
                         <Button x:Name="btnManageEvent" Style="{DynamicResource PopupButtonStyle}"  MouseEnter="btnManageEvent_MouseEnter" MouseLeave="btnManageEvent_MouseLeave" Click="btnManageEvent_Click">
-                            <ctls:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryGreenColor}" Icon="{DynamicResource event}" IconWidth="16" Text="Évènements" VerticalAlignment="Center"/>
+                            <ctls:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryGreenColor}" Icon="{DynamicResource event}" IconWidth="16" Text="événements" VerticalAlignment="Center"/>
                         </Button>
                         <Button x:Name="btnManageTheater" Style="{DynamicResource PopupButtonStyle}"  MouseEnter="btnManageTheater_MouseEnter" MouseLeave="btnManageTheater_MouseLeave" Click="btnManageTheater_Click">
                             <ctls:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryGreenColor}" Icon="{DynamicResource theater}" IconWidth="16" Text="Salles" VerticalAlignment="Center"/>
@@ -93,26 +93,30 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <ToggleButton x:Name="Tg_Btn" Grid.Column="1" VerticalAlignment="Center" Style="{DynamicResource iToggleButtonStyle}" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Margin="10,15,0,15" Height="30" Width="30">
-                    <ToggleButton.Triggers>
-                        <EventTrigger RoutedEvent="ToggleButton.Unchecked">
-                            <BeginStoryboard>
-                                <Storyboard x:Name="HideStackPanel">
-                                    <DoubleAnimation Storyboard.TargetName="GridNav" Storyboard.TargetProperty="Width" BeginTime="0:0:0" From="210" To="60" Duration="0:0:0.5">
-                                    </DoubleAnimation>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="ToggleButton.Checked">
-                            <BeginStoryboard>
-                                <Storyboard x:Name="ShowStackPanel">
-                                    <DoubleAnimation Storyboard.TargetName="GridNav" Storyboard.TargetProperty="Width" BeginTime="0:0:0" From="60" To="210" Duration="0:0:0.5">
-                                    </DoubleAnimation>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </ToggleButton.Triggers>
-                </ToggleButton>
+                <StackPanel Grid.Column="1" Margin="10,15,0,15" Orientation="Horizontal" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+                    <ToggleButton x:Name="Tg_Btn"  VerticalAlignment="Center" Style="{DynamicResource iToggleButtonStyle}"  BorderThickness="0" Background="Transparent"  Height="30" Width="30">
+                        <ToggleButton.Triggers>
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="HideStackPanel">
+                                        <DoubleAnimation Storyboard.TargetName="GridNav" Storyboard.TargetProperty="Width" BeginTime="0:0:0" From="210" To="60" Duration="0:0:0.5">
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="ShowStackPanel">
+                                        <DoubleAnimation Storyboard.TargetName="GridNav" Storyboard.TargetProperty="Width" BeginTime="0:0:0" From="60" To="210" Duration="0:0:0.5">
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ToggleButton.Triggers>
+                    </ToggleButton>
+                <Label HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="{Binding Title}"></Label>
+                </StackPanel>
+
 
                 <!-- region Button Close | Restore | Minimize -->
                 <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,10,0" Height="30" Orientation="Horizontal" FlowDirection="RightToLeft" Grid.RowSpan="2">

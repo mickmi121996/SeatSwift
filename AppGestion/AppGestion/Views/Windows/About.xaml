@@ -4,18 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppGestion.Views.Windows"
+        xmlns:viewModel="clr-namespace:AppGestion.ViewModels.Windows"
+        d:DataContext="{d:DesignInstance Type=viewModel:VMAbout}"
+        xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"       
+        xmlns:gmaps="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
         mc:Ignorable="d"
-        Title="About" Height="450" Width="800"        
+        Title="About" Height="450" Width="850"        
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         Background="Transparent" AllowsTransparency="True"
-        FontFamily="Poppins">
+        FontFamily="Poppins" ResizeMode="NoResize">
     <Border Background="{DynamicResource PrimaryBackgroundColor}"
             BorderBrush="{DynamicResource SecondaryBackGroundColor}"
             BorderThickness="1"
             CornerRadius="8">
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -33,22 +37,61 @@
             <!-- region Button Close | Restore | Minimize -->
             <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,10,0" Height="30" Orientation="Horizontal" FlowDirection="RightToLeft" Grid.RowSpan="2">
                 <Button x:Name="AlertColor" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}" Click="AlertColor_Click" Tag="IsCloseButton"/>
-                <Button x:Name="btnRestore" Margin="5,0" Click="btnRestore_Click">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IconButtonsStyle}">
-                            <Setter Property="Content" Value="{DynamicResource maximize}"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=home, Path=WindowState}" Value="Maximized">
-                                    <Setter Property="Content" Value="{DynamicResource restore}"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <Button x:Name="btnMinimize" Style="{DynamicResource IconButtonsStyle}" Content="{DynamicResource minimize}" Click="btnMinimize_Click"/>
             </StackPanel>
             <!-- EndRegion Button Close | Restore | Minimize -->
 
+            <Grid  Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <meterialDesign:Card Margin="10,5,5,5" Padding="5,0,5,5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15*"></RowDefinition>
+                            <RowDefinition Height="10*"></RowDefinition>
+                            <RowDefinition Height="10*"></RowDefinition>
+                            <RowDefinition Height="15*"></RowDefinition>
+                            <RowDefinition Height="10*"></RowDefinition>
+                            <RowDefinition Height="10*"></RowDefinition>
+                            <RowDefinition Height="10*"></RowDefinition>
+                            <RowDefinition Height="15*"></RowDefinition>
+                            <RowDefinition Height="10*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Informations du logiciel" Foreground="{DynamicResource SecondaryBlueColor}" FontSize="18" FontWeight="Bold" Grid.ColumnSpan="2" VerticalAlignment="Center"></Label>
+
+                        <Label Content="Version :" Grid.Row="1" Foreground="{DynamicResource SecondaryBackGroundColor}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"></Label>
+                        <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0" Text="{Binding Version}"></TextBlock>
+
+                        <Label Content="Date de lancement :" Foreground="{DynamicResource SecondaryBackGroundColor}" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"></Label>
+                        <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0" Text="{Binding ReleaseDate}"></TextBlock>
+
+                        <Label Content="Nous joindre" Grid.Row="3" Foreground="{DynamicResource SecondaryBlueColor}" FontSize="18" FontWeight="Bold" Grid.ColumnSpan="2" VerticalAlignment="Center"></Label>
+
+                        <Label Content="Numéro de téléphone :" Grid.Row="4" Foreground="{DynamicResource SecondaryBackGroundColor}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"></Label>
+                        <TextBlock Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0" Text="{Binding PhoneNumber}"></TextBlock>
+
+                        <Label Content="Courriel :" Foreground="{DynamicResource SecondaryBackGroundColor}" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"></Label>
+                        <TextBlock Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0" Text="{Binding Email}"></TextBlock>
+
+                        <Label Content="Adresse :" Foreground="{DynamicResource SecondaryBackGroundColor}" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"></Label>
+                        <TextBlock Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0" Text="{Binding Adress}"></TextBlock>
+
+                        <Label Content="Guide de l'utilisateur" Grid.Row="7" Foreground="{DynamicResource SecondaryBlueColor}" FontSize="18" FontWeight="Bold" Grid.ColumnSpan="2" VerticalAlignment="Center"></Label>
+                        <TextBlock Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Foreground="{DynamicResource SecondaryBackGroundColor}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0"  Text="Cliquez ici pour ouvrir votre guide d'utilisation"><Hyperlink NavigateUri="http://www.bing.com"/></TextBlock>
+                    </Grid>
+                </meterialDesign:Card>
+                <meterialDesign:Card Grid.Column="1" Margin="5,5,10,5" Padding="5">
+                    <Border BorderBrush="{DynamicResource PrimaryGreenColor}" Margin="5"  BorderThickness="2">
+                        <gmaps:GMapControl x:Name="MyMap" />
+                    </Border>
+                </meterialDesign:Card>
+            </Grid>
 
         </Grid>
     </Border>

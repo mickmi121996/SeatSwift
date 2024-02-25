@@ -443,7 +443,7 @@
       <text-box />
     </item>
     <item id="ff0f94a5e66e45bd9c9f28c28032bca0" cid="LBL080" type="ui-label" name="Salle" owner="9edba8f31c284f74ae91a2663b69b48a" creation-date="09/27/2023 08:49:05" />
-    <item id="eee692ffc9ed408ba52750f71dcfe0ac" cid="LBL192" type="ui-label" name="Type d'évènement :" creation-date="02/10/2024 15:06:51">
+    <item id="eee692ffc9ed408ba52750f71dcfe0ac" cid="LBL192" type="ui-label" name="Type d'événement :" creation-date="02/10/2024 15:06:51">
       <style style-name="Custom Style" shadow-type="smooth" shadow-offset="2,2" shadow-visible="true" shadow-color="#3A555555" shadow-radius="8" wrap-name-text="true" wrap-other-text="true" padding="2" margin="1" glow-color="#FFFFFF" accuracy="0.9">
         <text-style type="name" color="#555555" font="Segoe UI;11.25;B" horizontal-alignment="left" />
         <text-style type="part-header" color="#1E1E1E" font="Verdana;9;I" />
@@ -1167,7 +1167,7 @@
     <item id="65af320057f54190a651311fe88dd7da" cid="LBL181" type="ui-label" name="Rapport : " creation-date="02/07/2024 17:35:35" />
     <item id="b607bc945c0d43c8a79b8b75d39564b0" cid="LBL176" type="ui-label" name="Téléphone" owner="dia9296b5c051b482b933a417306d0920f9912" change-tracking-state="added" creation-date="09/25/2023 14:29:50" />
     <item id="2b902fde2aad42c0ba9952607e652095" cid="LBL001" type="ui-label" name="Menu" owner="b50314d5c89d4ba5bd1cfacde9ae9f69" change-tracking-state="added" creation-date="09/25/2023 09:18:40" />
-    <item id="f8f50d8ba49c4d89ab4509eb1d29b69b" cid="LBL200" type="ui-label" name="Passer un bon évènement !" owner="9a26bf68247d4db3bacfd8a617964b75" creation-date="02/10/2024 16:31:23">
+    <item id="f8f50d8ba49c4d89ab4509eb1d29b69b" cid="LBL200" type="ui-label" name="Passer un bon événement !" owner="9a26bf68247d4db3bacfd8a617964b75" creation-date="02/10/2024 16:31:23">
       <style style-name="Custom Style" shadow-type="smooth" shadow-offset="2,2" shadow-visible="true" shadow-color="#3A555555" shadow-radius="8" wrap-name-text="true" wrap-other-text="true" padding="2" margin="1" glow-color="#FFFFFF" accuracy="0.9">
         <text-style type="name" color="#555555" font="Segoe UI;11.25;B" horizontal-alignment="left" vertical-alignment="top" />
         <text-style type="part-header" color="#1E1E1E" font="Verdana;9;I" />
@@ -1466,7 +1466,7 @@
       <text-box />
     </item>
     <item id="5429ad36647549f2a1c5d1a9eb60b662" cid="LBL177" type="ui-label" name="Rapport" owner="7ee0f0cc1dc047448c1e71140103e6ea" creation-date="02/07/2024 14:41:53" />
-    <item id="57a1e82f993340a5b5448c5ebafaf383" cid="LBL192" type="ui-label" name="Type d'évènement :" owner="2b9a8bcd62954b4d9085f5e7454e6155" creation-date="02/10/2024 15:06:51">
+    <item id="57a1e82f993340a5b5448c5ebafaf383" cid="LBL192" type="ui-label" name="Type d'événement :" owner="2b9a8bcd62954b4d9085f5e7454e6155" creation-date="02/10/2024 15:06:51">
       <style style-name="Custom Style" shadow-type="smooth" shadow-offset="2,2" shadow-visible="true" shadow-color="#3A555555" shadow-radius="8" wrap-name-text="true" wrap-other-text="true" padding="2" margin="1" glow-color="#FFFFFF" accuracy="0.9">
         <text-style type="name" color="#555555" font="Segoe UI;11.25;B" horizontal-alignment="left" />
         <text-style type="part-header" color="#1E1E1E" font="Verdana;9;I" />
@@ -3850,7 +3850,7 @@
             <comment>La age de commandes et de panier seront les même.</comment>
           </item>
           <item id="b24f5a0234fc4ed7ad77d06542de56da" cid="LBL197" type="ui-label" name="Jean|Déconnexion" owner="cdac3a3d7a2f473885f3f78af60ffadb" creator="" creation-date="02/10/2024 16:11:00" />
-          <item id="67aa0f2491844ac7a4a42c181b3c652d" cid="BTN126" type="ui-button" name="Retour à la page des évènements" owner="9a26bf68247d4db3bacfd8a617964b75" creator="" creation-date="02/10/2024 16:39:27">
+          <item id="67aa0f2491844ac7a4a42c181b3c652d" cid="BTN126" type="ui-button" name="Retour à la page des événements" owner="9a26bf68247d4db3bacfd8a617964b75" creator="" creation-date="02/10/2024 16:39:27">
             <button />
           </item>
           <item id="dic60202f3ea9d451eb5ddd9698ea5bd827280" cid="CN012" type="comment-connector" creator="" creation-date="02/10/2024 16:46:12" from="fc68d4b3da9649a98485c20d66e1ad3f" to="6ee00191ce0843b3b3fe8ba7f62c75bc" />
@@ -3900,7 +3900,7 @@
           <item id="93902619a33b4c01a7f7aad9dcb580a1" cid="LBL190" type="ui-label" name="Image" owner="8ecd9af9bc6c43399d7f6c29071d44db" creator="" creation-date="02/10/2024 15:01:28" />
           <item id="3bcf006e5d7b4c14a28a8c3d4c9ab7ce" cid="LBL201" type="ui-label" name="Ou" owner="9a26bf68247d4db3bacfd8a617964b75" creator="" creation-date="02/10/2024 16:40:09" />
           <item id="855371b09a814d9a9e0bd8c0425e1a05" cid="CMT007" type="comment" creator="" creation-date="02/10/2024 16:52:42">
-            <comment>Le bouton d'ajout au panier ajoutera l'article et renverra l'utilisateur à la page des évènements.</comment>
+            <comment>Le bouton d'ajout au panier ajoutera l'article et renverra l'utilisateur à la page des événements.</comment>
           </item>
           <item id="diac6a79a4c89c44f08fbbf67e150a2d404352" cid="CN016" type="comment-connector" creator="" creation-date="02/10/2024 16:50:24" from="3cebb4a12c4849a390c4463b973bf35d" to="dic60202f3ea9d451eb5ddd9698ea5bd827280" />
           <item id="e7f08b7dd4a1408ea1582d517d73bbc1" cid="ELEM026" type="ui-paragraph" name="bl" owner="8ecd9af9bc6c43399d7f6c29071d44db" creator="" creation-date="02/10/2024 15:08:26">
@@ -3948,7 +3948,7 @@
           </item>
           <item id="a25ef854480e4b1f928d989ed444dc07" cid="ELEM018" type="ui-area" name="Area2" owner="2b9a8bcd62954b4d9085f5e7454e6155" creator="" creation-date="02/10/2024 15:00:31" />
           <item id="25a9e503549945f293607d49bf7b5caf" cid="CMT002" type="comment" creator="" creation-date="02/10/2024 16:47:50">
-            <comment>Une connexion réussi renvoie directement à la page des évènements
+            <comment>Une connexion réussi renvoie directement à la page des événements
 </comment>
           </item>
           <item id="110ee7ee93cf4fb6a966555e6ae976af" cid="LBL188" type="ui-label" name="Informations obligatoires" owner="2dfab1f19f9d479283c16ca9521edc89" creator="" creation-date="02/10/2024 14:28:27" />

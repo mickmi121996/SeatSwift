@@ -35,6 +35,17 @@ namespace AppGestion.ViewModels
         #endregion
 
 
+        #region Properties
+
+        /// <summary>
+        /// The title of the current page
+        /// </summary>
+        [ObservableProperty]
+        private string _title;
+
+        #endregion
+
+
         #region Constructor
 
         /// <summary>
@@ -42,7 +53,7 @@ namespace AppGestion.ViewModels
         /// </summary>
         public VMMainWindow()
         {
-
+            _title = string.Empty;
         }
 
         #endregion

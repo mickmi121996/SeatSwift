@@ -160,4 +160,75 @@
     </Style>
     <!-- endregion Button Close | Restore | Minimize -->
 
+
+    <!--Region Style for TimeSheet-->
+
+    <!--Region Style for the header-->
+    <Style x:Key="CustomColumnHeaderStyle" TargetType="DataGridColumnHeader">
+        <Setter Property="Foreground" Value="#FAFAFA"/>
+        <Setter Property="Background" Value="{DynamicResource PrimaryGreenColor}"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                    <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                     BorderThickness="0" CornerRadius="10,10,0,0" >
+                        <TextBlock Text="{TemplateBinding Content}" 
+                                       Foreground="{TemplateBinding Foreground}" 
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                       Padding="6" 
+                                       FontSize="{TemplateBinding FontSize}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--EndRegion-->
+
+    <!--Region Style for TotalRow-->
+
+    <Style x:Key="DataGridRowStyle" TargetType="DataGridRow">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsTotalEntry}" Value="True">
+                <Setter Property="Background" Value="#42A5F5"/>
+                <Setter Property="IsEnabled" Value="False"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style x:Key="DataGridDashBoard" TargetType="DataGridRow">
+        <Setter Property="Foreground" Value="Black"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Opacity" Value="1.0"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="DataGridCellDashboard" TargetType="DataGridCell">
+        <Setter Property="TextBlock.Foreground" Value="Black"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="TextBlock.Foreground" Value="Black"/>
+                <Setter Property="Height" Value="auto"></Setter>
+                <Setter Property="Margin" Value="5"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+
+    <!--EndRegion-->
+
+
+    <!--EndRegion-->
+
 </ResourceDictionary>

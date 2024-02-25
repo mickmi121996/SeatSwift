@@ -3,12 +3,90 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:viewModel="clr-namespace:AppGestion.ViewModels.Pages"
+      d:DataContext="{d:DesignInstance Type=viewModel:VMDashBoard}"
+      xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:local="clr-namespace:AppGestion.Views.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ManageTheater">
+      Title="ManageTheater" FontFamily="Poppins">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Configuration des sections -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <TextBlock Foreground="{DynamicResource SecondaryBlueColor}" Margin="10" FontSize="16" Text="Configurer une Section" FontWeight="Bold"/>
+                <TextBlock FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Margin="10,0" Text="Rangées:"/>
+                <TextBox Margin="10,0" x:Name="textBoxRows" />
+                <TextBlock FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Margin="10,0" Text="Colones:"/>
+                <TextBox Margin="10,0" x:Name="textBoxColumns" />
+                <TextBlock FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Margin="10,0" Text="Nom:"/>
+                <!-- Remplacer le TextBox par un ComboBox pour le nom -->
+                <ComboBox Margin="10,0" x:Name="comboBoxName">
+                    <ComboBoxItem Content="Balcon" />
+                    <ComboBoxItem Content="Parterre" />
+                    <ComboBoxItem Content="Loge" />
+                    <ComboBoxItem Content="Mobilité Réduite" />
+                </ComboBox>
+                <Button Background="{DynamicResource PrimaryGreenColor}" Margin="10" Content="Créer Section" Click="CreateSection_Click"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1">
+                <!-- Configuration des rangées -->
+                <TextBlock Foreground="{DynamicResource SecondaryBlueColor}" Margin="10,20,10,0" FontSize="16" Text="Configurer une Rangée" FontWeight="Bold"/>
+                <TextBlock FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Margin="10,0" Text="Section:"/>
+                <ComboBox Margin="10,0" x:Name="SectioncomboBoxRow">
+                    <ComboBoxItem Content="Balcon" />
+                    <ComboBoxItem Content="Parterre" />
+                    <ComboBoxItem Content="Loge" />
+                    <ComboBoxItem Content="Mobilité Réduite" />
+                </ComboBox>
+                <TextBlock FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Margin="10,0" Text="Nombre de sièges:"/>
+                <TextBox Margin="10,0" x:Name="textBoxSeats" />
+                <Button Background="{DynamicResource PrimaryGreenColor}" Margin="10" Content="Créer Rangée" Click="CreateRow_Click"/>
+            </StackPanel>
+        </Grid>
+
+
+        <!-- Grille de la salle -->
+        <Border Grid.Column="1" BorderBrush="LightGray" BorderThickness="5" Margin="5">
+            <Canvas x:Name="canvasSalle" Background="DarkGray" AllowDrop="True" DragOver="CanvasSalle_DragOver" Drop="CanvasSalle_Drop">
+                <!-- Le contenu du Canvas -->
+            </Canvas>
+        </Border>
+    
         
+        <StackPanel Grid.Column="2">
+            <!-- Éléments existants pour la configuration des sections... -->
+
+            <!-- Nouveaux éléments pour la configuration de la grille -->
+            <TextBlock FontSize="16" Foreground="{DynamicResource SecondaryBlueColor}" Margin="10,10,10,0" Text="Configurer la Grille" FontWeight="Bold"/>
+            <TextBlock FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Margin="10,5,10,0" Text="Nombre de rangées:"/>
+            <TextBox Margin="10,0" x:Name="textBoxGridRows" />
+            <TextBlock FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Margin="10,5,10,0" Text="Nombre de colonnes:"/>
+            <TextBox Margin="10,0" x:Name="textBoxGridColumns" />
+            <Button Background="{DynamicResource PrimaryGreenColor}" Margin="10,10,10,0" Content="Créer Grille" Click="CreateGrid_Click"/>
+            <Button Background="{DynamicResource PrimaryGreenColor}" Margin="10,10,10,0" Content="Vider la grille" Click="ClearCanvas_Click"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Margin="10,10,10,5" VerticalAlignment="Bottom">
+            <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" FontWeight="Bold" Text="Nom de la config:"/>
+            <TextBox x:Name="textBoxNameConfig" />
+            <Button Background="{DynamicResource PrimaryGreenColor}" Margin="0,10" Content="Enregistrer la salle" Click="SaveConfig_Click"/>
+            <Button Background="{DynamicResource PrimaryGreenColor}" IsEnabled="False" Margin="0,10" Content="Importer une salle" Click="LoadConfig_Click"/>
+        </StackPanel>
+
     </Grid>
 </Page>

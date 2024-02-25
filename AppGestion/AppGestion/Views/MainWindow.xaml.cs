@@ -28,6 +28,8 @@ namespace AppGestion.Views
             InitializeComponent();
             VMMainWindow vm = VMMainWindow.Instance;
             DataContext = vm;
+            fContainer.Navigate(new System.Uri("Views/Pages/Home.xaml", UriKind.RelativeOrAbsolute));
+            vm.Title = "Accueil";
         }
 
         #region Left menu Button
@@ -269,6 +271,7 @@ namespace AppGestion.Views
         private void btnHome_Click(object sender, RoutedEventArgs e)
         {
             fContainer.Navigate(new System.Uri("Views/Pages/Home.xaml", UriKind.RelativeOrAbsolute));
+            VMMainWindow.Instance.Title = "Accueil";
         }
 
         /// <summary>
@@ -277,6 +280,7 @@ namespace AppGestion.Views
         private void btnDashboard_Click(object sender, RoutedEventArgs e)
         {
             fContainer.Navigate(new System.Uri("Views/Pages/DashBoard.xaml", UriKind.RelativeOrAbsolute));
+            VMMainWindow.Instance.Title = "Tableau de bord";
         }
 
         /// <summary>
@@ -285,6 +289,7 @@ namespace AppGestion.Views
         private void btnManageEvent_Click(object sender, RoutedEventArgs e)
         {
             fContainer.Navigate(new System.Uri("Views/Pages/ManageEvent.xaml", UriKind.RelativeOrAbsolute));
+            VMMainWindow.Instance.Title = "Gestion des événements";
         }
 
         /// <summary>
@@ -293,6 +298,7 @@ namespace AppGestion.Views
         private void btnManageEmp_Click(object sender, RoutedEventArgs e)
         {
             fContainer.Navigate(new System.Uri("Views/Pages/ManageEmploye.xaml", UriKind.RelativeOrAbsolute));
+            VMMainWindow.Instance.Title = "Gestion des employés";
         }
 
         /// <summary>
@@ -301,6 +307,7 @@ namespace AppGestion.Views
         private void btnManageTheater_Click(object sender, RoutedEventArgs e)
         {
             fContainer.Navigate(new System.Uri("Views/Pages/ManageTheater.xaml", UriKind.RelativeOrAbsolute));
+            VMMainWindow.Instance.Title = "Configuration des salles";
         }
 
         /// <summary>
@@ -309,6 +316,8 @@ namespace AppGestion.Views
         private void btnSalesReport_Click(object sender, RoutedEventArgs e)
         {
             fContainer.Navigate(new System.Uri("Views/Pages/SalesReport.xaml", UriKind.RelativeOrAbsolute));
+            VMMainWindow.Instance.Title = "Rapport de vente";
+
         }
 
         /// <summary>
@@ -317,6 +326,7 @@ namespace AppGestion.Views
         private void btnTransactionReport_Click(object sender, RoutedEventArgs e)
         {
             fContainer.Navigate(new System.Uri("Views/Pages/TransactionReport.xaml", UriKind.RelativeOrAbsolute));
+            VMMainWindow.Instance.Title = "Rapport de transaction";
         }
 
         /// <summary>
