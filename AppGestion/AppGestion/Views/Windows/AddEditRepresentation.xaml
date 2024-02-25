@@ -8,7 +8,7 @@
         xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         xmlns:local="clr-namespace:AppGestion.Views.Windows"
         mc:Ignorable="d"
-        Title="AddEditRepresentation" Height="575" Width="630"        
+        Title="AddEditRepresentation" Height="600" Width="630"        
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         Background="Transparent" AllowsTransparency="True"
         FontFamily="Poppins" ResizeMode="NoResize">
@@ -65,7 +65,13 @@
                     </Grid.RowDefinitions>
                     
                     <meterialDesign:Card Margin="5,0,10,5" Grid.Column="1" Padding="5,4,5,5">
-                        <Calendar x:Name="calendar" DisplayDateStart="{Binding CurrentDate}" SelectedDate="{Binding SelectedDate, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" Language="fr"></Calendar>
+                        <Calendar x:Name="calendar"
+                          DisplayDateStart="{Binding CurrentDate}"
+                          SelectedDate="{Binding SelectedDate, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                          SelectionMode="SingleDate"
+                          Language="fr"
+                          Validation.ErrorTemplate="{x:Null}">
+                        </Calendar>
                     </meterialDesign:Card>
 
                     <meterialDesign:Card Margin="5,5,10,0" Grid.Column="1" Grid.Row="1" Padding="5">
