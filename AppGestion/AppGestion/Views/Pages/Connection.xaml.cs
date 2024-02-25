@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppGestion.ViewModels.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ namespace AppGestion.Views.Pages
         public Connection()
         {
             InitializeComponent();
+            VMConnection vMConnection = new VMConnection();
+            this.DataContext = vMConnection;
         }
     }
 }

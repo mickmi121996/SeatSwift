@@ -9,5 +9,43 @@ namespace AppGestion.ViewModels.Pages
 {
     public partial class VMConnection : ObservableObject
     {
+        #region properties
+
+
+
+        #endregion
+
+
+        #region Constructor
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public VMConnection()
+        {
+            InitializeProperties();
+        }
+        
+        #endregion
+
+
+        #region commands
+
+
+
+        #endregion
+
+
+        #region methods
+
+        /// <summary>
+        /// Initialize the properties
+        /// </summary>
+        private void InitializeProperties()
+        {
+            
+        }
+
+        #endregion
     }
 }

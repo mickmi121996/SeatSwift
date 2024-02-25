@@ -88,15 +88,24 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Label Padding="0" FontSize="16" FontWeight="Bold" Content="Clients actifs" VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"/>
-                    <ListView Grid.Row="1">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Nom" DisplayMemberBinding="{Binding Nom}"/>
-                                <GridViewColumn Header="Prénom" DisplayMemberBinding="{Binding Prenom}"/>
-                                <GridViewColumn Header="Addresse courriel" DisplayMemberBinding="{Binding NumeroEmploye}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                    <DataGrid Grid.Row="1" 
+                      AutoGenerateColumns="False" 
+                      IsReadOnly="True" 
+                      CanUserAddRows="False" 
+                      RowBackground="{DynamicResource MaterialDesignPaper}"
+                      AlternatingRowBackground="{DynamicResource MaterialDesignBackground}"
+                      GridLinesVisibility="None"
+                      HeadersVisibility="Column"
+                      HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
+                      VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
+                      SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      RowStyle="{DynamicResource DataGridRowStyle}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nom" Binding="{Binding TicketsSold}" Width="*" />
+                            <DataGridTextColumn Header="Prénom" Binding="{Binding RepresentationDate}" Width="*" />
+                            <DataGridTextColumn Header="Courriel" Binding="{Binding EventName}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </meterialDesign:Card>
         </Grid>

@@ -8,122 +8,112 @@
       d:DataContext="{d:DesignInstance Type=viewModel:VMHome}"      
       xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="1000"
       Title="Home"  FontFamily="Poppins">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
             <ColumnDefinition Width="250"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
-        <!--region Information utilisateur-->
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Label Padding="0" Margin="10,0" FontSize="16" FontWeight="Bold" Content="Informations de l'utilisateur" VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"></Label>
-            <meterialDesign:Card Grid.Row="1" Margin="10,5,5,5" Padding="15">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
 
-                    <!-- Nom -->
-                    <StackPanel Grid.Row="0" Margin="0,0,0,10">
-                        <Label Padding="0" FontSize="15" Content="Nom :" FontWeight="Bold"/>
-                        <TextBlock Padding="0" Text="[Nom]"/>
-                    </StackPanel>
+        <meterialDesign:Card Margin="10,5,5,5" Padding="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-                    <!-- Prénom -->
-                    <StackPanel Grid.Row="1" Margin="0,0,0,10">
-                        <Label FontSize="15" Content="Prénom :" FontWeight="Bold" Padding="0"/>
-                        <TextBlock Text="[Prénom]" Padding="0"/>
-                    </StackPanel>
+                <Label Padding="0"  FontSize="16" FontWeight="Bold" Content="Informations de l'utilisateur" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"></Label>
 
-                    <!-- Rôle -->
-                    <StackPanel Grid.Row="2" Margin="0,0,0,10">
-                        <Label FontSize="15" Content="Rôle :" FontWeight="Bold" Padding="0"/>
-                        <TextBlock Text="[Role de l'utilisateur]" Padding="0"/>
-                    </StackPanel>
+                <StackPanel Grid.Row="1" Margin="0,0,0,10">
+                    <Label Padding="0" FontSize="15" Content="Nom :" FontWeight="Bold"/>
+                    <TextBlock Padding="0" Text="[Nom]"/>
+                </StackPanel>
 
-                    <!-- Numéro d'Employé -->
-                    <StackPanel Grid.Row="3" Margin="0,0,0,10">
-                        <Label FontSize="15" Content="Numéro d'employé :" FontWeight="Bold" Padding="0"/>
-                        <TextBlock Text="[Numéro]" Padding="0"/>
-                    </StackPanel>
+                <StackPanel Grid.Row="2" Margin="0,0,0,10">
+                    <Label FontSize="15" Content="Prénom :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="[Prénom]" Padding="0"/>
+                </StackPanel>
 
-                    <!-- Numéro de Téléphone -->
-                    <StackPanel Grid.Row="4" Margin="0,0,0,10">
-                        <Label FontSize="15" Content="Numéro de téléphone :" FontWeight="Bold" Padding="0"/>
-                        <TextBlock Text="[Numéro de téléphone]" Padding="0"/>
-                    </StackPanel>
+                <StackPanel Grid.Row="3" Margin="0,0,0,10">
+                    <Label FontSize="15" Content="Rôle :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="[Role de l'utilisateur]" Padding="0"/>
+                </StackPanel>
 
-                    <!-- Adresse Courriel -->
-                    <StackPanel Grid.Row="5">
-                        <Label FontSize="15" Content="Adresse courriel :" FontWeight="Bold" Padding="0"/>
-                        <TextBlock Text="[Adresse courriel]" Padding="0"/>
-                    </StackPanel>
-                </Grid>
-            </meterialDesign:Card>
+                <StackPanel Grid.Row="4" Margin="0,0,0,10">
+                    <Label FontSize="15" Content="Numéro d'employé :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="[Numéro]" Padding="0"/>
+                </StackPanel>
 
-        </Grid>
-        <!--endregion-->
+                <StackPanel Grid.Row="5" Margin="0,0,0,10">
+                    <Label FontSize="15" Content="Numéro de téléphone :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="[Numéro de téléphone]" Padding="0"/>
+                </StackPanel>
 
-        <!--region Statistique de l'utilisateur-->
+                <StackPanel Grid.Row="6">
+                    <Label FontSize="15" Content="Adresse courriel :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="[Adresse courriel]" Padding="0"/>
+                </StackPanel>
+            </Grid>
+        </meterialDesign:Card>
+
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="30"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Label Padding="0" Margin="10,0" FontSize="16" FontWeight="Bold" Content="événement Créés" VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"></Label>
-            <meterialDesign:Card Grid.Row="1" Margin="10,5,5,5" Padding="5">
+            <meterialDesign:Card Margin="5,5,5,5" Padding="5">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="100" Text="50"></TextBlock>
                     <Label FontSize="25" HorizontalAlignment="Center" Content="événements"></Label>
+                    <Label FontSize="25" HorizontalAlignment="Center" Content="crées"></Label>
                 </StackPanel>
             </meterialDesign:Card>
-            
+
             <Label Padding="0" Grid.Row="2" Margin="10,0" FontSize="16" FontWeight="Bold" Content="Autre statistique" VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"></Label>
-            <meterialDesign:Card Grid.Row="3" Margin="10,5,5,5" Padding="5">
+            <meterialDesign:Card Grid.Row="3" Margin="5,5,5,5" Padding="5">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="100" Text="100"></TextBlock>
                     <Label FontSize="25" Content="événements" HorizontalAlignment="Center"></Label>
+                    <Label FontSize="25" Content="*******" HorizontalAlignment="Center"></Label>
                 </StackPanel>
             </meterialDesign:Card>
         </Grid>
-        <!--endregion-->
 
-        <!--region Liste des employés-->
-        <Grid Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Label Padding="0" Margin="10,0" FontSize="16" FontWeight="Bold" Content="Liste des employés" VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"/>
-            <meterialDesign:Card Grid.Row="1" Margin="10,5,5,5" Padding="5">
-                <ListView>
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Nom" DisplayMemberBinding="{Binding Nom}"/>
-                            <GridViewColumn Header="Prénom" DisplayMemberBinding="{Binding Prenom}"/>
-                            <GridViewColumn Header="Numéro d'employé" DisplayMemberBinding="{Binding NumeroEmploye}"/>
-                            <GridViewColumn Header="Rôle" DisplayMemberBinding="{Binding Role}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </meterialDesign:Card>
-        </Grid>
-        <!--endregion-->
+        <meterialDesign:Card Grid.Column="2" Margin="5,5,10,5" Padding="5,0,5,5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Padding="0"  FontSize="16" FontWeight="Bold" Content="Liste des employés" VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"/>
+                <DataGrid Grid.Row="1" 
+                      AutoGenerateColumns="False" 
+                      IsReadOnly="True" 
+                      CanUserAddRows="False" 
+                      RowBackground="{DynamicResource MaterialDesignPaper}"
+                      AlternatingRowBackground="{DynamicResource MaterialDesignBackground}"
+                      GridLinesVisibility="None"
+                      HeadersVisibility="Column"
+                      HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
+                      VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
+                      SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      RowStyle="{DynamicResource DataGridRowStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nom" Binding="{Binding EventName}" Width="*" />
+                        <DataGridTextColumn Header="Prénom" Binding="{Binding RepresentationDate}" Width="*" />
+                        <DataGridTextColumn Header="Numéro employé" Binding="{Binding TicketsSold}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </meterialDesign:Card>
 
 
     </Grid>

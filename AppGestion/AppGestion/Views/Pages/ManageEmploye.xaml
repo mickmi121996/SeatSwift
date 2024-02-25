@@ -3,12 +3,100 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:viewModel="clr-namespace:AppGestion.ViewModels.Pages"
+      d:DataContext="{d:DesignInstance Type=viewModel:VMManageEmploye}"
+      xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:local="clr-namespace:AppGestion.Views.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ManageEmploye">
-
+      Title="ManageEmploye" FontFamily="Poppins">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="45"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <meterialDesign:Card Margin="5,5,10,5" Padding="5,0,5,5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Padding="0"  FontSize="16" FontWeight="Bold" Content="Liste des employés" VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"/>
+                <DataGrid Grid.Row="1" 
+                    AutoGenerateColumns="False" 
+                    IsReadOnly="True" 
+                    CanUserAddRows="False" 
+                    RowBackground="{DynamicResource MaterialDesignPaper}"
+                    AlternatingRowBackground="{DynamicResource MaterialDesignBackground}"
+                    GridLinesVisibility="None"
+                    HeadersVisibility="Column"
+                    HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
+                    VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
+                    SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    RowStyle="{DynamicResource DataGridRowStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nom" Binding="{Binding EventName}" Width="*" />
+                        <DataGridTextColumn Header="Prénom" Binding="{Binding RepresentationDate}" Width="*" />
+                        <DataGridTextColumn Header="Numéro employé" Binding="{Binding TicketsSold}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </meterialDesign:Card>
+
+        <Button Grid.Row="1"  Margin="10,0,10,0" HorizontalAlignment="Left" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Content="Supprimer employé"  VerticalAlignment="Center"/>
+        <Button Grid.Row="1" Command="{Binding OpenAddEmployeCommand}" Margin="10,0,5,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Ajouter employé"  VerticalAlignment="Center"/>
+        <Button Grid.Row="1" Grid.Column="1" Command="{Binding OpenEditEmployeCommand}" Margin="10,0,5,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Modifier employé"  VerticalAlignment="Center"/>
+
+        <meterialDesign:Card Grid.Column="1" Margin="10,5,5,5" Padding="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label Padding="0"  FontSize="16" FontWeight="Bold" Content="Informations de l'employé" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"></Label>
+
+                <StackPanel Grid.Row="1" Margin="0,0,0,10">
+                    <Label Padding="0" FontSize="15" Content="Nom :" FontWeight="Bold"/>
+                    <TextBlock Padding="0" Text="[Nom]"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Margin="0,0,0,10">
+                    <Label FontSize="15" Content="Prénom :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="[Prénom]" Padding="0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="3" Margin="0,0,0,10">
+                    <Label FontSize="15" Content="Rôle :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="[Role de l'utilisateur]" Padding="0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="4" Margin="0,0,0,10">
+                    <Label FontSize="15" Content="Numéro d'employé :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="[Numéro]" Padding="0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="5" Margin="0,0,0,10">
+                    <Label FontSize="15" Content="Numéro de téléphone :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="[Numéro de téléphone]" Padding="0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="6">
+                    <Label FontSize="15" Content="Adresse courriel :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="[Adresse courriel]" Padding="0"/>
+                </StackPanel>
+            </Grid>
+        </meterialDesign:Card>
     </Grid>
+    
 </Page>

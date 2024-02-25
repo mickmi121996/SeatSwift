@@ -8,7 +8,7 @@
         xmlns:viewModel="clr-namespace:AppGestion.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewModel:VMMainWindow}"
         mc:Ignorable="d" Name="home"
-        Title="MainWindow" Height="700" Width="1200"
+        Title="MainWindow" Height="650" Width="1200"
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         Background="Transparent" AllowsTransparency="True"
         FontFamily="Poppins">
@@ -73,7 +73,7 @@
                             <ctls:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryGreenColor}" Icon="{DynamicResource billing}" IconWidth="16" Text="Rapport de transaction" VerticalAlignment="Center"/>
                         </Button>
                         <Button Margin="0,30,0,0" x:Name="btnAbout" Style="{DynamicResource ButtonStyle}"  MouseEnter="btnAbout_MouseEnter" MouseLeave="btnAbout_MouseLeave" Click="btnAbout_Click">
-                            <ctls:MenuItem Icon="{DynamicResource about}" IconWidth="16" Text="À propos" VerticalAlignment="Center"/>
+                            <ctls:MenuItem Icon="{DynamicResource about}" IsSelected="True" IconWidth="16" Text="À propos" VerticalAlignment="Center"/>
                         </Button>
                     </StackPanel>
                     <!-- endregion MenuItem -->

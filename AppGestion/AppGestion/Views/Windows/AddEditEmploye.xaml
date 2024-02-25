@@ -4,9 +4,95 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppGestion.Views.Windows"
+        xmlns:viewModel="clr-namespace:AppGestion.ViewModels.Windows"
+        d:DataContext="{d:DesignInstance Type=viewModel:VMAddEditEmploye}"
+        xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"   
         mc:Ignorable="d"
-        Title="AddEditEmploye" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="AddEditEmploye" Height="500" Width="350"        
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Background="Transparent" AllowsTransparency="True"
+        FontFamily="Poppins" ResizeMode="NoResize">
+    <Border Background="{DynamicResource PrimaryBackgroundColor}"
+            BorderBrush="{DynamicResource SecondaryBackGroundColor}"
+            BorderThickness="1"
+            CornerRadius="8">
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="45"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" Margin="10,5,0,0" Orientation="Horizontal" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Border Width="25" Height="25">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Resources/Logo.png" Stretch="Uniform"/>
+                    </Border.Background>
+                </Border>
+
+                <Label Content="[Ajouter/modifier]" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}"></Label>
+            </StackPanel>
+
+
+            <!-- region Button Close | Restore | Minimize -->
+            <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,10,0" Height="30" Orientation="Horizontal" FlowDirection="RightToLeft" Grid.RowSpan="2">
+                <Button x:Name="AlertColor" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}" Click="AlertColor_Click" Tag="IsCloseButton"/>
+            </StackPanel>
+            <!-- EndRegion Button Close | Restore | Minimize -->
+
+
+            <meterialDesign:Card Grid.Row="1" Margin="10,0,10,0" Padding="5,0,5,5">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Nom -->
+                    <Label Grid.Row="0" Grid.Column="0" Content="Nom :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+
+                    <!-- Prénom -->
+                    <Label Grid.Row="1" Grid.Column="0" Content="Prénom :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+
+                    <!-- Numéro d'employé -->
+                    <Label Grid.Row="2" Grid.Column="0" Content="Numéro d'employé :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+
+                    <!-- Adresse courriel -->
+                    <Label Grid.Row="3" Grid.Column="0" Content="Adresse courriel :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+
+                    <!-- Téléphone -->
+                    <Label Grid.Row="4" Grid.Column="0" Content="Téléphone :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="4" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+
+                    <!-- Mot de passe -->
+                    <Label Grid.Row="5" Grid.Column="0" Content="Mot de passe :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <PasswordBox Grid.Row="5" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+
+                    <!-- Rôle -->
+                    <Label Grid.Row="6" Grid.Column="0" Content="Rôle :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <ComboBox Grid.Row="6" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" SelectedIndex="0" >
+                        <ComboBoxItem Content="Admin"/>
+                        <ComboBoxItem Content="Comptable"/>
+                    </ComboBox>
+
+
+                </Grid>
+            </meterialDesign:Card>
+            <Button Grid.Row="7" Grid.Column="1" Margin="10,0,10,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Confirmer" Height="30" VerticalAlignment="Center"/>
+        </Grid>
+    </Border>
 </Window>

@@ -17,6 +17,7 @@
     <PackageReference Include="GMap.NET.WinPresentation" Version="2.1.7" />
     <PackageReference Include="LiveCharts" Version="0.9.7" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.10" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -26,7 +27,6 @@
     <Folder Include="Classes\" />
     <Folder Include="Converters\" />
     <Folder Include="DataAccessLayer\" />
-    <Folder Include="Tools\" />
     <Folder Include="ViewModels\UserControls\" />
   </ItemGroup>
 

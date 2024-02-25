@@ -3,10 +3,104 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:AppGestion.ViewModels.Windows"
+        d:DataContext="{d:DesignInstance Type=viewModel:VMAddEditEvent}"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"  
         xmlns:local="clr-namespace:AppGestion.Views.Windows"
         mc:Ignorable="d"
-        Title="AddEditEvent" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="AddEditEvent" Height="500" Width="350"        
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Background="Transparent" AllowsTransparency="True"
+        FontFamily="Poppins" ResizeMode="NoResize">
+    <Border Background="{DynamicResource PrimaryBackgroundColor}"
+            BorderBrush="{DynamicResource SecondaryBackGroundColor}"
+            BorderThickness="1"
+            CornerRadius="8">
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="45"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" Margin="10,5,0,0" Orientation="Horizontal" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Border Width="25" Height="25">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Resources/Logo.png" Stretch="Uniform"/>
+                    </Border.Background>
+                </Border>
+
+                <Label Content="[Ajouter/modifier]" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}"></Label>
+            </StackPanel>
+
+
+            <!-- region Button Close | Restore | Minimize -->
+            <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,10,0" Height="30" Orientation="Horizontal" FlowDirection="RightToLeft" Grid.RowSpan="2">
+                <Button x:Name="AlertColor" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}" Click="AlertColor_Click" Tag="IsCloseButton"/>
+            </StackPanel>
+            <!-- EndRegion Button Close | Restore | Minimize -->
+
+
+            <meterialDesign:Card Grid.Row="1" Margin="10,0,10,0" Padding="5,0,5,5">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="45"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Content="Nom :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Content="Artiste/Groupe :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+
+                    <Label Grid.Row="2" Grid.Column="0" Content="Prix de base :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" x:Name="NumericTextBox" PreviewTextInput="NumericTextBox_PreviewTextInput" PreviewKeyDown="NumericTextBox_PreviewKeyDown" >
+                        
+                    </TextBox>
+
+                    <Label Grid.Row="3" Grid.Column="0" Content="Billet maximum/client :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" x:Name="NumericTextBoxBillet" PreviewTextInput="NumericTextBox_PreviewTextInput" PreviewKeyDown="NumericTextBox_PreviewKeyDown" >
+
+                    </TextBox>
+
+                    <Label Grid.Row="4" Grid.Column="0" Content="Image de l'événement :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <Button Grid.Row="4" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" Content="Parcourir" 
+                    Command="{Binding BrowseImageCommand}"/>
+
+                    <Label Grid.Row="5" Grid.Column="0" Content="Salle :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <ComboBox Grid.Row="5" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" SelectedIndex="0" >
+                        <ComboBoxItem Content="Chicoutimi"/>
+                        <ComboBoxItem Content="Jonquière"/>
+                    </ComboBox>
+
+                    <Label Grid.Row="6" Grid.Column="0" Content="Type :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <ComboBox Grid.Row="6" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" SelectedIndex="0" >
+                        <ComboBoxItem Content="Humour"/>
+                        <ComboBoxItem Content="Film"/>
+                        <ComboBoxItem Content="Théatre"/>
+                    </ComboBox>
+
+                    <Label Grid.Row="7" Grid.Column="0" Content="Description :" Margin="10,0,10,0" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="8" Grid.ColumnSpan="2" Height="60" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+
+                </Grid>
+            </meterialDesign:Card>
+            <Button Grid.Row="9" HorizontalAlignment="Right" Grid.Column="1" Margin="10,0,10,0" Content="Confirmer" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}"  VerticalAlignment="Center"/>
+        </Grid>
+    </Border>
 </Window>

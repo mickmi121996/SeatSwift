@@ -3,10 +3,92 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:AppGestion.ViewModels.Windows"
+        d:DataContext="{d:DesignInstance Type=viewModel:VMAddEditRepresentation}"
+        xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         xmlns:local="clr-namespace:AppGestion.Views.Windows"
         mc:Ignorable="d"
-        Title="AddEditRepresentation" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="AddEditRepresentation" Height="575" Width="630"        
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Background="Transparent" AllowsTransparency="True"
+        FontFamily="Poppins" ResizeMode="NoResize">
+    <Border Background="{DynamicResource PrimaryBackgroundColor}"
+           BorderBrush="{DynamicResource SecondaryBackGroundColor}"
+           BorderThickness="1"
+           CornerRadius="8">
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="45"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" Margin="10,5,0,0" Orientation="Horizontal" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Border Width="25" Height="25">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Resources/Logo.png" Stretch="Uniform"/>
+                    </Border.Background>
+                </Border>
+
+                <Label Content="[Ajouter/Modifier une représentation]" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}"></Label>
+            </StackPanel>
+
+
+            <!-- region Button Close | Restore | Minimize -->
+            <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,10,0" Height="30" Orientation="Horizontal" FlowDirection="RightToLeft" Grid.RowSpan="2">
+                <Button x:Name="AlertColor" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}" Click="AlertColor_Click" Tag="IsCloseButton"/>
+            </StackPanel>
+            <!-- EndRegion Button Close | Restore | Minimize -->
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="315"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <meterialDesign:Card Margin="10,0,5,0" Padding="5,5,5,5">
+                    <Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <meterialDesign:Clock Time="{Binding SelectedTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Is24Hours="True" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" ></meterialDesign:Clock>
+                        </Grid>
+                    </Grid>
+                </meterialDesign:Card>
+                
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    
+                    <meterialDesign:Card Margin="5,0,10,5" Grid.Column="1" Padding="5,4,5,5">
+                        <Calendar x:Name="calendar" DisplayDateStart="{Binding CurrentDate}" SelectedDate="{Binding SelectedDate, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" Language="fr"></Calendar>
+                    </meterialDesign:Card>
+
+                    <meterialDesign:Card Margin="5,5,10,0" Grid.Column="1" Grid.Row="1" Padding="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Content="Salle :" Margin="3,0,10,5" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Bottom"/>
+                            <ComboBox Grid.Row="5" Grid.Column="1" Margin="5,5,5,0" VerticalAlignment="Top" SelectedIndex="0" >
+                                <ComboBoxItem Content="Chicoutimi"/>
+                                <ComboBoxItem Content="Jonquière"/>
+                            </ComboBox>
+                        </Grid>
+                    </meterialDesign:Card>
+                </Grid>
+                
+
+            </Grid>
+
+
+
+            <Button Grid.Row="7" Grid.Column="1" Margin="10,0,10,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Confirmer" Height="30" VerticalAlignment="Center"/>
+        </Grid>
+    </Border>
 </Window>
