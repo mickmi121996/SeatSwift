@@ -8,6 +8,34 @@ using System.Threading.Tasks;
 namespace GuichetAutonome.ViewModels.Pages
 {
     public partial class VMThanks : ObservableObject
-    {
+    {      
+        #region Properties
+
+
+
+        #endregion
+
+        #region Constructor
+
+        public VMThanks()
+        {
+            // Constructor
+        }
+
+        #endregion
+
+
+        #region Commands
+
+
+
+        #endregion
+
+
+        #region Methods
+
+
+
+        #endregion
     }
 }

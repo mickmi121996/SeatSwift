@@ -9,5 +9,34 @@ namespace GuichetAutonome.ViewModels.Pages
 {
     public partial class VMSeatSelection : ObservableObject
     {
+        #region Properties
+
+
+
+        #endregion
+
+
+        #region Constructor
+
+        public VMSeatSelection()
+        {
+            // Constructor
+        }
+
+        #endregion
+
+
+        #region Commands
+
+
+
+        #endregion
+
+
+        #region Methods
+
+
+
+        #endregion
     }
 }

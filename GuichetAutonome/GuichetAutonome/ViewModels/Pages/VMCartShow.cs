@@ -9,5 +9,34 @@ namespace GuichetAutonome.ViewModels.Pages
 {
     public partial class VMCartShow : ObservableObject
     {
+        #region Properties
+
+
+
+        #endregion
+
+
+        #region Constructor
+
+        public VMCartShow()
+        {
+            // Constructor
+        }
+
+        #endregion
+
+
+        #region Commands
+
+
+
+        #endregion
+
+
+        #region Methods
+
+
+
+        #endregion
     }
 }

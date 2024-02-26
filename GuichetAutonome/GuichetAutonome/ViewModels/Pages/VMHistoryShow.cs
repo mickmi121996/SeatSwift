@@ -9,5 +9,34 @@ namespace GuichetAutonome.ViewModels.Pages
 {
     public partial class VMHistoryShow : ObservableObject
     {
+        #region Properties
+
+
+
+        #endregion
+
+
+        #region Constructor
+
+        public VMHistoryShow()
+        {
+            // Constructor
+        }
+
+        #endregion
+
+
+        #region Commands
+
+
+
+        #endregion
+
+
+        #region Methods
+
+
+
+        #endregion
     }
 }

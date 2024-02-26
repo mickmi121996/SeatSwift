@@ -9,5 +9,34 @@ namespace GuichetAutonome.ViewModels.Pages
 {
     public partial class VMCheckout : ObservableObject
     {
+        #region Properties
+
+
+
+        #endregion
+
+
+        #region Constructor
+
+        public VMCheckout()
+        {
+            // Constructor
+        }
+
+        #endregion
+
+
+        #region Commands
+
+
+
+        #endregion
+
+
+        #region Methods
+
+
+
+        #endregion
     }
 }
