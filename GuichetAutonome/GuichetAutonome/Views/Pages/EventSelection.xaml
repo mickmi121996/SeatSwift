@@ -19,7 +19,7 @@
         <StackPanel Margin="15" Orientation="Horizontal">
             <Label  VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Votre panier :"></Label>
 
-            <Button Padding="5" Margin="10,0" Width="60" Height="60" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" BorderThickness="1">
+            <Button Command="{Binding ChangePageToCartCommand}" Padding="5" Margin="10,0" Width="60" Height="60" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" BorderThickness="1">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="2"/>
@@ -37,18 +37,16 @@
 
         </StackPanel>
 
-        <Button Command="{Binding RegisterCommand}" Margin="15" HorizontalAlignment="Right" Content="Historique" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="30"></Button>
+        <Button Command="{Binding ChangePageToHistoryCommand}" Margin="15" HorizontalAlignment="Right" Content="Historique" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="30"></Button>
 
         <meterialDesign:Card Margin="15"  Grid.Row="1" Background="{DynamicResource FourthIconColor}">
             <ScrollViewer >
                 <ScrollViewer.Resources>
                     <Style TargetType="{x:Type ScrollBar}">
                         <Setter Property="Width" Value="25"/>
-                        <!-- Adjust this value to change the width -->
                         <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundColor}"/>
                     </Style>
                 </ScrollViewer.Resources>
-                <!-- Your content here -->
             </ScrollViewer>
         </meterialDesign:Card>
 

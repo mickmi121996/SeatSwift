@@ -11,6 +11,32 @@
       d:DesignHeight="768" d:DesignWidth="1024"
       Title="Thanks" FontFamily="Poppins">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="450"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <meterialDesign:Card Background="{DynamicResource FourthIconColor}" Grid.Column="1" Grid.Row="1">
+            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Margin="0,15" DockPanel.Dock="Top" HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Image VerticalAlignment="Center" Source="/Resources/Logo.png"></Image>
+                    <Label VerticalAlignment="Center" FontSize="50" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="SeatSwift"></Label>
+                </StackPanel>
+                <Label DockPanel.Dock="Top" Margin="15" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Passez  de bon événements!"></Label>
+
+                <Button Command="{Binding ChangePageToEventSelectionCommand}" Margin="15" DockPanel.Dock="Top" Content="Page événements" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="40"></Button>
+
+                <Label DockPanel.Dock="Top" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="OU"></Label>
+
+                <Button Command="{Binding ChangePageToConnectionCommand}" Margin="15" DockPanel.Dock="Top" Content="Se déconnecter" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="40"></Button>
+
+            </DockPanel>
+        </meterialDesign:Card>
     </Grid>
 </Page>

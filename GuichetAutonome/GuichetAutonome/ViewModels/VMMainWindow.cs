@@ -87,6 +87,26 @@ namespace GuichetAutonome.ViewModels
             {
                 CurrentPage = new EventSelection();
             }
+            else if (pageType == typeof(HistoryShow))
+            {
+                CurrentPage = new HistoryShow();
+            }
+            else if (pageType == typeof(Checkout))
+            {
+                CurrentPage = new Checkout();
+            }
+            else if (pageType == typeof(CartShow))
+            {
+                CurrentPage = new CartShow();
+            }
+            else if (pageType == typeof(SeatSelection))
+            {
+                CurrentPage = new SeatSelection();
+            }
+            else if (pageType == typeof(Thanks))
+            {
+                CurrentPage = new Thanks();
+            }
         }
 
         //public void ChangeUser(User user)

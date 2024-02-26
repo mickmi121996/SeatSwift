@@ -11,6 +11,103 @@
       d:DesignHeight="768" d:DesignWidth="1024"
       Title="Checkout" FontFamily="Poppins">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <meterialDesign:Card Background="{DynamicResource FourthIconColor}"  Margin="15,15,7,15" Padding="5,0,5,5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                
+                <Label Padding="0" Grid.ColumnSpan="2"  FontSize="30" FontWeight="Bold" Content="Informations de paiement" VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"/>
+                    <StackPanel Grid.Column="0"  Grid.Row="1" Margin="0,15,15,15" >
+                        <Label VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Nom :"></Label>
+                        <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="25"></TextBox>
+                    </StackPanel>
+                <StackPanel Grid.Column="1"  Grid.Row="1" Margin="15,15,0,15" >
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Prénom :"></Label>
+                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="25"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.ColumnSpan="2" Grid.Row="2" Margin="0,15" >
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Numéro de carte :"></Label>
+                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="25"></TextBox>
+                </StackPanel>
+
+                <StackPanel  Grid.Row="3" Margin="0,15" >
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Expiration :"></Label>
+                    <DatePicker Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="25"></DatePicker>
+                </StackPanel>
+
+                <StackPanel  Grid.Row="4" Margin="0,15" >
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="CVC :"></Label>
+                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="25"></TextBox>
+                </StackPanel>
+
+                <StackPanel  Grid.Row="5" Grid.ColumnSpan="2" Margin="0,15" >
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Adresse :"></Label>
+                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="25"></TextBox>
+                </StackPanel>
+            </Grid>
+        </meterialDesign:Card>
+
+        <meterialDesign:Card Grid.Column="1" Margin="8,15,15,15" Padding="5,0,5,5" Background="{DynamicResource FourthIconColor}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="70"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label DockPanel.Dock="Top" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Détails de la commande"></Label>
+
+
+                <StackPanel Grid.Row="1" >
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Numéro de commande :"></Label>
+                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[# de commande]" FontSize="25"></TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Row="4" >
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Total avant taxe :"></Label>
+                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="25"></TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Row="5">
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="TPS :"></Label>
+                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="25"></TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Row="6">
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="TVQ :"></Label>
+                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="25"></TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Row="7">
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Total :"></Label>
+                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="25"></TextBlock>
+                </StackPanel>
+
+                <Button Grid.Row="8" Command="{Binding ChangePageToCartCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Retour" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="30"></Button>
+                <Button Grid.Row="8" Command="{Binding ChangePageToThanksCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Confirmer" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="30"></Button>
+
+            </Grid>
+
+        </meterialDesign:Card>
     </Grid>
 </Page>

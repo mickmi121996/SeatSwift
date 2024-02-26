@@ -9,7 +9,7 @@
       xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
-      Title="Home"  FontFamily="Poppins">
+      Title="Home" FontFamily="Poppins">
 
     <Grid>
         <Grid.ColumnDefinitions>

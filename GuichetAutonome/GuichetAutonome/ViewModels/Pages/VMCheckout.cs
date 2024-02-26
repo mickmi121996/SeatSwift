@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using GuichetAutonome.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +30,23 @@ namespace GuichetAutonome.ViewModels.Pages
 
         #region Commands
 
+        /// <summary>
+        /// Command to the thanks page
+        /// </summary>
+        [RelayCommand]
+        public async Task ChangePageToThanks()
+        {
+            VMMainWindow.Instance.ChangePage(typeof(Thanks));
+        }
 
+        /// <summary>
+        /// Command to the cart page
+        /// </summary>
+        [RelayCommand]
+        public async Task ChangePageToCart()
+        {
+            VMMainWindow.Instance.ChangePage(typeof(CartShow));
+        }
 
         #endregion
 

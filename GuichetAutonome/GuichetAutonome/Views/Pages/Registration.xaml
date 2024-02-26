@@ -20,7 +20,7 @@
             <RowDefinition Height="90"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <meterialDesign:Card Margin="30,30,15,0" Background="{DynamicResource FourthIconColor}">
+        <meterialDesign:Card Margin="15,15,8,0" Background="{DynamicResource FourthIconColor}">
             <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 
                 <Label DockPanel.Dock="Top" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Informations obligatoires"></Label>
@@ -52,7 +52,7 @@
             </DockPanel>
         </meterialDesign:Card>
 
-        <meterialDesign:Card Grid.Column="1" Margin="15,30,30,0" Padding="7" Background="{DynamicResource FourthIconColor}">
+        <meterialDesign:Card Grid.Column="1" Margin="7,15,15,0" Padding="7" Background="{DynamicResource FourthIconColor}">
             <DockPanel HorizontalAlignment="Center" VerticalAlignment="Top">
                 <Label DockPanel.Dock="Top" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Informations facultatives"></Label>
 

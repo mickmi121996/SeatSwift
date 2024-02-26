@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using GuichetAutonome.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,7 @@ namespace GuichetAutonome.ViewModels.Pages
 
         #endregion
 
+
         #region Constructor
 
         public VMThanks()
@@ -27,7 +30,23 @@ namespace GuichetAutonome.ViewModels.Pages
 
         #region Commands
 
+        /// <summary>
+        /// Command to the connection page
+        /// </summary>
+        [RelayCommand]
+        public async Task ChangePageToConnection()
+        {
+            VMMainWindow.Instance.ChangePage(typeof(Connection));
+        }
 
+        /// <summary>
+        /// Command to the event selection page
+        /// </summary>
+        [RelayCommand]
+        public async Task ChangePageToEventSelection()
+        {
+            VMMainWindow.Instance.ChangePage(typeof(EventSelection));
+        }
 
         #endregion
 
