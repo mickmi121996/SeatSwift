@@ -1,0 +1,51 @@
+﻿<Page x:Class="GuichetAutonome.Views.Pages.Connection"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GuichetAutonome.Views.Pages"
+      xmlns:viewModel="clr-namespace:GuichetAutonome.ViewModels.Pages"
+      d:DataContext="{d:DesignInstance Type=viewModel:VMConnection}"      
+      xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      d:DesignHeight="768" d:DesignWidth="1024"
+      Title="Connection" FontFamily="Poppins">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="450"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <meterialDesign:Card Background="{DynamicResource FourthIconColor}" Grid.Column="1" Grid.Row="1">
+            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Margin="0,30" DockPanel.Dock="Top" HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Image VerticalAlignment="Center" Source="/Resources/Logo.png"></Image>
+                    <Label VerticalAlignment="Center" FontSize="50" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="SeatSwift"></Label>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Top" Margin="0,15,0,15" >
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Adresse courriel :"></Label>
+                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="25"></TextBox>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Top" Margin="0,15,0,15" >
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Mot de passe :"></Label>
+                    <PasswordBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="25"></PasswordBox>
+                </StackPanel>
+
+                <Button Command="{Binding ConnectCommand}" Margin="0,15,0,60" DockPanel.Dock="Top" Content="Connexion" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="40"></Button>
+
+                <Label DockPanel.Dock="Top" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Pas encore client ?"></Label>
+
+                <Button Command="{Binding GoToRegistrationCommand}" Margin="0,15,0,30" DockPanel.Dock="Top" Content="Créer un compte" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="30"></Button>
+
+            </DockPanel>
+        </meterialDesign:Card>
+    </Grid>
+</Page>
