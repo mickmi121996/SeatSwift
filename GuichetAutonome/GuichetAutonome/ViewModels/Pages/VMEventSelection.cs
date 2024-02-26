@@ -48,6 +48,24 @@ namespace GuichetAutonome.ViewModels.Pages
             VMMainWindow.Instance.ChangePage(typeof(CartShow));
         }
 
+        /// <summary>
+        /// Command to change page to the connection page
+        /// </summary>
+        [RelayCommand]
+        public void ChangePageToConnection()
+        {
+            VMMainWindow.Instance.ChangePage(typeof(Connection));
+        }
+
+        /// <summary>
+        /// command to the seat selection page
+        /// </summary>
+        [RelayCommand]
+        public void ChangePageToSeatSelection()
+        {
+            VMMainWindow.Instance.ChangePage(typeof(SeatSelection));
+        }
+
         #endregion
 
 
