@@ -8,6 +8,17 @@ namespace SeatSwiftDLL
 {
     internal class Administrator : User, ICloneable
     {
+        # region Properties
 
+
+
+        # endregion
+
+
+        #region Constructor
+
+
+
+        #endregion
     }
 }

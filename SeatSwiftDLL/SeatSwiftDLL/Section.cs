@@ -8,9 +8,27 @@ namespace SeatSwiftDLL
 {
     public class Section : ICloneable
     {
+        # region Properties
+
+
+
+        # endregion
+
+
+        #region Constructor
+
+
+
+        #endregion
+
+
+        # region Interface methods
+
         public object Clone()
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }
