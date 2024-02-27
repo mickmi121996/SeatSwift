@@ -58,6 +58,6 @@
             </Grid>
         </meterialDesign:Card>
 
-        <Button Command="{Binding SaveReportCommand}" Grid.Row="1" HorizontalAlignment="Right" Margin="5,0" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}"  Content="Exporter le rapport de ventes"/>
+        <Button Command="{Binding SaveReportCommand}" Grid.Row="1" HorizontalAlignment="Right" Margin="10,0" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}"  Content="Exporter le rapport de ventes"/>
     </Grid>
 </Page>
