@@ -31,6 +31,7 @@
                         <ComboBoxItem Content="Quotidien" />
                         <ComboBoxItem Content="Mensuel" />
                     </ComboBox>
+                    <DatePicker VerticalAlignment="Center" Height="28"></DatePicker>
                 </StackPanel>
                 <DataGrid Grid.Row="1" 
                   AutoGenerateColumns="False" 

@@ -33,31 +33,31 @@
                 
                 <Label Padding="0" Grid.ColumnSpan="2"  FontSize="30" FontWeight="Bold" Content="Informations de paiement" VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"/>
                     <StackPanel Grid.Column="0"  Grid.Row="1" Margin="0,15,15,15" >
-                        <Label VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Nom :"></Label>
-                        <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="25"></TextBox>
+                        <Label VerticalAlignment="Center" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Nom :"></Label>
+                        <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
                     </StackPanel>
                 <StackPanel Grid.Column="1"  Grid.Row="1" Margin="15,15,0,15" >
-                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Prénom :"></Label>
-                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="25"></TextBox>
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Prénom :"></Label>
+                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
                 </StackPanel>
                 <StackPanel Grid.ColumnSpan="2" Grid.Row="2" Margin="0,15" >
-                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Numéro de carte :"></Label>
-                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="25"></TextBox>
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Numéro de carte :"></Label>
+                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
                 </StackPanel>
 
                 <StackPanel  Grid.Row="3" Margin="0,15" >
-                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Expiration :"></Label>
-                    <DatePicker Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="25"></DatePicker>
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Expiration :"></Label>
+                    <DatePicker FontSize="20"></DatePicker>
                 </StackPanel>
 
                 <StackPanel  Grid.Row="4" Margin="0,15" >
-                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="CVC :"></Label>
-                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="25"></TextBox>
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="CVC :"></Label>
+                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
                 </StackPanel>
 
                 <StackPanel  Grid.Row="5" Grid.ColumnSpan="2" Margin="0,15" >
-                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Adresse :"></Label>
-                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="25"></TextBox>
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Adresse :"></Label>
+                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
                 </StackPanel>
             </Grid>
         </meterialDesign:Card>
@@ -75,36 +75,36 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="70"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Label DockPanel.Dock="Top" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Détails de la commande"></Label>
+                <Label DockPanel.Dock="Top" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" Padding="0" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Détails de la commande"></Label>
 
 
                 <StackPanel Grid.Row="1" >
-                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Numéro de commande :"></Label>
-                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[# de commande]" FontSize="25"></TextBlock>
+                    <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Numéro de commande :"></Label>
+                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[# de commande]" FontSize="20"></TextBlock>
                 </StackPanel>
 
                 <StackPanel Grid.Row="4" >
-                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Total avant taxe :"></Label>
-                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="25"></TextBlock>
+                    <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Total avant taxe :"></Label>
+                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="20"></TextBlock>
                 </StackPanel>
 
                 <StackPanel Grid.Row="5">
-                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="TPS :"></Label>
-                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="25"></TextBlock>
+                    <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="TPS :"></Label>
+                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="20"></TextBlock>
                 </StackPanel>
 
                 <StackPanel Grid.Row="6">
-                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="TVQ :"></Label>
-                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="25"></TextBlock>
+                    <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="TVQ :"></Label>
+                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="20"></TextBlock>
                 </StackPanel>
 
                 <StackPanel Grid.Row="7">
-                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Total :"></Label>
-                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="25"></TextBlock>
+                    <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Total :"></Label>
+                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="20"></TextBlock>
                 </StackPanel>
 
-                <Button Grid.Row="8" Command="{Binding ChangePageToCartCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Retour" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="30"></Button>
-                <Button Grid.Row="8" Command="{Binding ChangePageToThanksCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Confirmer" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="30"></Button>
+                <Button Grid.Row="8" Command="{Binding ChangePageToCartCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Retour" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>
+                <Button Grid.Row="8" Command="{Binding ChangePageToThanksCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Confirmer" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>
 
             </Grid>
 

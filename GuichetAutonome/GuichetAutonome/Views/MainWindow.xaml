@@ -7,7 +7,7 @@
         xmlns:viewModel="clr-namespace:GuichetAutonome.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewModel:VMMainWindow}"
         mc:Ignorable="d" Name="Home"
-        Title="MainWindow" Height="650" Width="900"
+        Title="MainWindow" Height="675" Width="900"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
         Background="Transparent" AllowsTransparency="True"
         FontFamily="Poppins">
@@ -21,7 +21,7 @@
             <Grid Visibility="Collapsed" x:Name="NavigationBar" Grid.Column="1">
                 <Grid Grid.Row="0" Margin="10,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
                     <Border 
-                            Width="25" Height="25"
+                            Width="20" Height="20"
                             HorizontalAlignment="Left">
                         <Border.Background>
                             <ImageBrush ImageSource="/Resources/Logo.png" Stretch="Uniform"/>
@@ -34,11 +34,11 @@
                             FontSize="15"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
-                            Margin="30 0 0 0"/>
+                            Margin="25 0 0 0"/>
                 </Grid>
 
                 <!-- region Button Close | Restore | Minimize -->
-                <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,10,0" Height="30" Orientation="Horizontal" FlowDirection="RightToLeft" Grid.RowSpan="2">
+                <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,10,0" Height="25" Orientation="Horizontal" FlowDirection="RightToLeft" Grid.RowSpan="2">
                     <Button x:Name="AlertColor" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}" Click="AlertColor_Click" Tag="IsCloseButton"/>
                 </StackPanel>
                 <!-- EndRegion Button Close | Restore | Minimize -->

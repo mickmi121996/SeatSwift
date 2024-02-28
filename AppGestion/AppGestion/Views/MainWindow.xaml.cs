@@ -217,6 +217,29 @@ namespace AppGestion.Views
             Popup.Visibility = Visibility.Collapsed;
             Popup.IsOpen = false;
         }
+
+        /// <summary>
+        /// Show the popup About when the mouse enter the button
+        /// </summary>
+        private void btnResend_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (Tg_Btn.IsChecked == false)
+            {
+                Popup.PlacementTarget = btnResend;
+                Popup.Placement = PlacementMode.Right;
+                Popup.IsOpen = true;
+                Header.PopupText.Text = "Renvoyer billets";
+            }
+        }
+
+        /// <summary>
+        /// Hide the popup About when the mouse leave the button
+        /// </summary>
+        private void btnResend_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Popup.Visibility = Visibility.Collapsed;
+            Popup.IsOpen = false;
+        }
         #endregion
 
 
@@ -327,6 +350,15 @@ namespace AppGestion.Views
         {
             fContainer.Navigate(new System.Uri("Views/Pages/TransactionReport.xaml", UriKind.RelativeOrAbsolute));
             VMMainWindow.Instance.Title = "Rapport de transaction";
+        }
+
+        /// <summary>
+        /// Navigate to the Transaction Report page
+        /// </summary>
+        private void btnResend_Click(object sender, RoutedEventArgs e)
+        {
+            fContainer.Navigate(new System.Uri("Views/Pages/ResendEmail.xaml", UriKind.RelativeOrAbsolute));
+            VMMainWindow.Instance.Title = "Renvoyer billet";
         }
 
         /// <summary>

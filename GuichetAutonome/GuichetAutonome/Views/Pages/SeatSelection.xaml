@@ -17,16 +17,20 @@
             <RowDefinition Height="90"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="15,0" Orientation="Horizontal">
-            <Label  VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Sélection automatique :"></Label>
-            <CheckBox Height="40" Width="40" Style="{StaticResource CheckBoxStyle}"></CheckBox>
-        </StackPanel>
+        <StackPanel Margin="15" HorizontalAlignment="Left" Orientation="Horizontal">
+            <Label  VerticalAlignment="Center" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Meilleurs billets pour :"></Label>
+            <ComboBox BorderBrush="{DynamicResource SecondaryBackGroundColor}" Width="150" Height="40" FontWeight="Bold" FontSize="20" Background="{DynamicResource SecondaryBackGroundColor}" Foreground="{DynamicResource FourthIconColor}">
+                <ComboBoxItem Content="La salle" />
+                <ComboBoxItem Content="La section" />
+            </ComboBox>
 
-        <StackPanel Margin="15" HorizontalAlignment="Right" Orientation="Horizontal">
-            <Label  VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Filtre de sélection :"></Label>
-            <ComboBox BorderBrush="{DynamicResource SecondaryBackGroundColor}" Width="150" Height="40" FontWeight="Bold" FontSize="30" Background="{DynamicResource PrimaryBackgroundColor}" Foreground="Black">
-                <ComboBoxItem Content="Proche" />
-                <ComboBoxItem Content="Loin" />
+
+            <Label Margin="25,0" VerticalAlignment="Center" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Section :"></Label>
+
+            <ComboBox BorderBrush="{DynamicResource SecondaryBackGroundColor}" Width="150" Height="40" FontWeight="Bold" FontSize="20" Background="{DynamicResource SecondaryBackGroundColor}" Foreground="{DynamicResource FourthIconColor}">
+                <ComboBoxItem Content="Balcon" />
+                <ComboBoxItem Content="Parterre" />
+                <ComboBoxItem Content="Logo" />
             </ComboBox>
         </StackPanel>
 
@@ -35,8 +39,8 @@
 
         </meterialDesign:Card>
 
-        <Button Grid.Row="2" Command="{Binding AddOrderToCartCommand}" Margin="15,0" HorizontalAlignment="Right" Content="Ajouter au panier" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="30"></Button>
-        <Button Grid.Row="2" Command="{Binding ChangePageToEventSelectionCommand}" Margin="15,0" HorizontalAlignment="Left" Content="Retour" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="30"></Button>
+        <Button Grid.Row="2" Command="{Binding AddOrderToCartCommand}" Margin="15,0" HorizontalAlignment="Right" Content="Ajouter au panier" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>
+        <Button Grid.Row="2" Command="{Binding ChangePageToEventSelectionCommand}" Margin="15,0" HorizontalAlignment="Left" Content="Retour" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>
 
 
     </Grid>

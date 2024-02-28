@@ -147,8 +147,7 @@
                 </Grid>
             </meterialDesign:Card>
         </Grid>
-        <Button Grid.Column="1" Grid.Row="1" Margin="10,0,10,0" HorizontalAlignment="Left" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Content="Supprimer représentaion"  VerticalAlignment="Center"/>
+        <Button Grid.Column="1" Grid.Row="1" Margin="5,0,10,0" HorizontalAlignment="Left" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Content="Supprimer représentaion"  VerticalAlignment="Center"/>
         <Button Grid.Column="1" Grid.Row="1" Command="{Binding OpenAddRepresantationCommand}" Margin="10,0,10,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Ajouter représentation"  VerticalAlignment="Center"/>
     </Grid>
-    
 </Page>

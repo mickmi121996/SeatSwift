@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Margin="15" Orientation="Horizontal">
-            <Label  VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Votre panier :"></Label>
+            <Label Padding="0"  VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Votre panier :"></Label>
 
             <Button Command="{Binding ChangePageToCartCommand}" Margin="10,0" Width="60" Height="60" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" BorderThickness="1">
                 <Button.Resources>
@@ -35,17 +35,17 @@
                 <Path Data="{StaticResource Cart}" Stretch="Uniform" Fill="{DynamicResource SecondaryBackGroundColor}" Width="50" Height="50"/>
             </Button>
 
-            <Button Command="{Binding ChangePageToHistoryCommand}" Margin="15,0" HorizontalAlignment="Right" Content="Historique" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="30"></Button>
+            <Button Command="{Binding ChangePageToHistoryCommand}" Margin="15,0" HorizontalAlignment="Right" Content="Historique" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>
         </StackPanel>
         
-        <Button  Command="{Binding ChangePageToConnectionCommand}" Margin="15" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Déconnexion" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="30"></Button>
+        <Button  Command="{Binding ChangePageToConnectionCommand}" Margin="15" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Déconnexion" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>
 
 
         <meterialDesign:Card Margin="15"  Grid.Row="1" Background="{DynamicResource FourthIconColor}">
             <ScrollViewer >
                 <ScrollViewer.Resources>
                     <Style TargetType="{x:Type ScrollBar}">
-                        <Setter Property="Width" Value="25"/>
+                        <Setter Property="Width" Value="20"/>
                         <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundColor}"/>
                     </Style>
                 </ScrollViewer.Resources>
