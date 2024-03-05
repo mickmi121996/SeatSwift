@@ -1,4 +1,6 @@
-﻿namespace SeatSwiftDLL
+﻿using SeatSwiftDLL.Enums;
+
+namespace SeatSwiftDLL
 {
     /// <summary>
     /// The show class
@@ -64,12 +66,12 @@
         /// The user who created the show
         /// </summary>
         public User User { get; set; }
-        
-
-        # endregion
 
 
-        # constructor
+        #endregion
+
+
+        #region constructor
 
         /// <summary>
         /// The default constructor
@@ -78,12 +80,12 @@
         {
             Id = default;
             IsActive = true;
-            Name = string.empty;
-            Artist = string.empty;
-            Description = string.empty;
+            Name = string.Empty;
+            Artist = string.Empty;
+            Description = string.Empty;
             ShowType = default;
             ShowStatus = default;
-            ImageUrl = string.empty;
+            ImageUrl = string.Empty;
             MaxTicketsByClient = default;
             BasePrice = default;
             User = new User();

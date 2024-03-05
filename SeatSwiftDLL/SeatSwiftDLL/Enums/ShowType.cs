@@ -23,7 +23,7 @@ namespace SeatSwiftDLL.Enums
     {
         Movie = 0,
         Theater = 1,
-        Musical Comedy = 2,
+        MusicalComedy = 2,
         Concert = 3,
         Humor = 4,
         Dance = 5,

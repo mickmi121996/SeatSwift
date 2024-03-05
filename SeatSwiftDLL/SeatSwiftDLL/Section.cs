@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SeatSwiftDLL.Enums;
 
 namespace SeatSwiftDLL
 {
@@ -58,7 +59,7 @@ namespace SeatSwiftDLL
         {
             Id = default;
             IsActive = true;
-            Name = string.empty;
+            Name = default;
             SectionStatus = default;
             Multiplier = default;
             Auditorium = new Auditorium();
