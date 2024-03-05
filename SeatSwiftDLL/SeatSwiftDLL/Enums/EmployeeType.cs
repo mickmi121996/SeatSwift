@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 namespace SeatSwiftDLL.Enums
 {
     /// <summary>
-    /// The type of a seat in a row
+    /// The type of an employee
     /// </summary>
     /// <remarks>
-    /// Standard: The seat is a standard seat
-    /// Handicap: The seat is a handicap seat
+    /// Accountant: The employee is an accountant
+    /// Administrator: The employee is an administrator
     /// </remarks>
-    public enum SeatType
+    public enum EmployeeType
     {
-        Standard = 0,
-        Handicap = 1,
+        Accountant = 0,
+        Administrator = 1,
     }
 }

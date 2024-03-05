@@ -1,0 +1,120 @@
+CREATE DATABASE IF NOT EXISTS h24_esp_projet_1336289;
+
+CREATE TABLE Auditorium (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    IsActive BOOLEAN NOT NULL,
+    AuditoriumName VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE Configuration (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Auditorium INT NOT NULL,
+    IsActive BOOLEAN NOT NULL,
+    ConfigurationName VARCHAR(255) UNIQUE NOT NULL,
+    FOREIGN KEY (Auditorium) REFERENCES Auditorium(Id)
+);
+
+CREATE TABLE Shows (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    UserId INT NOT NULL,
+    IsActive BOOLEAN NOT NULL,
+    ShowName VARCHAR(255) UNIQUE NOT NULL,
+    Artiste VARCHAR(255) NOT NULL,
+    Description TEXT NOT NULL,
+    ShowType VARCHAR(50) NOT NULL,
+    ShowStatus VARCHAR(50) NOT NULL,
+    ImageUrl VARCHAR(255) NOT NULL,
+    NumberOfTicketsMaxByClient INT NOT NULL,
+    BaseTicketPrice DECIMAL(10,2) NOT NULL
+);
+
+CREATE TABLE Representation (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    ShowId INT NOT NULL,
+    ConfigurationId INT NOT NULL,
+    IsActive BOOLEAN NOT NULL,
+    Date DATETIME NOT NULL,
+    FOREIGN KEY (ShowId) REFERENCES Shows(Id),
+    FOREIGN KEY (ConfigurationId) REFERENCES Configuration(Id)
+);
+
+CREATE TABLE Section (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    AuditoriumId INT NOT NULL,
+    IsActive BOOLEAN NOT NULL,
+    SectionName VARCHAR(255) UNIQUE NOT NULL,
+    SectionStatus VARCHAR(50) NOT NULL,
+    SectionMultiplier DECIMAL(5,2) NOT NULL,
+    FOREIGN KEY (AuditoriumId) REFERENCES Auditorium(Id)
+);
+
+CREATE TABLE SectionRow (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    SectionId INT NOT NULL,
+    IsActive BOOLEAN NOT NULL,
+    RowName VARCHAR(255) NOT NULL,
+    RowStatus VARCHAR(50) NOT NULL,
+    RowNumber INT UNIQUE NOT NULL,
+    FOREIGN KEY (SectionId) REFERENCES Section(Id)
+);
+
+CREATE TABLE Seat (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    RowId INT NOT NULL,
+    IsActive BOOLEAN NOT NULL,
+    SeatStatus VARCHAR(50) NOT NULL,
+    SeatType VARCHAR(50) NOT NULL,
+    SeatNumber INT NOT NULL,
+    FOREIGN KEY (RowId) REFERENCES SectionRow(Id)
+);
+
+CREATE TABLE Ticket (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    RepresentationId INT NOT NULL,
+    SeatId INT NOT NULL,
+    IsActive BOOLEAN NOT NULL,
+    TicketStatus VARCHAR(50) NOT NULL,
+    TicketNumber INT UNIQUE NOT NULL,
+    FOREIGN KEY (RepresentationId) REFERENCES Representation(Id),
+    FOREIGN KEY (SeatId) REFERENCES Seat(Id)
+);
+
+CREATE TABLE Client (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    IsActive BOOLEAN NOT NULL,
+    FirstName VARCHAR(255) NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) UNIQUE NOT NULL,
+    PasswordHash BLOB NOT NULL,
+    PasswordSalt BLOB NOT NULL,
+    Phone VARCHAR(20),
+    City VARCHAR(255)
+);
+
+CREATE TABLE Orders (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    ClientId INT NOT NULL,
+    RepresentationId INT NOT NULL,
+    IsActive BOOLEAN NOT NULL,
+    OrderNumber VARCHAR(255) UNIQUE NOT NULL,
+    OrderDate DATETIME NOT NULL,
+    TotalPrice DECIMAL(10,2) NOT NULL,
+    NumberOfTickets INT NOT NULL,
+    FOREIGN KEY (ClientId) REFERENCES Client(Id),
+    FOREIGN KEY (RepresentationId) REFERENCES Representation(Id)
+);
+
+CREATE TABLE User (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    IsActive BOOLEAN NOT NULL,
+    FirstName VARCHAR(255) NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    EmployeeNumber VARCHAR(255) UNIQUE NOT NULL,
+    Email VARCHAR(255) UNIQUE NOT NULL,
+    Type VARCHAR(50) NOT NULL,
+    Phone VARCHAR(20) NOT NULL,
+    PasswordHash BLOB NOT NULL,
+    PasswordSalt BLOB NOT NULL
+);
+
+ALTER TABLE Shows ADD CONSTRAINT FK_Show_User FOREIGN KEY (UserId) REFERENCES User(Id);

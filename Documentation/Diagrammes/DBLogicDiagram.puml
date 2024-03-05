@@ -4,6 +4,7 @@ allow_mixing
 
 class Show {
     int Id <<**PK**>>
+    int UserId <<**FK**>>
     Boolean IsActive
     ---
     string ShowName <<**unique**>>
@@ -115,12 +116,14 @@ class User {
     string LastName
     string EmployeeNumber <<**unique**>>
     string Email <<**unique**>>
+    string Type
     string Phone
     Byte[] PasswordHash
     Byte[] PasswordSalt
 }
 
 Show ||--o{ Representation
+Show ||--o{ User
 Representation }|--|| Configuration
 Configuration }o--|| Auditorium
 Auditorium ||--o{ Section
