@@ -30,6 +30,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="SeatSwiftDLL">
+      <HintPath>..\..\SeatSwiftDLL\SeatSwiftDLL\bin\Debug\net6.0\SeatSwiftDLL.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\Logo.png" />
   </ItemGroup>
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppGestion.DataAccessLayer.Base
+namespace AppGestion.DataAccessLayer.Factories.Base
 {
     public class FactoryBase
     {
