@@ -19,7 +19,15 @@ namespace AppGestion.DataAccessLayer.Factories
     {
         #region Create methods
 
-
+        /// <summary>
+        /// Create a new Seat object from a data reader
+        /// </summary>
+        /// <param name="dataReader">The data reader.</param>
+        /// <returns>A new Seat object</returns>
+        public static Seat Create(MySqlDataReader dataReader)
+        {
+            // Get the data from the data reader
+            int id = dataReader.GetInt32("Id");
 
         #endregion
 
