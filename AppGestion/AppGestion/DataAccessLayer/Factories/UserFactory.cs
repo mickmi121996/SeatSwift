@@ -98,7 +98,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// Get all active users from the database
         /// </summary>
         /// <returns>A Icollection of all active users</returns>
-        public async Task<ICollection<User>> GetAllActiveUsersAsync()
+        public async Task<ICollection<User>> GetAllActiveAsync()
         {
             // Create a new list of users
             List<User> users = new List<User>();
@@ -115,10 +115,8 @@ namespace AppGestion.DataAccessLayer.Factories
                 foreach (DataRow row in result.Rows)
                 {
                     // Create a new user object
-                    User user = await CreateFromRowAsync(row);
+                    users.Add(await CreateFromRowAsync(row));
 
-                    // Add the user object to the list
-                    users.Add(user);
                 }
             }
 
@@ -130,7 +128,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// Get all users from the database
         /// </summary>
         /// <returns>A Icollection of all users</returns>
-        public async Task<ICollection<User>> GetAllUsersAsync()
+        public async Task<ICollection<User>> GetAllAsync()
         {
             // Create a new list of users
             List<User> users = new List<User>();
@@ -147,10 +145,7 @@ namespace AppGestion.DataAccessLayer.Factories
                 foreach (DataRow row in result.Rows)
                 {
                     // Create a new user object
-                    User user = await CreateFromRowAsync(row);
-
-                    // Add the user object to the list
-                    users.Add(user);
+                    users.Add(await CreateFromRowAsync(row));
                 }
             }
 
@@ -164,7 +159,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// <param name="employeeNumber">The employee number of the user</param>
         /// <returns>The user object</returns>
         /// <exception cref="ArgumentNullException">If no user was found with the employee number</exception>
-        public async Task<User> GetUserByEmployeeNumberAsync(string employeeNumber)
+        public async Task<User> GetByEmployeeNumberAsync(string employeeNumber)
         {
             // Create a new command
             using (
@@ -191,13 +186,51 @@ namespace AppGestion.DataAccessLayer.Factories
         }
 
         /// <summary>
+        /// Get a user by its id
+        /// </summary>
+        /// <param name="id">The id of the user</param>
+        /// <returns>The user object</returns>
+        /// <exception cref="ArgumentNullException">If no user was found with the id</exception>
+        public async Task<User> GetByIdAsync(int id)
+        {
+            // Create a new command
+            using (
+                DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
+                (this.ConnectionString,
+                "SELECT * FROM User WHERE Id = @Id", 
+                new MySqlParameter("@Id", id)
+                )
+            )
+            {
+                // Read the data from the data table
+                if (result.Rows.Count == 1)
+                {
+                    // Create a new user object
+                    User user = await CreateFromRowAsync(result.Rows[0]);
+
+                    // Return the user object
+                    return user;
+                }
+            }
+
+            // If no user was found, return null
+            throw new ArgumentNullException("No user was found with the id " + id);
+        }
+
+        /// <summary>
         /// Create a new user in the database
         /// </summary>
         /// <param name="user">The user object</param>
-        public async Task CreateUserAsync(User user)
+        public async Task CreateAsync(User user)
         {
             try
             {
+                // Check if the user exists
+                if(await IsEmployeeNumberOrEmailAlreadyUsedAsync(user.EmployeeNumber, user.Email))
+                {
+                    throw new ArgumentNullException("The employee number or the email is already used");
+                }
+
                 // Create a new command
                 int result = await DataBaseTool.ExecuteNonQueryAsync(this.ConnectionString,
                     "INSERT INTO User (IsActive, FirstName, LastName, EmployeeNumber, Type, Email, Phone) VALUES (@IsActive, @FirstName, @LastName, @EmployeeNumber, @Type, @Email, @Phone)",
@@ -228,7 +261,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// <param name="user">The user object</param>
         /// <exception cref="ArgumentNullException">If no user was found with the employee number</exception>
         /// <exception cref="Exception">If an error occured while updating the user</exception>
-        public async Task UpdateUserAsync(User user)
+        public async Task UpdateAsync(User user)
         {
             try
             {
@@ -262,7 +295,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// <param name="employeeNumber">The employee number of the user</param>
         /// <exception cref="ArgumentNullException">If no user was found with the employee number</exception>
         /// <exception cref="Exception">If an error occured while setting the user as inactive</exception>
-        public async Task SetUserAsInactiveAsync(string employeeNumber)
+        public async Task SetAsInactiveAsync(string employeeNumber)
         {
             try
             {
@@ -289,21 +322,60 @@ namespace AppGestion.DataAccessLayer.Factories
         /// </summary>
         /// <returns>The number of active users</returns>
         /// <exception cref="Exception">If an error occured while counting the number of active users</exception>
-        public async Task<int> CountActiveUsersAsync()
+        public async Task<int> CountActiveAsync()
         {
             try
             {
-                // Create a new command
-                object result = await DataBaseTool.ExecuteNonQueryAsync(this.ConnectionString,
+                // Get the total number of active users
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
+                    (this.ConnectionString,
                     "SELECT COUNT(*) FROM User WHERE IsActive = 1"
-                );
-
-                // Return the number of active users
-                return Convert.ToInt32(result);
+                    )
+                )
+                {
+                    // Return the number of active users
+                    return result.Rows[0].Field<int>(0);
+                }
             }
             catch (Exception ex)
             {
                 throw new Exception("An error occured while counting the number of active users", ex);
+            }
+        }
+
+        #endregion
+
+
+        #region Methods
+
+        /// <summary>
+        /// Method to check the EmployeeNumber and the email of a user is already used
+        /// </summary>
+        /// <param name="employeeNumber">The employee number of the user</param>
+        /// <param name="email">The email of the user</param>
+        /// <returns>True if the employee number or the email is already used, false otherwise</returns>
+        public async Task<bool> IsEmployeeNumberOrEmailAlreadyUsedAsync(string employeeNumber, string email)
+        {
+            try
+            {
+                // Get the total number of active users
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
+                    (this.ConnectionString,
+                    "SELECT COUNT(*) FROM User WHERE EmployeeNumber = @EmployeeNumber OR Email = @Email",
+                    new MySqlParameter("@EmployeeNumber", employeeNumber),
+                    new MySqlParameter("@Email", email)
+                    )
+                )
+                {
+                    // Return true if the employee number or the email is already used
+                    return result.Rows[0].Field<int>(0) > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occured while checking if the employee number or the email is already used", ex);
             }
         }
 
