@@ -60,7 +60,7 @@ namespace SeatSwiftDLL
         /// <summary>
         /// The base price of the show
         /// </summary>
-        public double BasePrice { get; set; }
+        public decimal BasePrice { get; set; }
 
         /// <summary>
         /// The user who created the show
@@ -105,7 +105,7 @@ namespace SeatSwiftDLL
         /// <param name="maxTicketsByClient">The number of tickets max by client</param>
         /// <param name="basePrice">The base price of the show</param>
         /// <param name="user">The user who created the show</param>
-        public Show(int id, bool isActive, string name, string artist, string description, ShowType showType, ShowStatus showStatus, string imageUrl, int maxTicketsByClient, double basePrice, User user)
+        public Show(int id, bool isActive, string name, string artist, string description, ShowType showType, ShowStatus showStatus, string imageUrl, int maxTicketsByClient, decimal basePrice, User user)
         {
             this.Id = id;
             this.IsActive = isActive;
