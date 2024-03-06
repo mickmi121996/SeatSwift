@@ -84,11 +84,16 @@ namespace AppGestion.DataAccessLayer.Factories
             bool isActive = dataRow.Field<bool>("IsActive");
             string name = dataRow.Field<string>("ShowName") ??
                 throw new InvalidOperationException("The ShowName field is null");
-            string artist = dataRow.Field<string>("Artist");
-            string description = dataRow.Field<string>("Description");
-            string showType = dataRow.Field<string>("ShowType");
-            string showStatus = dataRow.Field<string>("ShowStatus");
-            string image = dataRow.Field<string>("ImageUrl");
+            string artist = dataRow.Field<string>("Artist") ??
+                throw new InvalidOperationException("The Artist field is null");
+            string description = dataRow.Field<string>("Description") ??
+                throw new InvalidOperationException("The Description field is null");
+            string showType = dataRow.Field<string>("ShowType") ??
+                throw new InvalidOperationException("The ShowType field is null");
+            string showStatus = dataRow.Field<string>("ShowStatus") ??
+                throw new InvalidOperationException("The ShowStatus field is null");
+            string image = dataRow.Field<string>("ImageUrl") ??
+                throw new InvalidOperationException("The ImageUrl field is null");
             int maxTicketsByUser = dataRow.Field<int>("NumberOfTicketsMaxByClient");
             decimal baseTicketPrice = dataRow.Field<decimal>("BaseTicketPrice");
             int userId = dataRow.Field<int>("UserId");
