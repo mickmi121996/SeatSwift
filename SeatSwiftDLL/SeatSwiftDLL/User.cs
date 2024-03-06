@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SeatSwiftDLL.Enums;
 
 namespace SeatSwiftDLL
 {
@@ -26,9 +27,19 @@ namespace SeatSwiftDLL
         public string FirstName { get; set; }
 
         /// <summary>
+        /// The type of the user
+        /// </summary>
+        public EmployeeType Type { get; set; }
+
+        /// <summary>
         /// The last name of the user
         /// </summary>
         public string LastName { get; set; }
+
+        /// <summary>
+        /// The employee number of the user
+        /// </summary>
+        public string EmployeeNumber { get; set; }
 
         /// <summary>
         /// The email of the user
@@ -64,7 +75,9 @@ namespace SeatSwiftDLL
             IsActive = true;
             FirstName = string.Empty;
             LastName = string.Empty;
+            Type = default;
             Email = string.Empty;
+            EmployeeNumber = string.Empty;
             PhoneNumber = string.Empty;
             PasswordHash = Array.Empty<byte>();
             PasswordSalt = Array.Empty<byte>();
@@ -81,12 +94,14 @@ namespace SeatSwiftDLL
         /// <param name="phoneNumber">The phone number of the user</param>
         /// <param name="passwordHash">The password Hash of the user</param>
         /// <param name="passwordSalt">The password Salt of the user</param>
-        public User(int id, bool isActive, string firstName, string lastName, string email, string phoneNumber)
+        public User(int id, bool isActive, string firstName, string lastName, string employeeNumber, EmployeeType type,string email, string phoneNumber)
         {
             this.Id = id;
             this.IsActive = isActive;
             this.FirstName = firstName;
             this.LastName = lastName;
+            this.EmployeeNumber = employeeNumber;
+            this.Type = type;
             this.Email = email;
             this.PhoneNumber = phoneNumber;
             this.PasswordHash = Array.Empty<byte>();
