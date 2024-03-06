@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SeatSwiftDLL;
 using System.Data;
+using AppGestion.Tools;
 
 namespace AppGestion.DataAccessLayer.Factories
 {
@@ -51,7 +52,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// </summary>
         /// <param name="row">The DataRow object that contains the data to be used to create the client object</param>
         /// <returns>The client object created from the data</returns>
-        public Client CreateFromRow(DataRow row)
+        public async Task<Client> CreateFromRowAsync(DataRow row)
         {
             // Read the data from the data row
             int id = row.Field<int>("Id");
@@ -77,7 +78,290 @@ namespace AppGestion.DataAccessLayer.Factories
 
         #region Factory methods
 
+        /// <summary>
+        /// Method to get the Icollection of active clients from a DataTable
+        /// </summary>
+        /// <returns>The Icollection of active clients</returns>
+        public async Task<ICollection<Client>> GetAllActiveAsync()
+        {
+            // Create the list of clients
+            List<Client> clients = new List<Client>();
 
+            try
+            {
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Client WHERE IsActive = 1"
+                    )
+                )
+                {
+                    // Check if the result is not null
+                    if (result != null)
+                    {
+                        // Loop through the rows in the result
+                        foreach (DataRow row in result.Rows)
+                        {
+                            // Create a client from the row and add it to the list
+                            clients.Add(await CreateFromRowAsync(row));
+                        }
+                    }
+
+                    // Return the list of clients order by last name
+                    return clients.OrderBy(c => c.LastName).ToList();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the active clients", ex);
+            } 
+        }
+
+        /// <summary>
+        /// Method to get the Icollection of all clients from a DataTable
+        /// </summary>
+        /// <returns>The Icollection of all clients</returns>
+        /// <exception cref="Exception">An error occurred while getting the clients</exception>
+        public async Task<ICollection<Client>> GetAllAsync()
+        {
+            // Create the list of clients
+            List<Client> clients = new List<Client>();
+
+            try
+            {
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Client"
+                    )
+                )
+                {
+                    // Check if the result is not null
+                    if (result != null)
+                    {
+                        // Loop through the rows in the result
+                        foreach (DataRow row in result.Rows)
+                        {
+                            // Create a client from the row and add it to the list
+                            clients.Add(await CreateFromRowAsync(row));
+                        }
+                    }
+
+                    // Return the list of clients order by last name
+                    return clients.OrderBy(c => c.LastName).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the clients", ex);
+            }
+        }
+
+        /// <summary>
+        /// Method to get a client by its id
+        /// </summary>
+        /// <param name="id">The id of the client to get</param>
+        /// <returns>The client with the given id</returns>
+        /// <exception cref="Exception">An error occurred while getting the client</exception>
+        /// <exception cref="ArgumentNullException">The client with the given id does not exist</exception>
+        public async Task<Client> GetByIdAsync(int id)
+        {
+            try
+            {
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Client WHERE Id = @id",
+                        new MySqlParameter("@id", id)
+                    )
+                )
+                {
+                    // Check if the result is not null
+                    if (result != null)
+                    {
+                        // Check if the result has rows
+                        if (result.Rows.Count > 0)
+                        {
+                            // Return the client
+                            return await CreateFromRowAsync(result.Rows[0]);
+                        }
+                        else
+                        {
+                            throw new ArgumentNullException("The client with the given id does not exist");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("An error occurred while getting the client");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the client", ex);
+            }
+        }
+
+        /// <summary>
+        /// Method to create a client
+        /// </summary>
+        /// <param name="client">The client to create</param>
+        /// <exception cref="Exception">An error occurred while creating the client</exception>
+        /// <exception cref="ArgumentNullException">The client already exists</exception>
+        /// <exception cref="Exception">An error occurred while creating the client</exception>
+        public async Task CreateAsync(Client client)
+        {
+            try
+            {
+                // Check if the client already exists
+                if (await ClientExistsAsync(client.Email))
+                {
+                    throw new ArgumentNullException("The client already exists");
+                }
+
+                // Create the client
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "INSERT INTO Client (IsActive, FirstName, LastName, Email, Phone, City) VALUES (@isActive, @firstName, @lastName, @email, @phone, @city)",
+                    new MySqlParameter("@isActive", client.IsActive),
+                    new MySqlParameter("@firstName", client.FirstName),
+                    new MySqlParameter("@lastName", client.LastName),
+                    new MySqlParameter("@email", client.Email),
+                    new MySqlParameter("@phone", client.PhoneNumber),
+                    new MySqlParameter("@city", client.City)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while creating the client", ex);
+            }
+        }
+        
+        /// <summary>
+        /// Method to update a client
+        /// </summary>
+        /// <param name="client">The client to update</param>
+        /// <exception cref="Exception">An error occurred while updating the client</exception>
+        /// <exception cref="Exception">An error occurred while updating the client</exception>
+        public async Task UpdateAsync(Client client)
+        {
+            try
+            {
+                // Update the client
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "UPDATE Client SET IsActive = @isActive, FirstName = @firstName, LastName = @lastName, Phone = @phone, City = @city WHERE Email = @email",
+                    new MySqlParameter("@isActive", client.IsActive),
+                    new MySqlParameter("@firstName", client.FirstName),
+                    new MySqlParameter("@lastName", client.LastName),
+                    new MySqlParameter("@phone", client.PhoneNumber),
+                    new MySqlParameter("@city", client.City),
+                    new MySqlParameter("@email", client.Email)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while updating the client", ex);
+            }
+        }
+
+        /// <summary>
+        /// Make the client inactive
+        /// </summary>
+        /// <param name="client">The client to make inactive</param>
+        /// <exception cref="Exception">An error occurred while making the client inactive</exception>
+        public async Task SetAsInactiveAsync(Client client)
+        {
+            try
+            {
+                // Make the client inactive
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "UPDATE Client SET IsActive = 0 WHERE Id = @Id",
+                    new MySqlParameter("@Id", client.Id)
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while making the client inactive", ex);
+            }
+        }
+
+        /// <summary>
+        /// Get the count of active clients
+        /// </summary>
+        /// <returns>The count of active clients</returns>
+        /// <exception cref="Exception">An error occurred while getting the count of active clients</exception>
+        public async Task<int> CountActiveAsync()
+        {
+            try
+            {
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT COUNT(*) FROM Client WHERE IsActive = 1"
+                    )
+                )
+                {
+                    // Check if the result is not null
+                    if (result != null)
+                    {
+                        // Return the count of active clients
+                        return result.Rows[0].Field<int>(0);
+                    }
+                    else
+                    {
+                        throw new Exception("An error occurred while getting the count of active clients");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the count of active clients", ex);
+            }
+        }
+
+        #endregion
+
+
+        #region methods
+
+        /// <summary>
+        /// Check if a client exists by its email
+        /// </summary>
+        /// <param name="email">The email of the client to check</param>
+        /// <returns>True if the client exists, false otherwise</returns>
+        /// <exception cref="Exception">An error occurred while checking if the client exists</exception>
+        public async Task<bool> ClientExistsAsync(string email)
+        {
+            try
+            {
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Client WHERE Email = @email",
+                        new MySqlParameter("@email", email)
+                    )
+                )
+                {
+                    // Check if the result is not null
+                    if (result != null)
+                    {
+                        // Return true if the result has rows, false otherwise
+                        return result.Rows.Count > 0;
+                    }
+                    else
+                    {
+                        throw new Exception("An error occurred while checking if the client exists");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while checking if the client exists", ex);
+            }
+        }
 
         #endregion
     }
