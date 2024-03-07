@@ -62,7 +62,6 @@ namespace SeatSwiftDLL
         /// </summary>
         public Ticket()
         {
-            // Assignation des valeurs par défaut appropriées.
             Id = default;
             IsActive = true;
             ReservationNumber = string.Empty;

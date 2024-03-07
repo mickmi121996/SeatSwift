@@ -79,96 +79,17 @@ namespace AppGestion.DataAccessLayer.Factories
         #region Factory methods
 
         /// <summary>
-        /// Method to get the Icollection of active clients from a DataTable
+        /// Method to get a client by its ID
         /// </summary>
-        /// <returns>The Icollection of active clients</returns>
-        public async Task<ICollection<Client>> GetAllActiveAsync()
-        {
-            // Create the list of clients
-            List<Client> clients = new List<Client>();
-
-            try
-            {
-                using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
-                        this.ConnectionString,
-                        "SELECT * FROM Client WHERE IsActive = 1"
-                    )
-                )
-                {
-                    // Check if the result is not null
-                    if (result != null)
-                    {
-                        // Loop through the rows in the result
-                        foreach (DataRow row in result.Rows)
-                        {
-                            // Create a client from the row and add it to the list
-                            clients.Add(await CreateFromRowAsync(row));
-                        }
-                    }
-
-                    // Return the list of clients order by last name
-                    return clients.OrderBy(c => c.LastName).ToList();
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while getting the active clients", ex);
-            } 
-        }
-
-        /// <summary>
-        /// Method to get the Icollection of all clients from a DataTable
-        /// </summary>
-        /// <returns>The Icollection of all clients</returns>
-        /// <exception cref="Exception">An error occurred while getting the clients</exception>
-        public async Task<ICollection<Client>> GetAllAsync()
-        {
-            // Create the list of clients
-            List<Client> clients = new List<Client>();
-
-            try
-            {
-                using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
-                        this.ConnectionString,
-                        "SELECT * FROM Client"
-                    )
-                )
-                {
-                    // Check if the result is not null
-                    if (result != null)
-                    {
-                        // Loop through the rows in the result
-                        foreach (DataRow row in result.Rows)
-                        {
-                            // Create a client from the row and add it to the list
-                            clients.Add(await CreateFromRowAsync(row));
-                        }
-                    }
-
-                    // Return the list of clients order by last name
-                    return clients.OrderBy(c => c.LastName).ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while getting the clients", ex);
-            }
-        }
-
-        /// <summary>
-        /// Method to get a client by its id
-        /// </summary>
-        /// <param name="id">The id of the client to get</param>
-        /// <returns>The client with the given id</returns>
+        /// <param name="id">The ID of the client to get</param>
+        /// <returns>The client with the specified ID</returns>
         /// <exception cref="Exception">An error occurred while getting the client</exception>
-        /// <exception cref="ArgumentNullException">The client with the given id does not exist</exception>
+        /// <exception cref="Exception">An error occurred while getting the client</exception>
         public async Task<Client> GetByIdAsync(int id)
         {
             try
             {
+                // Get the client
                 using (
                     DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
                         this.ConnectionString,
@@ -183,12 +104,12 @@ namespace AppGestion.DataAccessLayer.Factories
                         // Check if the result has rows
                         if (result.Rows.Count > 0)
                         {
-                            // Return the client
+                            // Create the client from the row
                             return await CreateFromRowAsync(result.Rows[0]);
                         }
                         else
                         {
-                            throw new ArgumentNullException("The client with the given id does not exist");
+                            throw new Exception("An error occurred while getting the client");
                         }
                     }
                     else
@@ -202,6 +123,100 @@ namespace AppGestion.DataAccessLayer.Factories
                 throw new Exception("An error occurred while getting the client", ex);
             }
         }
+
+        /// <summary>
+        /// Method to get all active clients
+        /// </summary>
+        /// <returns>All active clients</returns>
+        /// <exception cref="Exception">An error occurred while getting all active clients</exception>
+        /// <exception cref="Exception">An error occurred while getting all active clients</exception>
+        public async Task<List<Client>> GetAllActiveAsync()
+        {
+            try
+            {
+                // Get all active clients
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Client WHERE IsActive = 1"
+                    )
+                )
+                {
+                    // Check if the result is not null
+                    if (result != null)
+                    {
+                        // Create a list of clients
+                        List<Client> clients = new List<Client>();
+
+                        // Loop through the rows
+                        foreach (DataRow row in result.Rows)
+                        {
+                            // Create the client from the row
+                            clients.Add(await CreateFromRowAsync(row));
+                        }
+
+                        // Return the list of clients
+                        return clients;
+                    }
+                    else
+                    {
+                        throw new Exception("An error occurred while getting all active clients");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting all active clients", ex);
+            }
+        }
+
+        /// <summary>
+        /// Method to get all clients with at least one order
+        /// </summary>
+        /// <returns>All clients with at least one order</returns>
+        /// <exception cref="Exception">An error occurred while getting the clients</exception>
+        public async Task<List<Client>> GetAllClientsWithOrdersAsync()
+        {
+            try
+            {
+                // SQL query to get all clients with at least one order
+                string query = @"
+                    SELECT DISTINCT c.* 
+                    FROM client c
+                    JOIN orders o ON c.Id = o.ClientId
+                    WHERE c.IsActive = 1
+                ";
+
+                using (DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(this.ConnectionString, query))
+                {
+                    // Check if the result is not null
+                    if (result != null && result.Rows.Count > 0)
+                    {
+                        // Create a list of clients
+                        List<Client> clients = new List<Client>();
+
+                        // Loop through the rows
+                        foreach (DataRow row in result.Rows)
+                        {
+                            // Create the client from the row
+                            clients.Add(await CreateFromRowAsync(row));
+                        }
+
+                        // Return the list of clients
+                        return clients;
+                    }
+                    else
+                    {
+                        throw new Exception("No clients with orders were found.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the clients with orders", ex);
+            }
+        }
+
 
         /// <summary>
         /// Method to create a client
@@ -237,7 +252,7 @@ namespace AppGestion.DataAccessLayer.Factories
                 throw new Exception("An error occurred while creating the client", ex);
             }
         }
-        
+
         /// <summary>
         /// Method to update a client
         /// </summary>
