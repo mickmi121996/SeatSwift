@@ -37,9 +37,9 @@ namespace SeatSwiftDLL
         public Show Show { get; set; }
 
         /// <summary>
-        /// The configuration of the representation
+        /// The Auditorium of the representation
         /// </summary>
-        public Configuration Configuration { get; set; }
+        public Auditorium Auditorium { get; set; }
 
         # endregion
 
@@ -55,7 +55,7 @@ namespace SeatSwiftDLL
             IsActive = true;
             Date = DateTime.Now;
             Show = new Show();
-            Configuration = new Configuration();
+            Auditorium = new Auditorium();
         }
 
         /// <summary>
@@ -65,14 +65,14 @@ namespace SeatSwiftDLL
         /// <param name="isActive">If the representation is active in the database</param>
         /// <param name="date">The date of the representation</param>
         /// <param name="show">The show of the representation</param>
-        /// <param name="configuration">The configuration of the representation</param>
-        public Representation(int id, bool isActive, DateTime date, Show show, Configuration configuration)
+        /// <param name="auditorium">The auditorium of the representation</param>
+        public Representation(int id, bool isActive, DateTime date, Show show, Auditorium auditorium)
         {
             this.Id = id;
             this.IsActive = isActive;
             this.Date = date;
             this.Show = show;
-            this.Configuration = configuration;
+            this.Auditorium = auditorium;
         }
 
         #endregion

@@ -23,25 +23,31 @@ namespace SeatSwiftDLL
         public int Id { get; set; }
 
         /// <summary>
-        /// If the seat is active in the database
-        /// </summary>
-        public bool IsActive { get; set; }
-
-        /// <summary>
-        /// The row of the seat
-        /// </summary>
-        public SectionRow SectionRow { get; set; }
-
-        /// <summary>
         /// The number of the seat
         /// </summary>
         public int SeatNumber { get; set; }
 
         /// <summary>
-        /// The seat status
+        /// The x coordinates of the seat
         /// </summary>
-        public SeatStatus SeatStatus { get; set; }
+        public int XCoordinate { get; set; }
 
+        /// <summary>
+        /// The y coordinates of the seat
+        /// </summary>
+        public int YCoordinate { get; set; }
+
+        /// <summary>
+        /// The section name of the seat
+        /// </summary>
+        public SectionName SectionName { get; set; }
+
+        /// <summary>
+        /// The auditorium of the seat
+        /// </summary>
+        public Auditorium Auditorium { get; set; }
+
+        public 
         # endregion
 
 
@@ -53,27 +59,31 @@ namespace SeatSwiftDLL
         public Seat()
         {
             Id = default;
-            IsActive = true;
-            SectionRow = new SectionRow();
             SeatNumber = default;
-            SeatStatus = SeatStatus.Available;
+            Auditorium = new Auditorium();
+            SectionName = default;
+            XCoordinate = default;
+            YCoordinate = default;
         }
 
+
         /// <summary>
-        /// The constructor with parameters
+        /// The parameterized constructor
         /// </summary>
         /// <param name="id">The Id of the seat in the database</param>
-        /// <param name="isActive">If the seat is active in the database</param>
-        /// <param name="sectionRow">The row of the seat</param>
         /// <param name="seatNumber">The number of the seat</param>
-        /// <param name="seatStatus">The status of the seat</param>
-        public Seat(int id, bool isActive, SectionRow sectionRow, int seatNumber, SeatStatus seatStatus)
+        /// <param name="auditorium">The auditorium of the seat</param>
+        /// <param name="sectionName">The section name of the seat</param>
+        /// <param name="xCoordinate">The x coordinates of the seat in the auditorium</param>
+        /// <param name="yCoordinate">The y coordinates of the seat in the auditorium</param>
+        public Seat(int id, int seatNumber, Auditorium auditorium, SectionName sectionName, int xCoordinate, int yCoordinate)
         {
             this.Id = id;
-            this.IsActive = isActive;
-            this.SectionRow = sectionRow;
             this.SeatNumber = seatNumber;
-            this.SeatStatus = seatStatus;
+            this.Auditorium = auditorium;
+            this.SectionName = sectionName;
+            this.XCoordinate = xCoordinate;
+            this.YCoordinate = yCoordinate;
         }
 
         #endregion
