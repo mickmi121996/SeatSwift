@@ -28,7 +28,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// </summary>
         /// <param name="dataReader">Data reader</param>
         /// <returns>Order</returns>
-        public async Task<Order> Create(MySqlDataReader dataReader)
+        public async Task<Order> CreateFromReaderAsync(MySqlDataReader dataReader)
         {
             int id = dataReader.GetInt32("Id");
             bool isActive = dataReader.GetBoolean("IsActive");

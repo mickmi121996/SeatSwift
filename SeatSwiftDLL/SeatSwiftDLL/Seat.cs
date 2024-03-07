@@ -28,6 +28,11 @@ namespace SeatSwiftDLL
         public int SeatNumber { get; set; }
 
         /// <summary>
+        /// The status of the seat (OutOfService, InService)
+        /// </summary>
+        public SeatStatus Status { get; set; }
+
+        /// <summary>
         /// The x coordinates of the seat
         /// </summary>
         public int XCoordinate { get; set; }
@@ -59,6 +64,7 @@ namespace SeatSwiftDLL
         {
             Id = default;
             SeatNumber = default;
+            Status = default;
             Auditorium = null;
             SectionName = default;
             XCoordinate = default;
@@ -74,12 +80,13 @@ namespace SeatSwiftDLL
         /// <param name="sectionName">The section name of the seat</param>
         /// <param name="xCoordinate">The x coordinates of the seat in the auditorium</param>
         /// <param name="yCoordinate">The y coordinates of the seat in the auditorium</param>
-        public Seat(int id, int seatNumber, Auditorium auditorium, SectionName sectionName, int xCoordinate, int yCoordinate)
+        public Seat(int id, int seatNumber, SeatStatus status,Auditorium auditorium, SectionName sectionName, int xCoordinate, int yCoordinate)
         {
             if(auditorium == null) {throw new ArgumentNullException(nameof(auditorium));}
                 
             this.Id = id;
             this.SeatNumber = seatNumber;
+            this.Status = status;
             this.Auditorium = auditorium;
             this.SectionName = sectionName;
             this.XCoordinate = xCoordinate;
