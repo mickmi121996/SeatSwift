@@ -34,12 +34,12 @@ namespace SeatSwiftDLL
         /// <summary>
         /// The show of the representation
         /// </summary>
-        public Show Show { get; set; }
+        public Show? Show { get; set; }
 
         /// <summary>
         /// The Auditorium of the representation
         /// </summary>
-        public Auditorium Auditorium { get; set; }
+        public Auditorium? Auditorium { get; set; }
 
         # endregion
 
@@ -54,8 +54,8 @@ namespace SeatSwiftDLL
             Id = default;
             IsActive = true;
             Date = DateTime.Now;
-            Show = new Show();
-            Auditorium = new Auditorium();
+            Show = null;
+            Auditorium = null;
         }
 
         /// <summary>
@@ -68,6 +68,9 @@ namespace SeatSwiftDLL
         /// <param name="auditorium">The auditorium of the representation</param>
         public Representation(int id, bool isActive, DateTime date, Show show, Auditorium auditorium)
         {
+            if(show == null) { throw new NullReferenceException(nameof(show)); }
+            if(auditorium == null) { throw new NullReferenceException(nameof(auditorium)); }
+
             this.Id = id;
             this.IsActive = isActive;
             this.Date = date;

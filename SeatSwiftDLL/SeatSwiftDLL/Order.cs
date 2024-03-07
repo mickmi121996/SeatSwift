@@ -44,12 +44,7 @@ namespace SeatSwiftDLL
         /// <summary>
         /// The client of the order
         /// </summary>
-        public Client Client { get; set; }
-
-        /// <summary>
-        /// The ICollection tickets of the order
-        /// </summary>
-        public ICollection<Ticket> Tickets { get; set; }
+        public Client? Client { get; set; }
         
 
         # endregion
@@ -67,8 +62,7 @@ namespace SeatSwiftDLL
             OrderNumber = string.Empty;
             OrderDate = DateTime.Now;
             TotalPrice = default;
-            Client = new Client();
-            Tickets = new List<Ticket>();
+            Client = null;
         }
 
         /// <summary>
@@ -80,16 +74,16 @@ namespace SeatSwiftDLL
         /// <param name="orderDate">The date of the order</param>
         /// <param name="totalPrice">The total price of the order</param>
         /// <param name="client">The client of the order</param>
-        /// <param name="tickets">The ICollection tickets of the order</param>
-        public Order(int id, bool isActive, string orderNumber, DateTime orderDate, decimal totalPrice, Client client, ICollection<Ticket> tickets)
+        public Order(int id, bool isActive, string orderNumber, DateTime orderDate, decimal totalPrice, Client client)
         {
+            if(client == null) { throw new ArgumentNullException(nameof(client)); }
+
             this.Id = id;
             this.IsActive = isActive;
             this.OrderNumber = orderNumber;
             this.OrderDate = orderDate;
             this.TotalPrice = totalPrice;
             this.Client = client;
-            this.Tickets = tickets;
         }
 
         #endregion

@@ -65,7 +65,7 @@ namespace SeatSwiftDLL
         /// <summary>
         /// The user who created the show
         /// </summary>
-        public User User { get; set; }
+        public User? User { get; set; }
 
 
         #endregion
@@ -88,7 +88,7 @@ namespace SeatSwiftDLL
             ImageUrl = string.Empty;
             MaxTicketsByClient = default;
             BasePrice = default;
-            User = new User();
+            User = null;
         }
 
         /// <summary>
@@ -107,6 +107,8 @@ namespace SeatSwiftDLL
         /// <param name="user">The user who created the show</param>
         public Show(int id, bool isActive, string name, string artist, string description, ShowType showType, ShowStatus showStatus, string imageUrl, int maxTicketsByClient, decimal basePrice, User user)
         {
+            if(user == null) {throw new ArgumentNullException(nameof(user));}
+            
             this.Id = id;
             this.IsActive = isActive;
             this.Name = name;

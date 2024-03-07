@@ -30,7 +30,7 @@ namespace SeatSwiftDLL
         /// <summary>
         /// The ticket number
         /// </summary>
-        public string TicketNumber { get; set; }
+        public string ReservationNumber { get; set; }
 
         /// <summary>
         /// The ticket status
@@ -40,29 +40,36 @@ namespace SeatSwiftDLL
         /// <summary>
         /// The representation of the ticket
         /// </summary>
-        public Representation Representation { get; set; }
+        public Representation? Representation { get; set; }
 
         /// <summary>
         /// The seat of the ticket
         /// </summary>
-        public Seat Seat { get; set; }
+        public Seat? Seat { get; set; }
 
-        # endregion
+        /// <summary>
+        /// The order that purchased the ticket. Nullable if the ticket is not associated with an order.
+        /// </summary>
+        public Order? Order { get; set; }
+
+        #endregion
 
 
-        # region Constructor
+        #region Constructor
 
         /// <summary>
         /// The default constructor
         /// </summary>
         public Ticket()
         {
+            // Assignation des valeurs par défaut appropriées.
             Id = default;
             IsActive = true;
-            TicketNumber = string.Empty;
+            ReservationNumber = string.Empty;
             TicketStatus = default;
-            Representation = new Representation();
-            Seat = new Seat();
+            Representation = null;
+            Seat = null;
+            Order = null;
         }
 
         /// <summary>
@@ -70,25 +77,31 @@ namespace SeatSwiftDLL
         /// </summary>
         /// <param name="id">The Id of the ticket in the database</param>
         /// <param name="isActive">If the ticket is active in the database</param>
-        /// <param name="ticketNumber">The ticket number</param>
+        /// <param name="reservationNumber">The ticket number</param>
         /// <param name="ticketStatus">The ticket status</param>
-        /// <param name="representation">The representation of the ticket</param>
-        /// <param name="seat">The seat of the ticket</param>
-        public Ticket(int id, bool isActive, string ticketNumber, TicketStatus ticketStatus, Representation representation, Seat seat)
+        /// <param name="representation">The representation of the ticket. Must not be null.</param>
+        /// <param name="seat">The seat of the ticket. Must not be null.</param>
+        /// <param name="order">The order that purchased the ticket. Nullable if the ticket is not associated with an order.</param>
+        public Ticket(int id, bool isActive, string reservationNumber, TicketStatus ticketStatus, Representation representation, Seat seat, Order? order)
         {
+            if (representation == null) throw new ArgumentNullException(nameof(representation));
+            if (seat == null) throw new ArgumentNullException(nameof(seat));
+
             this.Id = id;
             this.IsActive = isActive;
-            this.TicketNumber = ticketNumber;
+            this.ReservationNumber = reservationNumber;
             this.TicketStatus = ticketStatus;
             this.Representation = representation;
             this.Seat = seat;
+            this.Order = order;
         }
 
-        # endregion
+
+        #endregion
 
 
-        # region Interface methods
-        
+        #region Interface methods
+
         public object Clone()
         {
             throw new NotImplementedException();

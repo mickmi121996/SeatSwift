@@ -45,11 +45,10 @@ namespace SeatSwiftDLL
         /// <summary>
         /// The auditorium of the seat
         /// </summary>
-        public Auditorium Auditorium { get; set; }
+        public Auditorium? Auditorium { get; set; }
 
-        public 
-        # endregion
-
+        #endregion
+        
 
         #region Constructor
 
@@ -60,12 +59,11 @@ namespace SeatSwiftDLL
         {
             Id = default;
             SeatNumber = default;
-            Auditorium = new Auditorium();
+            Auditorium = null;
             SectionName = default;
             XCoordinate = default;
             YCoordinate = default;
         }
-
 
         /// <summary>
         /// The parameterized constructor
@@ -78,6 +76,8 @@ namespace SeatSwiftDLL
         /// <param name="yCoordinate">The y coordinates of the seat in the auditorium</param>
         public Seat(int id, int seatNumber, Auditorium auditorium, SectionName sectionName, int xCoordinate, int yCoordinate)
         {
+            if(auditorium == null) {throw new ArgumentNullException(nameof(auditorium));}
+                
             this.Id = id;
             this.SeatNumber = seatNumber;
             this.Auditorium = auditorium;
