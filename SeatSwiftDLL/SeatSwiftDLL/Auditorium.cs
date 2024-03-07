@@ -31,6 +31,16 @@ namespace SeatSwiftDLL
         /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// The number of row
+        /// </summary>
+        public int NumberOfRows { get; set; }
+
+        /// <summary>
+        /// The number of columns
+        /// </summary>
+        public int NumberOfColumns { get; set; }
+
         # endregion
 
 
@@ -44,6 +54,8 @@ namespace SeatSwiftDLL
             Id = default;
             IsActive = true;
             Name = string.Empty;
+            NumberOfColumns = default;
+            NumberOfRows = default;
         }
 
         /// <summary>
@@ -52,11 +64,15 @@ namespace SeatSwiftDLL
         /// <param name="id">The Id of the auditorium in the database</param>
         /// <param name="isActive">If the auditorium is active in the database</param>
         /// <param name="name">The auditorium name</param>
-        public Auditorium(int id, bool isActive, string name)
+        /// <param name="rows">The number of row for the auditorium including 2 row per stairs and way</param>
+        /// <param name="columns">The number of columns for the auditorium including 2 columns per stairs and way</param>
+        public Auditorium(int id, bool isActive, string name, int rows, int columns)
         {
             this.Id = id;
             this.IsActive = isActive;
             this.Name = name;
+            this.NumberOfRows = default;
+            this.NumberOfColumns = default;
         }
 
         #endregion

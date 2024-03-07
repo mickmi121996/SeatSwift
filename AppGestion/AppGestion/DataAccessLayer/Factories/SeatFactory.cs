@@ -24,10 +24,11 @@ namespace AppGestion.DataAccessLayer.Factories
         /// </summary>
         /// <param name="dataReader">The data reader.</param>
         /// <returns>A new Seat object</returns>
-        public static Seat Create(MySqlDataReader dataReader)
-        {
-            // Get the data from the data reader
-            int id = dataReader.GetInt32("Id");
+        //public static Seat Create(MySqlDataReader dataReader)
+        //{
+        //    // Get the data from the data reader
+        //    int id = dataReader.GetInt32("Id");
+        //}
 
         #endregion
 

@@ -45,7 +45,7 @@ namespace SeatSwiftDLL
         /// <summary>
         /// The section multiplier
         /// </summary>
-        public double Multiplier { get; set; }
+        public decimal Multiplier { get; set; }
 
         # endregion
 
@@ -73,7 +73,7 @@ namespace SeatSwiftDLL
         /// <param name="name">The section name</param>
         /// <param name="sectionStatus">The section status</param>
         /// <param name="multiplier">The section multiplier</param>
-        public Section(int id, bool isActive, SectionName name, SectionStatus sectionStatus, double multiplier, Auditorium auditorium)
+        public Section(int id, bool isActive, SectionName name, SectionStatus sectionStatus, decimal multiplier, Auditorium auditorium)
         {
             this.Id = id;
             this.IsActive = isActive;
