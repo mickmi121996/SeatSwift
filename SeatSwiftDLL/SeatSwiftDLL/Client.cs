@@ -90,8 +90,6 @@ namespace SeatSwiftDLL
         /// <param name="firstName">The first name of the client</param>
         /// <param name="lastName">The last name of the client</param>
         /// <param name="email">The email of the client</param>
-        /// <param name="passwordHash">The password Hash of the client</param>
-        /// <param name="passwordSalt">The password Salt of the client</param>
         /// <param name="phoneNumber">The nullable phone number of the client</param>
         /// <param name="city">The nullable city of the client</param>
         public Client(int id, bool isActive, string firstName, string lastName, string email, string? phoneNumber, string? city)

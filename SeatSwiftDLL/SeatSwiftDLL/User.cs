@@ -92,8 +92,6 @@ namespace SeatSwiftDLL
         /// <param name="lastName">The last name of the user</param>
         /// <param name="email">The email of the user</param>
         /// <param name="phoneNumber">The phone number of the user</param>
-        /// <param name="passwordHash">The password Hash of the user</param>
-        /// <param name="passwordSalt">The password Salt of the user</param>
         public User(int id, bool isActive, string firstName, string lastName, string employeeNumber, EmployeeType type,string email, string phoneNumber)
         {
             this.Id = id;
