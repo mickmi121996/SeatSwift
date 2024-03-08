@@ -354,6 +354,49 @@ namespace AppGestion.DataAccessLayer.Factories
                 throw new Exception("An error occurred while getting the counts of tickets for show types", ex);
             }
         }
+
+        /// <summary>
+        /// Create a tuple list of mount and sell for the current year
+        /// </summary>
+        /// <returns>List of tuples containing month and sell</returns>
+        /// <exception cref="Exception">If an error occurred while getting the sell</exception>
+        /// <exception cref="KeyNotFoundException">If no sell is found for the current year</exception>
+        public async Task<List<Tuple<string?, int>>> GetSellByMonthAsync()
+        {
+            try
+            {
+                var sellByMonth = new List<Tuple<string?, int>>();
+
+                string query = @"
+                SELECT MONTH(OrderDate) AS Month, SUM(TotalPrice) AS Sell
+                FROM orders
+                WHERE YEAR(OrderDate) = YEAR(CURDATE())
+                GROUP BY MONTH(OrderDate);
+            ";
+
+                using (DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(this.ConnectionString, query))
+                {
+                    foreach (DataRow row in result.Rows)
+                    {
+                        var month = row["Month"].ToString();
+                        var sell = Convert.ToInt32(row["Sell"]);
+                        sellByMonth.Add(Tuple.Create(month, sell));
+                    }
+                }
+
+                if (sellByMonth.Count == 0)
+                {
+                    // Handle the case where no sell is found
+                    throw new KeyNotFoundException("No sell was found for the current year");
+                }
+
+                return sellByMonth;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the sell by month", ex);
+            }
+        }
         
         #endregion
     }

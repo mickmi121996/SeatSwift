@@ -79,7 +79,6 @@ namespace AppGestion.DataAccessLayer.Factories
 
         #endregion
 
-
         #region Factory methods
 
         /// <summary>
