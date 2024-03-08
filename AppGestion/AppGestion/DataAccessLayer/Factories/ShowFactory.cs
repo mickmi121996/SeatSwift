@@ -37,7 +37,6 @@ namespace AppGestion.DataAccessLayer.Factories
             string artist = dataReader.GetString("Artist");
             string description = dataReader.GetString("Description");
             string showType = dataReader.GetString("ShowType");
-            string showStatus = dataReader.GetString("ShowStatus");
             string image = dataReader.GetString("ImageUrl");
             int maxTicketsByUser = dataReader.GetInt32("NumberOfTicketsMaxByClient");
             decimal baseTicketPrice = dataReader.GetDecimal("BaseTicketPrice");
@@ -45,7 +44,6 @@ namespace AppGestion.DataAccessLayer.Factories
 
             // Get the enum values
             ShowType showTypeEnum = (ShowType)Enum.Parse(typeof(ShowType), showType);
-            ShowStatus showStatusEnum = (ShowStatus)Enum.Parse(typeof(ShowStatus), showStatus);
 
             // Get the user with the userId
             User user = await new UserFactory().GetByIdAsync(userId);
@@ -62,7 +60,6 @@ namespace AppGestion.DataAccessLayer.Factories
                 artist,
                 description,
                 showTypeEnum,
-                showStatusEnum,
                 image,
                 maxTicketsByUser,
                 baseTicketPrice,
@@ -90,8 +87,6 @@ namespace AppGestion.DataAccessLayer.Factories
                 throw new InvalidOperationException("The Description field is null");
             string showType = dataRow.Field<string>("ShowType") ??
                 throw new InvalidOperationException("The ShowType field is null");
-            string showStatus = dataRow.Field<string>("ShowStatus") ??
-                throw new InvalidOperationException("The ShowStatus field is null");
             string image = dataRow.Field<string>("ImageUrl") ??
                 throw new InvalidOperationException("The ImageUrl field is null");
             int maxTicketsByUser = dataRow.Field<int>("NumberOfTicketsMaxByClient");
@@ -100,7 +95,6 @@ namespace AppGestion.DataAccessLayer.Factories
 
             // Get the enum values
             ShowType showTypeEnum = (ShowType)Enum.Parse(typeof(ShowType), showType);
-            ShowStatus showStatusEnum = (ShowStatus)Enum.Parse(typeof(ShowStatus), showStatus);
 
             // Get the user with the userId
             User user = await new UserFactory().GetByIdAsync(userId);
@@ -117,7 +111,6 @@ namespace AppGestion.DataAccessLayer.Factories
                 artist,
                 description,
                 showTypeEnum,
-                showStatusEnum,
                 image,
                 maxTicketsByUser,
                 baseTicketPrice,
@@ -250,41 +243,46 @@ namespace AppGestion.DataAccessLayer.Factories
         }
 
         /// <summary>
-        /// Get all active shows for a type
+        /// Get count of active shows by type
         /// </summary>
-        /// <param name="showType">The type of the shows to get</param>
-        /// <returns>A list of all shows of the given type</returns>
+        /// <returns>List of tuples containing show type and count</returns>
         /// <exception cref="Exception">If an error occurs while executing the query</exception>
-        /// <exception cref="KeyNotFoundException">If no show with the given type is found</exception>
-        public async Task<List<Show>> GetAllActiveByTypeAsync(ShowType showType)
+        public async Task<List<Tuple<ShowType, int>>> GetCountActiveByTypeAsync()
         {
             try
             {
-                // Get all shows of the given type
-                using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM Shows WHERE ShowType = @showType AND IsActive = 1",
-                    new MySqlParameter("@showType", showType.ToString())
-                    )
-                )
-                {
-                    // Create a list of Show objects
-                    List<Show> shows = new List<Show>();
+                var showCounts = new List<Tuple<ShowType, int>>();
 
-                    // Create a Show object for each row in the result
+                string query = @"
+                SELECT ShowType, COUNT(*) AS Count
+                FROM Shows
+                WHERE IsActive = 1
+                GROUP BY ShowType;
+            ";
+
+                using (DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                    this.ConnectionString,
+                    query
+                ))
+                {
                     foreach (DataRow row in result.Rows)
                     {
-                        shows.Add(await CreateFromRowAsync(row));
+                        ShowType showType = (ShowType)Enum.Parse(typeof(ShowType), row["ShowType"].ToString()??throw new InvalidOperationException("ShowType is null"));
+                        int count = Convert.ToInt32(row["Count"]);
+                        showCounts.Add(Tuple.Create(showType, count));
                     }
-
-                    // Return the list of Show objects
-                    return shows;
                 }
+
+                if (showCounts.Count == 0)
+                {
+                    throw new KeyNotFoundException("No active shows found");
+                }
+
+                return showCounts;
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting all shows of the given type", ex);
+                throw new Exception("An error occurred while getting the count of active shows by type", ex);
             }
         }
 
@@ -398,36 +396,6 @@ namespace AppGestion.DataAccessLayer.Factories
         }
 
         /// <summary>
-        /// Get Count of active shows by type
-        /// </summary>
-        /// <param name="showType">The type of the shows to get the count of</param>
-        /// <returns>The number of shows of the given type</returns>
-        /// <exception cref="Exception">If an error occurs while executing the query</exception>
-        /// <exception cref="KeyNotFoundException">If no show with the given type is found</exception>
-        public async Task<int> GetCountActiveByTypeAsync(ShowType showType)
-        {
-            try
-            {
-                // Get the number of shows of the given type
-                using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT COUNT(*) FROM Shows WHERE ShowType = @showType AND IsActive = 1",
-                    new MySqlParameter("@showType", showType.ToString())
-                    )
-                )
-                {
-                    // Return the number of shows
-                    return result.Rows[0].Field<int>(0);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while getting the number of shows of the given type", ex);
-            }
-        }
-
-        /// <summary>
         /// Create a new show
         /// </summary>
         /// <param name="show">The show to create</param>
@@ -443,17 +411,28 @@ namespace AppGestion.DataAccessLayer.Factories
                     throw new InvalidOperationException("A show with the name " + show.Name + " already exists");
                 }
 
+                // Check if the show is null
+                if (show is null)
+                {
+                    throw new ArgumentNullException(nameof(show));
+                }
+
+                // Check if the user is null
+                if (show.User is null)
+                {
+                    throw new ArgumentNullException(nameof(show.User));
+                }
+
                 // Create the show
                 await DataBaseTool.ExecuteNonQueryAsync
                 (this.ConnectionString,
-                "INSERT INTO Shows (IsActive, ShowName, Artist, Description, ShowType, ShowStatus, ImageUrl, NumberOfTicketsMaxByClient, BaseTicketPrice, UserId) " +
-                "VALUES (@isActive, @showName, @artist, @description, @showType, @showStatus, @imageUrl, @maxTicketsByClient, @baseTicketPrice, @userId)",
+                "INSERT INTO Shows (IsActive, ShowName, Artist, Description, ShowType, ImageUrl, NumberOfTicketsMaxByClient, BaseTicketPrice, UserId) " +
+                "VALUES (@isActive, @showName, @artist, @description, @showType, @imageUrl, @maxTicketsByClient, @baseTicketPrice, @userId)",
                 new MySqlParameter("@isActive", show.IsActive),
                 new MySqlParameter("@showName", show.Name),
                 new MySqlParameter("@artist", show.Artist),
                 new MySqlParameter("@description", show.Description),
                 new MySqlParameter("@showType", show.ShowType.ToString()),
-                new MySqlParameter("@showStatus", show.ShowStatus.ToString()),
                 new MySqlParameter("@imageUrl", show.ImageUrl),
                 new MySqlParameter("@maxTicketsByClient", show.MaxTicketsByClient),
                 new MySqlParameter("@baseTicketPrice", show.BasePrice),
@@ -474,18 +453,29 @@ namespace AppGestion.DataAccessLayer.Factories
         /// <exception cref="KeyNotFoundException">If no show with the given id is found</exception>
         public async Task UpdateAsync(Show show)
         {
+            // Check if the show is null
+            if (show is null)
+            {
+                throw new ArgumentNullException(nameof(show));
+            }
+
+            // Check if the user is null
+            if (show.User is null)
+            {
+                throw new ArgumentNullException(nameof(show.User));
+            }
+
             try
             {
                 // Update the show
                 await DataBaseTool.ExecuteNonQueryAsync
                 (this.ConnectionString,
-                "UPDATE Shows SET IsActive = @isActive, ShowName = @showName, Artist = @artist, Description = @description, ShowType = @showType, ShowStatus = @showStatus, ImageUrl = @imageUrl, NumberOfTicketsMaxByClient = @maxTicketsByClient, BaseTicketPrice = @baseTicketPrice, UserId = @userId WHERE Id = @id",
+                "UPDATE Shows SET IsActive = @isActive, ShowName = @showName, Artist = @artist, Description = @description, ShowType = @showType, ImageUrl = @imageUrl, NumberOfTicketsMaxByClient = @maxTicketsByClient, BaseTicketPrice = @baseTicketPrice, UserId = @userId WHERE Id = @id",
                 new MySqlParameter("@isActive", show.IsActive),
                 new MySqlParameter("@showName", show.Name),
                 new MySqlParameter("@artist", show.Artist),
                 new MySqlParameter("@description", show.Description),
                 new MySqlParameter("@showType", show.ShowType.ToString()),
-                new MySqlParameter("@showStatus", show.ShowStatus.ToString()),
                 new MySqlParameter("@imageUrl", show.ImageUrl),
                 new MySqlParameter("@maxTicketsByClient", show.MaxTicketsByClient),
                 new MySqlParameter("@baseTicketPrice", show.BasePrice),
