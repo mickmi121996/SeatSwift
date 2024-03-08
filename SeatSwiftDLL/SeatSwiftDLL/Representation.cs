@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SeatSwiftDLL.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,11 @@ namespace SeatSwiftDLL
         public DateTime Date { get; set; }
 
         /// <summary>
+        /// The status of the representation
+        /// </summary>
+        public RepresentationStatus Status { get; set; }
+
+        /// <summary>
         /// The show of the representation
         /// </summary>
         public Show? Show { get; set; }
@@ -53,6 +59,7 @@ namespace SeatSwiftDLL
         {
             Id = default;
             IsActive = true;
+            Status = default;
             Date = DateTime.Now;
             Show = null;
             Auditorium = null;
@@ -66,7 +73,7 @@ namespace SeatSwiftDLL
         /// <param name="date">The date of the representation</param>
         /// <param name="show">The show of the representation</param>
         /// <param name="auditorium">The auditorium of the representation</param>
-        public Representation(int id, bool isActive, DateTime date, Show show, Auditorium auditorium)
+        public Representation(int id, bool isActive, DateTime date, RepresentationStatus status, Show show, Auditorium auditorium)
         {
             if(show == null) { throw new NullReferenceException(nameof(show)); }
             if(auditorium == null) { throw new NullReferenceException(nameof(auditorium)); }
@@ -74,6 +81,7 @@ namespace SeatSwiftDLL
             this.Id = id;
             this.IsActive = isActive;
             this.Date = date;
+            this.Status = status;
             this.Show = show;
             this.Auditorium = auditorium;
         }

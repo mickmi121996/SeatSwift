@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace SeatSwiftDLL.Enums
 {
     /// <summary>
-    /// The status of a show
+    /// The status of a representation
     /// </summary>
     /// <remarks>
-    /// Available: The show is available for viewing
-    /// Complete: The show is complete
-    /// Cancelled: The show is cancelled
+    /// Available: The representation is available for viewing
+    /// Complete: The representation is complete
+    /// Cancelled: The representation is cancelled
     /// </remarks>
-    public enum ShowStatus
+    public enum RepresentationStatus
     {
         Available = 0,
         Complete = 1,

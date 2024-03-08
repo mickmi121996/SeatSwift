@@ -43,11 +43,6 @@ namespace SeatSwiftDLL
         public ShowType ShowType { get; set; }
 
         /// <summary>
-        /// The show status
-        /// </summary>
-        public ShowStatus ShowStatus { get; set; }
-
-        /// <summary>
         /// The Image url of the show
         /// </summary>
         public string ImageUrl { get; set; }
@@ -84,7 +79,6 @@ namespace SeatSwiftDLL
             Artist = string.Empty;
             Description = string.Empty;
             ShowType = default;
-            ShowStatus = default;
             ImageUrl = string.Empty;
             MaxTicketsByClient = default;
             BasePrice = default;
@@ -105,7 +99,7 @@ namespace SeatSwiftDLL
         /// <param name="maxTicketsByClient">The number of tickets max by client</param>
         /// <param name="basePrice">The base price of the show</param>
         /// <param name="user">The user who created the show</param>
-        public Show(int id, bool isActive, string name, string artist, string description, ShowType showType, ShowStatus showStatus, string imageUrl, int maxTicketsByClient, decimal basePrice, User user)
+        public Show(int id, bool isActive, string name, string artist, string description, ShowType showType, string imageUrl, int maxTicketsByClient, decimal basePrice, User user)
         {
             if(user == null) {throw new ArgumentNullException(nameof(user));}
             
@@ -115,7 +109,6 @@ namespace SeatSwiftDLL
             this.Artist = artist;
             this.Description = description;
             this.ShowType = showType;
-            this.ShowStatus = showStatus;
             this.ImageUrl = imageUrl;
             this.MaxTicketsByClient = maxTicketsByClient;
             this.BasePrice = basePrice;
