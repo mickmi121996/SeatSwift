@@ -1,0 +1,69 @@
+﻿<Window x:Class="AppGestion.Views.Windows.Connection"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppGestion.Views.Windows"
+        xmlns:viewModel="clr-namespace:AppGestion.ViewModels.Windows"
+        xmlns:components="clr-namespace:AppGestion.Components"
+        d:DataContext="{d:DesignInstance Type=viewModel:VMConnection}"
+        xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"       
+        mc:Ignorable="d"
+        Title="Connexion" Height="650" Width="1200"     
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Background="Transparent" AllowsTransparency="True"
+        FontFamily="Poppins" ResizeMode="NoResize">
+    <Border Background="{DynamicResource PrimaryBackgroundColor}"
+            BorderBrush="{DynamicResource SecondaryBackGroundColor}"
+            BorderThickness="1"
+            CornerRadius="8">
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" Margin="10,5,0,0" Orientation="Horizontal" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Border Width="25" Height="25">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Resources/Logo.png" Stretch="Uniform"/>
+                    </Border.Background>
+                </Border>
+
+                <Label Content="Connexion" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}"></Label>
+            </StackPanel>
+
+
+            <!-- region Button Close | Restore | Minimize -->
+            <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,10,0" Height="30" Orientation="Horizontal" FlowDirection="RightToLeft" Grid.RowSpan="2">
+                <Button x:Name="AlertColor" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}" Click="AlertColor_Click" Tag="IsCloseButton"/>
+            </StackPanel>
+            <!-- EndRegion Button Close | Restore | Minimize -->
+
+            <DockPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel HorizontalAlignment="Center" DockPanel.Dock="Top" Orientation="Horizontal">
+                    <Image VerticalAlignment="Center" Height="50" Source="/Resources/Logo.png"></Image>
+                    <Label VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="SeatSwift"></Label>
+                </StackPanel>
+
+                <Label VerticalAlignment="Center" DockPanel.Dock="Top" HorizontalAlignment="Center" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Managing App"></Label>
+
+                <StackPanel DockPanel.Dock="Top" Margin="0,15,0,15" >
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Numéro d'employée :"></Label>
+                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" Text="{Binding EmployeeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="16"></TextBox>
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="0,15,0,15" >
+                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Mot de passe :"></Label>
+                    <components:BindablePasswordBox Foreground="{DynamicResource SecondaryBackGroundColor}" Padding="0" Password="{Binding Password,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <components:BindablePasswordBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding ConnectCommand}"/>
+                        </components:BindablePasswordBox.InputBindings>
+                    </components:BindablePasswordBox>
+                </StackPanel>
+
+                <Button Command="{Binding ConnectCommand}" Margin="0,15,0,15" DockPanel.Dock="Top" Content="Connexion" Foreground="{DynamicResource PrimaryBackgroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="40" FontWeight="Bold" FontSize="25"></Button>
+            </DockPanel>
+
+        </Grid>
+    </Border>
+</Window>

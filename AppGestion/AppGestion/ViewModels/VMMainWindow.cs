@@ -1,5 +1,6 @@
 ﻿using AppGestion.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
+using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace AppGestion.ViewModels
             {
                 if (_instance is null)
                 {
-                    _instance = new VMMainWindow();
+                    _instance = new VMMainWindow(new User());
                 }
                 return _instance;
             }
@@ -43,6 +44,18 @@ namespace AppGestion.ViewModels
         [ObservableProperty]
         private string _title;
 
+        /// <summary>
+        /// The the connection status of the user
+        /// </summary>
+        [ObservableProperty]
+        private bool _isConnected;
+
+        /// <summary>
+        /// The user currently connected
+        /// </summary>
+        [ObservableProperty]
+        private User _user;
+
         #endregion
 
 
@@ -51,9 +64,11 @@ namespace AppGestion.ViewModels
         /// <summary>
         /// Default constructor
         /// </summary>
-        public VMMainWindow()
+        public VMMainWindow(User user)
         {
             _title = string.Empty;
+            _isConnected = false;
+            _user = new User();
         }
 
         #endregion
@@ -68,24 +83,20 @@ namespace AppGestion.ViewModels
 
         #region Methods
 
-        // public void ChangeUser(User user)
-        // {
-        //     this._user = user;
+        public void ChangeUser(User user)
+        {
+            User = user;
 
-        //     // Shows the proper panels depending on the user's role
-        //     IsManagerButtonVisible = Visibility.Collapsed;
-        //     IsAdminPanelVisible = Visibility.Collapsed;
+            IsConnected = true;
 
-        //     if (User is Manager || User is Administrator)
-        //     {
-        //         IsManagerButtonVisible = Visibility.Visible;
-        //     }
-
-        //     if (User is Administrator)
-        //     {
-        //         IsAdminPanelVisible = Visibility.Visible;
-        //     }
-        // }
+            // Check the employee type of the user
+            if(User.Type == SeatSwiftDLL.Enums.EmployeeType.Administrator) 
+            {
+            }
+            else
+            {
+            }
+        }
 
         #endregion
     }

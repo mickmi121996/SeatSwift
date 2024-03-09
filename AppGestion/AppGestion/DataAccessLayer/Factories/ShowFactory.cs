@@ -34,7 +34,7 @@ namespace AppGestion.DataAccessLayer.Factories
             bool isActive = dataReader.GetBoolean("IsActive");
             string name = dataReader.GetString("ShowName") ??
                 throw new InvalidOperationException("The ShowName field is null");
-            string artist = dataReader.GetString("Artist");
+            string artist = dataReader.GetString("Artiste");
             string description = dataReader.GetString("Description");
             string showType = dataReader.GetString("ShowType");
             string image = dataReader.GetString("ImageUrl");
@@ -81,7 +81,7 @@ namespace AppGestion.DataAccessLayer.Factories
             bool isActive = dataRow.Field<bool>("IsActive");
             string name = dataRow.Field<string>("ShowName") ??
                 throw new InvalidOperationException("The ShowName field is null");
-            string artist = dataRow.Field<string>("Artist") ??
+            string artist = dataRow.Field<string>("Artiste") ??
                 throw new InvalidOperationException("The Artist field is null");
             string description = dataRow.Field<string>("Description") ??
                 throw new InvalidOperationException("The Description field is null");
@@ -203,7 +203,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// <returns>A list of all shows of the user with the given id</returns>
         /// <exception cref="Exception">If an error occurs while executing the query</exception>
         /// <exception cref="KeyNotFoundException">If no user with the given id is found</exception>
-        public async Task<List<Show>> GetAllActiveByUserIdAsync(int userId)
+        public async Task<ICollection<Show>> GetAllActiveByUserIdAsync(int userId)
         {
             try
             {
@@ -232,8 +232,8 @@ namespace AppGestion.DataAccessLayer.Factories
                         shows.Add(await CreateFromRowAsync(row));
                     }
 
-                    // Return the list of Show objects
-                    return shows;
+                    // Return the list of Show objects order by name
+                    return shows.OrderBy(s => s.Name).ToList();
                 }
             }
             catch (Exception ex)

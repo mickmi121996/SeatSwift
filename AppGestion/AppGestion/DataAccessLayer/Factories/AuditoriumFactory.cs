@@ -122,7 +122,7 @@ namespace AppGestion.DataAccessLayer.Factories
                 using (
                     DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
                     (this.ConnectionString,
-                    "SELECT * FROM Auditorium WHERE Id = @Id)",
+                    "SELECT * FROM auditorium WHERE Id = @Id",
                     new MySqlParameter("@Id", id)
                     )   
                 )

@@ -75,8 +75,9 @@ namespace AppGestion.Tools
                         result.Load(reader);
                     }
                 }
+                await connection.CloseAsync();
             }
-
+            
             // Returns the result dataTable.
             return result;
         }
@@ -106,6 +107,7 @@ namespace AppGestion.Tools
                     // Adds the parameters.
                     command.Parameters.AddRange(parameters);
 
+                    await connection.CloseAsync();
                     // Executes the command.
                     return await command.ExecuteNonQueryAsync();
                 }

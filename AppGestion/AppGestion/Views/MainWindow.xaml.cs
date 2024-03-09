@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SeatSwiftDLL;
 
 namespace AppGestion.Views
 {
@@ -23,9 +24,10 @@ namespace AppGestion.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(User user)
         {
             InitializeComponent();
+            VMMainWindow.Instance.ChangeUser(user);
             VMMainWindow vm = VMMainWindow.Instance;
             DataContext = vm;
             fContainer.Navigate(new System.Uri("Views/Pages/Home.xaml", UriKind.RelativeOrAbsolute));

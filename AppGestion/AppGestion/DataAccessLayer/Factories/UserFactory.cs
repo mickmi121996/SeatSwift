@@ -8,6 +8,7 @@ using SeatSwiftDLL;
 using SeatSwiftDLL.Enums;
 using System.Data;
 using AppGestion.Tools;
+using SeatSwiftDLL.Tools;
 
 namespace AppGestion.DataAccessLayer.Factories
 {
@@ -45,11 +46,12 @@ namespace AppGestion.DataAccessLayer.Factories
             string phone = reader.GetString("Phone")
                 ?? throw new ArgumentNullException("The phone of the user cannot be null");
 
+
             //Get the enum value from the type string
             EmployeeType employeeType = (EmployeeType)Enum.Parse(typeof(EmployeeType), Type);
 
             // Create the user object
-            User user = new User(id, isActive, firstName, lastName, employeeNumber, employeeType ,email, phone);
+            User user = new User(id, isActive, firstName, lastName, employeeNumber, employeeType, email, phone);
 
             // Return the user object
             return user;
@@ -77,7 +79,8 @@ namespace AppGestion.DataAccessLayer.Factories
                 ?? throw new ArgumentNullException("The email of the user cannot be null");
             string phone = row.Field<string>("Phone")
                 ?? throw new ArgumentNullException("The phone of the user cannot be null");
-            
+
+
 
             //Get the enum value from the type string
             EmployeeType employeeType = (EmployeeType)Enum.Parse(typeof(EmployeeType), Type);
@@ -136,7 +139,7 @@ namespace AppGestion.DataAccessLayer.Factories
             // Create a new command
             using (
                 DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                (this.ConnectionString, 
+                (this.ConnectionString,
                 "SELECT * FROM User"
                 )
             )
@@ -165,7 +168,7 @@ namespace AppGestion.DataAccessLayer.Factories
             using (
                 DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
                 (this.ConnectionString,
-                "SELECT * FROM User WHERE EmployeeNumber = @EmployeeNumber where IsActive = 1", 
+                "SELECT * FROM User WHERE EmployeeNumber = @EmployeeNumber AND IsActive = 1",
                 new MySqlParameter("@EmployeeNumber", employeeNumber)
                 )
             )
@@ -193,28 +196,36 @@ namespace AppGestion.DataAccessLayer.Factories
         /// <exception cref="ArgumentNullException">If no user was found with the id</exception>
         public async Task<User> GetByIdAsync(int id)
         {
-            // Create a new command
-            using (
-                DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                (this.ConnectionString,
-                "SELECT * FROM User WHERE Id = @Id", 
-                new MySqlParameter("@Id", id)
-                )
-            )
+            try
             {
-                // Read the data from the data table
-                if (result.Rows.Count == 1)
+                // Create a new command
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
+                    (this.ConnectionString,
+                    "SELECT * FROM User WHERE Id = @Id",
+                    new MySqlParameter("@Id", id)
+                    )
+                )
                 {
-                    // Create a new user object
-                    User user = await CreateFromRowAsync(result.Rows[0]);
+                    // Read the data from the data table
+                    if (result.Rows.Count == 1)
+                    {
+                        // Create a new user object
+                        User user = await CreateFromRowAsync(result.Rows[0]);
 
-                    // Return the user object
-                    return user;
+                        // Return the user object
+                        return user;
+                    }
                 }
+
+                // If no user was found, return null
+                throw new ArgumentNullException("No user was found with the id " + id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the user by its id", ex);
             }
 
-            // If no user was found, return null
-            throw new ArgumentNullException("No user was found with the id " + id);
         }
 
         /// <summary>
@@ -226,7 +237,7 @@ namespace AppGestion.DataAccessLayer.Factories
             try
             {
                 // Check if the user exists
-                if(await IsEmployeeNumberOrEmailAlreadyUsedAsync(user.EmployeeNumber, user.Email))
+                if (await IsEmployeeNumberOrEmailAlreadyUsedAsync(user.EmployeeNumber, user.Email))
                 {
                     throw new ArgumentNullException("The employee number or the email is already used");
                 }
@@ -322,7 +333,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// </summary>
         /// <returns>The number of active users</returns>
         /// <exception cref="Exception">If an error occured while counting the number of active users</exception>
-        public async Task<int> CountActiveAsync()
+        public async Task<long> CountActiveAsync()
         {
             try
             {
@@ -335,7 +346,7 @@ namespace AppGestion.DataAccessLayer.Factories
                 )
                 {
                     // Return the number of active users
-                    return result.Rows[0].Field<int>(0);
+                    return result.Rows[0].Field<long>(0);
                 }
             }
             catch (Exception ex)
@@ -370,12 +381,116 @@ namespace AppGestion.DataAccessLayer.Factories
                 )
                 {
                     // Return true if the employee number or the email is already used
-                    return result.Rows[0].Field<int>(0) > 0;
+                    return result.Rows[0].Field<long>(0) > 0;
                 }
             }
             catch (Exception ex)
             {
                 throw new Exception("An error occured while checking if the employee number or the email is already used", ex);
+            }
+        }
+
+        #endregion
+
+
+        #region Account validation
+
+        /// <summary>
+        /// create Salt and hash and Update the salt and the hash of the password in the database
+        /// </summary>
+        /// <param password="password">The password of the user</param>
+        /// <param name="user" >The user object</param>
+        public async Task CreateSaltAndHashAsync(string password, User user)
+        {
+            try
+            {
+                // Create the salt and the hash
+                byte[] salt = PasswordTools.CreateSalt();
+                byte[] hash = PasswordTools.HashPassword(password, salt);
+
+                // Create a new command
+                int result = await DataBaseTool.ExecuteNonQueryAsync(this.ConnectionString,
+                    "UPDATE User SET PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt WHERE EmployeeNumber = @EmployeeNumber",
+                    new MySqlParameter("@PasswordHash", hash),
+                    new MySqlParameter("@PasswordSalt", salt),
+                    new MySqlParameter("@EmployeeNumber", user.EmployeeNumber)
+                );
+
+                // Check if the salt and the hash were created
+                if (result != 1)
+                {
+                    throw new Exception("The salt and the hash were not created");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occured while creating the salt and the hash", ex);
+            }
+        }
+
+        /// <summary>
+        /// Get the salt and the hash of the password of a user
+        /// </summary>
+        /// <param name="employeeNumber">The employee number of the user</param>
+        /// <returns>The salt and the hash of the password</returns>
+        /// <exception cref="ArgumentNullException">If no user was found with the employee number</exception>
+        /// <exception cref="Exception">If an error occured while getting the salt and the hash of the password</exception>
+        public async Task<(byte[] salt, byte[] hash)> GetSaltAndHashAsync(string employeeNumber)
+        {
+            try
+            {
+                // Create a new command
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
+                    (this.ConnectionString,
+                    "SELECT PasswordHash, PasswordSalt FROM User WHERE EmployeeNumber = @EmployeeNumber",
+                    new MySqlParameter("@EmployeeNumber", employeeNumber)
+                    )
+                )
+                {
+                    // Read the data from the data table
+                    if (result.Rows.Count == 1)
+                    {
+                        // Get the salt and the hash
+                        byte[] salt = result.Rows[0].Field<byte[]>("PasswordSalt") ?? throw new ArgumentNullException("The salt of the password cannot be null");
+                        byte[] hash = result.Rows[0].Field<byte[]>("PasswordHash") ?? throw new ArgumentNullException("The hash of the password cannot be null");
+
+                        // Return the salt and the hash
+                        return (salt, hash);
+                    }
+                }
+
+                // If no user was found, return null
+                throw new ArgumentNullException("No user was found with the employee number " + employeeNumber);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occured while getting the salt and the hash of the password", ex);
+            }
+        }
+
+        /// <summary>
+        /// Check if the password is correct
+        /// </summary>
+        /// <param name="password">The password</param>
+        /// <param name="user">The user object</param>
+        /// <returns>True if the password is correct, false otherwise</returns>
+        /// <exception cref="ArgumentNullException">If no user was found with the employee number</exception>
+        /// <exception cref="Exception">If an error occured while checking the password</exception>
+        public async Task<bool> CheckPasswordAsync(string password, User user)
+        {
+            try
+            {
+                // Get the salt and the hash
+                (byte[] salt, byte[] hash) = await GetSaltAndHashAsync(user.EmployeeNumber);
+
+                // Check if the password is correct
+                return user.IsPasswordValide(password, hash, salt);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occured while checking the password", ex);
             }
         }
 

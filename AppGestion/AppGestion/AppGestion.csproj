@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Classes\" />
-    <Folder Include="Converters\" />
     <Folder Include="ViewModels\UserControls\" />
   </ItemGroup>
 

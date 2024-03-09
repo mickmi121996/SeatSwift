@@ -162,6 +162,52 @@ namespace AppGestion.DataAccessLayer.Factories
         }
 
         /// <summary>
+        /// Get all in coming, active and Available representations for a given Show
+        /// </summary>
+        /// <param name="show">The show</param>
+        /// <returns>The list of representations</returns>
+        /// <exception cref="DataAccessLayerException">Thrown when an error occurs in the data access layer</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the show is null</exception>
+        public async Task<List<Representation>> GetInComingActiveAvailableByShowAsync(Show show)
+        {
+            if (show == null)
+            {
+                throw new ArgumentNullException(nameof(show));
+            }
+
+            try
+            {
+                // Get the representations for the given show
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
+                    (this.ConnectionString,
+                    "SELECT * FROM representation WHERE ShowId = @showId AND Date >= @date AND IsActive = 1 AND RepresentationStatus = @status;",
+                    new MySqlParameter("@showId", show.Id),
+                    new MySqlParameter("@date", DateTime.Now),
+                    new MySqlParameter("@status", RepresentationStatus.Available.ToString())
+                    )
+                )
+                {
+                    // Create the list of representations
+                    List<Representation> representations = new List<Representation>();
+
+                    // Create the representations
+                    foreach (DataRow row in result.Rows)
+                    {
+                        representations.Add(await CreateFromRowAsync(row));
+                    }
+
+                    // Return the list of representations ordered by date
+                    return representations.OrderBy(r => r.Date).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the representations for the given show", ex);
+            }
+        }
+
+        /// <summary>
         /// Get all the representations for a given auditorium
         /// </summary>
         /// <param name="auditorium">The auditorium</param>

@@ -5,11 +5,15 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:AppGestion.Views.Pages"
       xmlns:viewModel="clr-namespace:AppGestion.ViewModels.Pages"
+      xmlns:conv="clr-namespace:AppGestion.Converters"
       d:DataContext="{d:DesignInstance Type=viewModel:VMHome}"      
       xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1000"
       Title="Home" FontFamily="Poppins">
+    <Page.Resources>
+        <conv:EnumToStringConverter x:Key="EnumToStringConverter"/>
+    </Page.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -34,32 +38,32 @@
 
                 <StackPanel Grid.Row="1" Margin="0,0,0,10">
                     <Label Padding="0" FontSize="15" Content="Nom :" FontWeight="Bold"/>
-                    <TextBlock Padding="0" Text="[Nom]"/>
+                    <TextBlock Padding="0" Text="{Binding LastName}"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Margin="0,0,0,10">
                     <Label FontSize="15" Content="Prénom :" FontWeight="Bold" Padding="0"/>
-                    <TextBlock Text="[Prénom]" Padding="0"/>
+                    <TextBlock Text="{Binding FirstName}" Padding="0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="3" Margin="0,0,0,10">
                     <Label FontSize="15" Content="Rôle :" FontWeight="Bold" Padding="0"/>
-                    <TextBlock Text="[Role de l'utilisateur]" Padding="0"/>
+                    <TextBlock Text="{Binding Role}" Padding="0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="4" Margin="0,0,0,10">
                     <Label FontSize="15" Content="Numéro d'employé :" FontWeight="Bold" Padding="0"/>
-                    <TextBlock Text="[Numéro]" Padding="0"/>
+                    <TextBlock Text="{Binding EmployeeNumber}" Padding="0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="5" Margin="0,0,0,10">
                     <Label FontSize="15" Content="Numéro de téléphone :" FontWeight="Bold" Padding="0"/>
-                    <TextBlock Text="[Numéro de téléphone]" Padding="0"/>
+                    <TextBlock Text="{Binding PhoneNumber}" Padding="0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="6">
                     <Label FontSize="15" Content="Adresse courriel :" FontWeight="Bold" Padding="0"/>
-                    <TextBlock Text="[Adresse courriel]" Padding="0"/>
+                    <TextBlock Text="{Binding Email}" Padding="0"/>
                 </StackPanel>
             </Grid>
         </meterialDesign:Card>
@@ -71,7 +75,7 @@
             </Grid.RowDefinitions>
             <meterialDesign:Card Margin="5,5,5,5" Padding="5">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="100" Text="50"></TextBlock>
+                    <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="100" Text="{Binding ShowsCreated}"></TextBlock>
                     <Label FontSize="25" HorizontalAlignment="Center" Content="événements"></Label>
                     <Label FontSize="25" HorizontalAlignment="Center" Content="crées"></Label>
                 </StackPanel>
@@ -80,9 +84,9 @@
             <Label Padding="0" Grid.Row="2" Margin="10,0" FontSize="16" FontWeight="Bold" Content="Autre statistique" VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"></Label>
             <meterialDesign:Card Grid.Row="3" Margin="5,5,5,5" Padding="5">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="100" Text="100"></TextBlock>
-                    <Label FontSize="25" Content="événements" HorizontalAlignment="Center"></Label>
-                    <Label FontSize="25" Content="*******" HorizontalAlignment="Center"></Label>
+                    <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="100" Text="{Binding Representations}"></TextBlock>
+                    <Label FontSize="25" Content="Représentation" HorizontalAlignment="Center"></Label>
+                    <Label FontSize="25" Content="Dispo et à venir" HorizontalAlignment="Center"></Label>
                 </StackPanel>
             </meterialDesign:Card>
         </Grid>
@@ -104,12 +108,13 @@
                       HeadersVisibility="Column"
                       HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
                       VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
-                      SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      ItemsSource="{Binding Shows}"
+                      SelectedItem="{Binding SelectedShow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       RowStyle="{DynamicResource DataGridRowStyle}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Nom" Binding="{Binding EventName}" Width="*" />
-                        <DataGridTextColumn Header="Prénom" Binding="{Binding RepresentationDate}" Width="*" />
-                        <DataGridTextColumn Header="Numéro employé" Binding="{Binding TicketsSold}" Width="*" />
+                        <DataGridTextColumn Header="Nom" Binding="{Binding Name}" Width="*" />
+                        <DataGridTextColumn Header="Artiste/Groupe" Binding="{Binding Artist}" Width="*" />
+                        <DataGridTextColumn Header="Type" Binding="{Binding Path=ShowType, Converter={StaticResource EnumToStringConverter}}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
