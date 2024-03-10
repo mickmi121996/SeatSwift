@@ -138,8 +138,8 @@ namespace AppGestion.Tools
                 }
 
                 //  Grand Total line with the adapted style
-                table.Cell().Element(HeaderCellStyle).Text("Grand Total").FontSize(12);
-                table.Cell().Element(HeaderCellStyle).AlignRight().Text($"{grandTotal:C}").FontSize(12);
+                table.Cell().Element(HeaderCellStyle).Text("Grand Total").FontSize(10);
+                table.Cell().Element(HeaderCellStyle).AlignRight().Text($"{grandTotal:C}").FontSize(10);
             });
         }
 
@@ -278,8 +278,8 @@ namespace AppGestion.Tools
                 }
 
                 // Grand Total line with the adapted style
-                table.Cell().Element(HeaderCellStyle).Text("Grand Total").FontSize(12);
-                table.Cell().Element(HeaderCellStyle).AlignRight().Text($"{grandTotal:C}").FontSize(12);
+                table.Cell().Element(HeaderCellStyle).Text("Grand Total").FontSize(10);
+                table.Cell().Element(HeaderCellStyle).AlignRight().Text($"{grandTotal:C}").FontSize(10);
             });
         }
 
