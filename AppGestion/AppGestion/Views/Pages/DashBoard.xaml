@@ -45,15 +45,6 @@
                         <Label Padding="0" FontSize="16" FontWeight="Bold" Content="{Binding Year}" VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"/>
                     </StackPanel>
                     <lvc:CartesianChart Series="{Binding LineSeries}" Grid.Row="1">
-                        <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Labels="{Binding MonthLabels}">
-                                <lvc:Axis.Separator>
-                                    <lvc:Separator Step="1" IsEnabled="True"/>
-                                </lvc:Axis.Separator>
-                            </lvc:Axis>
-                        </lvc:CartesianChart.AxisX>
-                    </lvc:CartesianChart>
-                    <lvc:CartesianChart Series="{Binding LineSeries}" Grid.Row="1">
                         <!-- X Axis Configuration -->
                         <lvc:CartesianChart.AxisX>
                             <lvc:Axis Labels="{Binding MonthLabels}">

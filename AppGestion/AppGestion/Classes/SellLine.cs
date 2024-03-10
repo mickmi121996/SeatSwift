@@ -71,9 +71,6 @@ namespace AppGestion.Classes
         /// <param name="representationDate">The of the representation</param>
         /// <param name="showName">The name of the show</param>
         /// <param name="totalAmountBeforeTaxe">The total amount of the sell before taxes</param>
-        /// <param name="tPS">The TPS amount</param>
-        /// <param name="tVQ">The TVQ amount</param>
-        /// <param name="totalAmountAfterTaxe">The total amount of the sell after taxes</param>
         public SellLine(int ticketsSold, DateTime representationDate, string showName, double totalAmountBeforeTaxe)
         {
             this.TicketsSold = ticketsSold;

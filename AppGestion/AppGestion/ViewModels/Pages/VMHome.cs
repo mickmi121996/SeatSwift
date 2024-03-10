@@ -157,7 +157,7 @@ namespace AppGestion.ViewModels.Pages
         /// <summary>
         /// Method called when the selected show changes
         /// </summary>
-        partial void OnSelectedShowChanged(Show? value)
+        partial void OnSelectedShowChanged(Show value)
         {
             // Call the method to update representations when the selected show changes.
             UpdateRepresentations();
