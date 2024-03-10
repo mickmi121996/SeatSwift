@@ -400,6 +400,78 @@ namespace AppGestion.DataAccessLayer.Factories
             }
         }
 
+        /// <summary>
+        /// Get the count of representations in coming
+        /// </summary>
+        /// <returns>The count of representations in coming</returns>
+        /// <exception cref="DataAccessLayerException">Thrown when an error occurs in the data access layer</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the auditorium is null</exception>
+        public async Task<int> GetCountInComingAsync()
+        {
+            try
+            {
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
+                    (this.ConnectionString,
+                    "SELECT COUNT(*) FROM representation WHERE Date >= @date;",
+                    new MySqlParameter("@date", DateTime.Now)
+                    )
+                )
+                {
+                    long count = result.Rows.Count > 0 ? (long)result.Rows[0][0] : 0;
+                    if (count <= int.MaxValue)
+                    {
+                        return (int)count;
+                    }
+                    else
+                    {
+                        throw new OverflowException("The count of representations in coming is greater than int.MaxValue");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the count of representations in coming", ex);
+            }
+        }
+
+
+        /// <summary>
+        /// Get the count of representations passed
+        /// </summary>
+        /// <returns>The count of representations passed</returns>
+        /// <exception cref="DataAccessLayerException">Thrown when an error occurs in the data access layer</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the auditorium is null</exception>
+        public async Task<int> GetCountPassedAsync()
+        {
+            try
+            {
+                // Get the count of representations passed
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
+                    (this.ConnectionString,
+                    "SELECT COUNT(*) FROM representation WHERE Date < @date;",
+                    new MySqlParameter("@date", DateTime.Now)
+                    )
+                )
+                {
+                    long count = result.Rows.Count > 0 ? (long)result.Rows[0][0] : 0;
+                    if (count <= int.MaxValue)
+                    {
+                        return (int)count;
+                    }
+                    else
+                    {
+                        throw new OverflowException("The count of representations in coming is greater than int.MaxValue");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the count of representations passed", ex);
+            }
+        }
+
         #endregion
 
         #region methods

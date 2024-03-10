@@ -22,10 +22,10 @@
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="QuestPDF" Version="2023.12.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Classes\" />
     <Folder Include="ViewModels\UserControls\" />
   </ItemGroup>
 

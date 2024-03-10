@@ -27,11 +27,15 @@
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal" >
                     <Label Padding="0" FontSize="18" FontWeight="Bold" Content="Période :" VerticalAlignment="Center" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"/>
-                    <ComboBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontWeight="Bold" FontSize="16" Margin="5,0" Width="100">
-                        <ComboBoxItem Content="Quotidien" />
-                        <ComboBoxItem Content="Mensuel" />
+                    <ComboBox Foreground="{DynamicResource SecondaryBackGroundColor}"
+                      FontWeight="Bold"
+                      FontSize="16"
+                      Margin="5,0"
+                      Width="100"
+                      ItemsSource="{Binding FilterList,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedFilter,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     </ComboBox>
-                    <DatePicker VerticalAlignment="Center" Height="28"></DatePicker>
+                    <DatePicker VerticalAlignment="Center" Height="28" SelectedDate="{Binding SelectedDate,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
 
                 </StackPanel>
                 <DataGrid Grid.Row="1" 
@@ -44,17 +48,17 @@
                   HeadersVisibility="Column"
                   HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
                   VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
-                  SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding TransactionLines,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   RowStyle="{DynamicResource DataGridRowStyle}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="# Commande" Binding="{Binding CommandNumber}" Width="*" />
-                        <DataGridTextColumn Visibility="Collapsed" Header="Date" Binding="{Binding Date}" Width="*" />
-                        <DataGridTextColumn Header="Acheteur" Binding="{Binding Client}" Width="*" />
+                        <DataGridTextColumn Header="# Commande" Binding="{Binding OrderNumber}" Width="*" />
+                        <DataGridTextColumn Header="Date" Binding="{Binding TransactionDate}" Width="*" />
+                        <DataGridTextColumn Header="Acheteur" Binding="{Binding ClientEmail}" Width="*" />
                         <DataGridTextColumn Header="Billet vendus" Binding="{Binding TicketsSold}" Width="*" />
-                        <DataGridTextColumn Header="$ Avant taxe" Binding="{Binding BeforeTax}" Width="*" />
+                        <DataGridTextColumn Header="$ Avant taxe" Binding="{Binding TotalAmountBeforeTaxe}" Width="*" />
                         <DataGridTextColumn Header="TPS" Binding="{Binding TPS}" Width="*" />
                         <DataGridTextColumn Header="TVQ" Binding="{Binding TVQ}" Width="*" />
-                        <DataGridTextColumn Header="$ Total" Binding="{Binding Total}" Width="*" />
+                        <DataGridTextColumn Header="$ Total" Binding="{Binding TotalAmountAfterTaxe}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
 

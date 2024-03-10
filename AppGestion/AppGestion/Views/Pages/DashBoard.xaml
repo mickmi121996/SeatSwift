@@ -53,6 +53,24 @@
                             </lvc:Axis>
                         </lvc:CartesianChart.AxisX>
                     </lvc:CartesianChart>
+                    <lvc:CartesianChart Series="{Binding LineSeries}" Grid.Row="1">
+                        <!-- X Axis Configuration -->
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Labels="{Binding MonthLabels}">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator Step="1" IsEnabled="True"/>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis MinValue="0" Title="Nombre de billets">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator Step="5" IsEnabled="True"/>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
                 </Grid>
             </meterialDesign:Card>
         </Grid>
@@ -66,16 +84,16 @@
 
             <meterialDesign:Card Margin="10,5,5,5" Padding="5">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="100" Text="50"></TextBlock>
-                    <Label FontSize="25" Padding="0" HorizontalAlignment="Center" Content="événements"></Label>
+                    <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="100" Text="{Binding EventsToCome}"></TextBlock>
+                    <Label FontSize="25" Padding="0" HorizontalAlignment="Center" Content="Événements"></Label>
                     <Label FontSize="25" Padding="0" HorizontalAlignment="Center" Content="à venir"></Label>
                 </StackPanel>
             </meterialDesign:Card>
 
             <meterialDesign:Card Grid.Column="1" Margin="10,5,5,5" Padding="5">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="100" Text="50"></TextBlock>
-                    <Label FontSize="25" Padding="0" HorizontalAlignment="Center" Content="événements"></Label>
+                    <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="100" Text="{Binding PassedEvents}"></TextBlock>
+                    <Label FontSize="25" Padding="0" HorizontalAlignment="Center" Content="Événements"></Label>
                     <Label FontSize="25" Padding="0" HorizontalAlignment="Center" Content="Antérieurs"></Label>
                 </StackPanel>
             </meterialDesign:Card>
@@ -98,12 +116,12 @@
                       HeadersVisibility="Column"
                       HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
                       VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
-                      SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      ItemsSource="{Binding ActifClients}"
                       RowStyle="{DynamicResource DataGridRowStyle}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Nom" Binding="{Binding TicketsSold}" Width="*" />
-                            <DataGridTextColumn Header="Prénom" Binding="{Binding RepresentationDate}" Width="*" />
-                            <DataGridTextColumn Header="Courriel" Binding="{Binding EventName}" Width="*" />
+                            <DataGridTextColumn Header="Nom" Binding="{Binding LastName}" Width="*" />
+                            <DataGridTextColumn Header="Prénom" Binding="{Binding FirstName}" Width="*" />
+                            <DataGridTextColumn Header="Courriel" Binding="{Binding Email}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

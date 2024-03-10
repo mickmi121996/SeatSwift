@@ -117,7 +117,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// Get all active orders
         /// </summary>
         /// <returns>Orders</returns>
-        public async Task<ICollection<Order>> GetAllAsync()
+        public async Task<List<Order>> GetAllAsync()
         {
             try
             {
@@ -153,7 +153,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// <returns>Orders</returns>
         /// <exception cref="KeyNotFoundException">If no client with the specified id is found</exception>
         /// <exception cref="Exception">If an error occurred while getting the orders</exception>
-        public async Task<ICollection<Order>> GetByClientIdAsync(int clientId)
+        public async Task<List<Order>> GetByClientIdAsync(int clientId)
         {
             try
             {
@@ -198,7 +198,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// <returns>Orders</returns>
         /// <exception cref="Exception">If an error occurred while getting the orders</exception>
         /// <exception cref="KeyNotFoundException">If no order is found for the specified date</exception>
-        public async Task<ICollection<Order>> GetByDateAsync(DateTime date)
+        public async Task<List<Order>> GetByDateAsync(DateTime date)
         {
             try
             {
@@ -237,7 +237,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// <returns>Orders</returns>
         /// <exception cref="Exception">If an error occurred while getting the orders</exception>
         /// <exception cref="KeyNotFoundException">If no order is found for the specified month and year</exception>
-        public async Task<ICollection<Order>> GetByMonthAndYearAsync(int month, int year)
+        public async Task<List<Order>> GetByMonthAndYearAsync(int month, int year)
         {
             try
             {
@@ -358,14 +358,14 @@ namespace AppGestion.DataAccessLayer.Factories
         /// <summary>
         /// Create a tuple list of mount and sell for the current year
         /// </summary>
-        /// <returns>List of tuples containing month and sell</returns>
+        /// <returns>List of tuples containing month and sell if 0 sell, return the mount and 0</returns>
         /// <exception cref="Exception">If an error occurred while getting the sell</exception>
         /// <exception cref="KeyNotFoundException">If no sell is found for the current year</exception>
-        public async Task<List<Tuple<string?, int>>> GetSellByMonthAsync()
+        public async Task<List<Tuple<string, int>>> GetSellByMonthAsync()
         {
             try
             {
-                var sellByMonth = new List<Tuple<string?, int>>();
+                var sellByMonth = new List<Tuple<string, int>>();
 
                 string query = @"
                 SELECT MONTH(OrderDate) AS Month, SUM(TotalPrice) AS Sell
@@ -376,11 +376,18 @@ namespace AppGestion.DataAccessLayer.Factories
 
                 using (DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(this.ConnectionString, query))
                 {
-                    foreach (DataRow row in result.Rows)
+                    for (int i = 1; i <= 12; i++)
                     {
-                        var month = row["Month"].ToString();
-                        var sell = Convert.ToInt32(row["Sell"]);
-                        sellByMonth.Add(Tuple.Create(month, sell));
+                        var month = i.ToString("00");
+                        var row = result.AsEnumerable().FirstOrDefault(r => r.Field<int>("Month") == i);
+                        if (row is null)
+                        {
+                            sellByMonth.Add(Tuple.Create(month, 0));
+                        }
+                        else
+                        {
+                            sellByMonth.Add(Tuple.Create(month, Convert.ToInt32(row["Sell"])));
+                        }
                     }
                 }
 
