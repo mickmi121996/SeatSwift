@@ -37,18 +37,19 @@
               HeadersVisibility="Column"
               HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
               VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
-              SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              SelectedItem="{Binding SelectedShow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              ItemsSource="{Binding Shows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
               RowStyle="{DynamicResource DataGridRowStyle}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Nom" Binding="{Binding TicketsSold}" Width="*" />
-                        <DataGridTextColumn Header="Artiste/Groupe" Binding="{Binding RepresentationDate}" Width="*" />
-                        <DataGridTextColumn Header="Type" Binding="{Binding RepresentationDate}" Width="*" />
+                        <DataGridTextColumn Header="Nom" Binding="{Binding Name}" Width="*" />
+                        <DataGridTextColumn Header="Artiste/Groupe" Binding="{Binding Artist}" Width="*" />
+                        <DataGridTextColumn Header="Type" Binding="{Binding ShowType}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
         </meterialDesign:Card>
 
-        <Button Grid.Row="1"  Margin="10,0,10,0" HorizontalAlignment="Left" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Content="Supprimer événement"  VerticalAlignment="Center"/>
+        <Button Grid.Row="1" Command="{Binding DeleteShowCommand}"  Margin="10,0,10,0" HorizontalAlignment="Left" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Content="Supprimer événement"  VerticalAlignment="Center"/>
         <Button Grid.Row="1" Command="{Binding OpenAddEventCommand}"  Margin="10,0,5,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Ajouter événement"  VerticalAlignment="Center"/>
 
         <Grid Grid.Column="1">
@@ -61,57 +62,53 @@
             <meterialDesign:Card Grid.Column="1" Margin="5,5,10,5" Padding="5">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="225"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="100" />
                     </Grid.RowDefinitions>
 
                     <Label Padding="0" FontSize="16" FontWeight="Bold" Content="Informations de l'événement" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"/>
 
-                    <Image Grid.RowSpan="7" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill"></Image>
+                    <Image Margin="10,0" Grid.RowSpan="6" Height="300"  Grid.Row="1" Source="{Binding SelectedShow.ImageUrl}" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="Fill"></Image>
 
                     <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,0,10">
                         <Label FontSize="15" Content="Nom :" FontWeight="Bold" Padding="0"/>
-                        <TextBlock Text="[Nom]" Padding="0"/>
+                        <TextBlock Text="{Binding SelectedShow.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0"/>
                     </StackPanel>
 
                     <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,0,0,10">
                         <Label FontSize="15" Content="Artiste/Groupe :" FontWeight="Bold" Padding="0"/>
-                        <TextBlock Text="[Artiste/Groupe]" Padding="0"/>
+                        <TextBlock Text="{Binding SelectedShow.Artist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0"/>
                     </StackPanel>
 
                     <StackPanel Grid.Row="3" Grid.Column="1" Margin="0,0,0,10">
                         <Label FontSize="15" Content="Prix de base :" FontWeight="Bold" Padding="0"/>
-                        <TextBlock Text="[$]" Padding="0"/>
+                        <TextBlock Text="{Binding SelectedShow.BasePrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0"/>
                     </StackPanel>
 
                     <StackPanel Grid.Row="4" Grid.Column="1" Margin="0,0,0,10">
                         <Label FontSize="15" Content="Billets max/client :" FontWeight="Bold" Padding="0"/>
-                        <TextBlock Text="[Billets/client]" Padding="0"/>
+                        <TextBlock Text="{Binding SelectedShow.MaxTicketsByClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0"/>
                     </StackPanel>
 
                     <StackPanel Grid.Row="5" Grid.Column="1" Margin="0,0,0,10">
                         <Label FontSize="15" Content="Type :" FontWeight="Bold" Padding="0"/>
-                        <TextBlock Text="[Type]" Padding="0"/>
+                        <TextBlock Text="{Binding SelectedShow.ShowType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0"/>
                     </StackPanel>
 
                     <StackPanel Grid.Row="6" Grid.Column="1" Margin="0,0,0,10">
-                        <Label FontSize="15" Content="Salle :" FontWeight="Bold" Padding="0"/>
-                        <TextBlock Text="[Salle]" Padding="0"/>
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="7" Grid.Column="1" Margin="0,0,0,10">
                         <Label FontSize="15" Content="Description :" FontWeight="Bold" Padding="0"/>
-                        <TextBlock Text="[Description]" Padding="0" TextWrapping="Wrap"/>
+                        <ScrollViewer MaxHeight="70">
+                            <TextBlock Text="{Binding SelectedShow.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0" TextWrapping="Wrap"/>
+                        </ScrollViewer>
                     </StackPanel>
 
                 </Grid>
@@ -136,18 +133,19 @@
                       HeadersVisibility="Column"
                       HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
                       VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
-                      SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedRepresentation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      ItemsSource="{Binding Representations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       RowStyle="{DynamicResource DataGridRowStyle}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TicketsSold}" Width="*" />
-                            <DataGridTextColumn Header="Heure" Binding="{Binding RepresentationDate}" Width="*" />
-                            <DataGridTextColumn Header="Auditorium" Binding="{Binding RepresentationDate}" Width="*" />
+                            <DataGridTextColumn Header="Date et heure" Binding="{Binding Date}" Width="*" />
+                            <DataGridTextColumn Header="Auditorium" Binding="{Binding Auditorium.Name}" Width="*" />
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </meterialDesign:Card>
         </Grid>
-        <Button Grid.Column="1" Grid.Row="1" Margin="5,0,10,0" HorizontalAlignment="Left" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Content="Supprimer représentaion"  VerticalAlignment="Center"/>
+        <Button Grid.Column="1" Command="{Binding DeleteRepresentationCommand}" Grid.Row="1" Margin="5,0,10,0" HorizontalAlignment="Left" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Content="Supprimer représentaion"  VerticalAlignment="Center"/>
         <Button Grid.Column="1" Grid.Row="1" Command="{Binding OpenAddRepresantationCommand}" Margin="10,0,10,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Ajouter représentation"  VerticalAlignment="Center"/>
     </Grid>
 </Page>

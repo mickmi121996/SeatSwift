@@ -1,4 +1,5 @@
 ﻿using AppGestion.ViewModels.Windows;
+using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,13 @@ namespace AppGestion.Views.Windows
         {
             InitializeComponent();
             VMAddEditEvent vMAddEditEvent = new VMAddEditEvent();
+            this.DataContext = vMAddEditEvent;
+        }
+
+        public AddEditEvent(Show show)
+        {
+            InitializeComponent();
+            VMAddEditEvent vMAddEditEvent = new VMAddEditEvent(show);
             this.DataContext = vMAddEditEvent;
         }
 

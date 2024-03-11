@@ -137,7 +137,7 @@ namespace AppGestion.DataAccessLayer.Factories
                 using (
                     DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
                     (this.ConnectionString,
-                    "SELECT * FROM representation WHERE ShowId = @showId;",
+                    "SELECT * FROM representation WHERE ShowId = @showId AND IsActive = 1;",
                     new MySqlParameter("@showId", show.Id)
                     )
                 )
@@ -227,7 +227,7 @@ namespace AppGestion.DataAccessLayer.Factories
                 using (
                     DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
                     (this.ConnectionString,
-                    "SELECT * FROM representation WHERE AuditoriumId = @auditoriumId;",
+                    "SELECT * FROM representation WHERE AuditoriumId = @auditoriumId AND IsActive = 1;",
                     new MySqlParameter("@auditoriumId", auditorium.Id)
                     )
                 )
@@ -265,7 +265,7 @@ namespace AppGestion.DataAccessLayer.Factories
                 using (
                     DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
                     (this.ConnectionString,
-                    "SELECT * FROM representation;")
+                    "SELECT * FROM representation Where IsActive = 1;")
                 )
                 {
                     // Create the list of representations

@@ -97,7 +97,7 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Label Padding="0"  FontSize="16" FontWeight="Bold" Content="Liste des employés" VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"/>
+                <Label Padding="0"  FontSize="16" FontWeight="Bold" Content="Liste des événements" VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"/>
                 <DataGrid Grid.Row="1" 
                       AutoGenerateColumns="False" 
                       IsReadOnly="True" 

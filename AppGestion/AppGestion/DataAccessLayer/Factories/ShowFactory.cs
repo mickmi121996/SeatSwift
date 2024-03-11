@@ -426,7 +426,7 @@ namespace AppGestion.DataAccessLayer.Factories
                 // Create the show
                 await DataBaseTool.ExecuteNonQueryAsync
                 (this.ConnectionString,
-                "INSERT INTO Shows (IsActive, ShowName, Artist, Description, ShowType, ImageUrl, NumberOfTicketsMaxByClient, BaseTicketPrice, UserId) " +
+                "INSERT INTO Shows (IsActive, ShowName, Artiste, Description, ShowType, ImageUrl, NumberOfTicketsMaxByClient, BaseTicketPrice, UserId) " +
                 "VALUES (@isActive, @showName, @artist, @description, @showType, @imageUrl, @maxTicketsByClient, @baseTicketPrice, @userId)",
                 new MySqlParameter("@isActive", show.IsActive),
                 new MySqlParameter("@showName", show.Name),
@@ -470,7 +470,7 @@ namespace AppGestion.DataAccessLayer.Factories
                 // Update the show
                 await DataBaseTool.ExecuteNonQueryAsync
                 (this.ConnectionString,
-                "UPDATE Shows SET IsActive = @isActive, ShowName = @showName, Artist = @artist, Description = @description, ShowType = @showType, ImageUrl = @imageUrl, NumberOfTicketsMaxByClient = @maxTicketsByClient, BaseTicketPrice = @baseTicketPrice, UserId = @userId WHERE Id = @id",
+                "UPDATE Shows SET IsActive = @isActive, ShowName = @showName, Artiste = @artist, Description = @description, ShowType = @showType, ImageUrl = @imageUrl, NumberOfTicketsMaxByClient = @maxTicketsByClient, BaseTicketPrice = @baseTicketPrice WHERE Id = @id",
                 new MySqlParameter("@isActive", show.IsActive),
                 new MySqlParameter("@showName", show.Name),
                 new MySqlParameter("@artist", show.Artist),
@@ -479,7 +479,6 @@ namespace AppGestion.DataAccessLayer.Factories
                 new MySqlParameter("@imageUrl", show.ImageUrl),
                 new MySqlParameter("@maxTicketsByClient", show.MaxTicketsByClient),
                 new MySqlParameter("@baseTicketPrice", show.BasePrice),
-                new MySqlParameter("@userId", show.User.Id),
                 new MySqlParameter("@id", show.Id)
                 );
             }

@@ -9,7 +9,7 @@
         xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"  
         xmlns:local="clr-namespace:AppGestion.Views.Windows"
         mc:Ignorable="d"
-        Title="AddEditEvent" Height="500" Width="350"        
+        Title="AddEditEvent" Height="500" Width="450"        
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         Background="Transparent" AllowsTransparency="True"
         FontFamily="Poppins" ResizeMode="NoResize">
@@ -52,29 +52,27 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
                         <RowDefinition Height="2*"/>
-                        <RowDefinition Height="45"/>
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
                     <Label Grid.Row="0" Grid.Column="0" Content="Nom :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
 
                     <Label Grid.Row="1" Grid.Column="0" Content="Artiste/Groupe :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Artist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
 
                     <Label Grid.Row="2" Grid.Column="0" Content="Prix de base :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="2" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" x:Name="NumericTextBox" PreviewTextInput="NumericTextBox_PreviewTextInput" PreviewKeyDown="NumericTextBox_PreviewKeyDown" >
+                    <TextBox Text="{Binding BasePrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" x:Name="NumericTextBox" PreviewTextInput="NumericTextBox_PreviewTextInput" PreviewKeyDown="NumericTextBox_PreviewKeyDown" >
                         
                     </TextBox>
 
                     <Label Grid.Row="3" Grid.Column="0" Content="Billet maximum/client :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="3" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" x:Name="NumericTextBoxBillet" PreviewTextInput="NumericTextBox_PreviewTextInput" PreviewKeyDown="NumericTextBox_PreviewKeyDown" >
+                    <TextBox Text="{Binding MaxTicketsByClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" x:Name="NumericTextBoxBillet" PreviewTextInput="NumericTextBox_PreviewTextInput" PreviewKeyDown="NumericTextBox_PreviewKeyDown" >
 
                     </TextBox>
 
@@ -82,25 +80,17 @@
                     <Button Grid.Row="4" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" Content="Parcourir" 
                     Command="{Binding BrowseImageCommand}"/>
 
-                    <Label Grid.Row="5" Grid.Column="0" Content="Salle :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
-                    <ComboBox Grid.Row="5" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" SelectedIndex="0" >
-                        <ComboBoxItem Content="Chicoutimi"/>
-                        <ComboBoxItem Content="Jonquière"/>
+
+                    <Label Grid.Row="5" Grid.Column="0" Content="Type :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <ComboBox ItemsSource="{Binding ShowTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedShowType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" SelectedIndex="0" >
                     </ComboBox>
 
-                    <Label Grid.Row="6" Grid.Column="0" Content="Type :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
-                    <ComboBox Grid.Row="6" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" SelectedIndex="0" >
-                        <ComboBoxItem Content="Humour"/>
-                        <ComboBoxItem Content="Film"/>
-                        <ComboBoxItem Content="Théatre"/>
-                    </ComboBox>
-
-                    <Label Grid.Row="7" Grid.Column="0" Content="Description :" Margin="10,0,10,0" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="8" Grid.ColumnSpan="2" Height="60" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                    <Label Grid.Row="6" Grid.Column="0" Content="Description :" Margin="10,0,10,0" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding EventDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.ColumnSpan="2" Height="60" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
 
                 </Grid>
             </meterialDesign:Card>
-            <Button Grid.Row="9" HorizontalAlignment="Right" Grid.Column="1" Margin="10,0,10,0" Content="Confirmer" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}"  VerticalAlignment="Center"/>
+            <Button Grid.Row="9" Command="{Binding ConfirmCommand}" HorizontalAlignment="Right" Grid.Column="1" Margin="10,0,10,0" Content="Confirmer" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}"  VerticalAlignment="Center"/>
         </Grid>
     </Border>
 </Window>
