@@ -60,7 +60,7 @@ namespace AppGestion.ViewModels.Pages
         public VMSalesReport()
         {
             InitializeProperties();
-            CreateFakeSellLines();
+            CreateSellLines();
         }
 
         #endregion
@@ -109,118 +109,118 @@ namespace AppGestion.ViewModels.Pages
 
         #region methods
 
-        // /// <summary>
-        // /// Method to create the sell lines for the selected orders
-        // /// </summary>
-        // public async Task CreateSellLines()
-        // {
-        //     SellLines.Clear();
+        /// <summary>
+        /// Method to create the sell lines for the selected orders
+        /// </summary>
+        public async Task CreateSellLines()
+        {
+            SellLines.Clear();
 
-        //     // Dictionnaire pour regrouper les tickets par représentation
-        //     var representationGroups = new Dictionary<int, List<Ticket>>();
+            // Dictionnaire pour regrouper les tickets par représentation
+            var representationGroups = new Dictionary<int, List<Ticket>>();
 
-        //     foreach (var order in Orders)
-        //     {
-        //         var tickets = await DAL.TicketFactory.GetByOrderAsync(order);
+            foreach (var order in Orders)
+            {
+                var tickets = await DAL.TicketFactory.GetByOrderAsync(order);
 
-        //         foreach (var ticket in tickets)
-        //         {
-        //             // Vérifier si le groupe pour cette représentation existe déjà
-        //             if(ticket.Representation == null) { throw new ArgumentNullException(nameof(ticket.Representation)); }
-        //             if (!representationGroups.ContainsKey(ticket.Representation.Id))
-        //             {
-        //                 representationGroups[ticket.Representation.Id] = new List<Ticket>();
-        //             }
+                foreach (var ticket in tickets)
+                {
+                    // Vérifier si le groupe pour cette représentation existe déjà
+                    if(ticket.Representation == null) { throw new ArgumentNullException(nameof(ticket.Representation)); }
+                    if (!representationGroups.ContainsKey(ticket.Representation.Id))
+                    {
+                        representationGroups[ticket.Representation.Id] = new List<Ticket>();
+                    }
 
-        //             representationGroups[ticket.Representation.Id].Add(ticket);
-        //         }
-        //     }
+                    representationGroups[ticket.Representation.Id].Add(ticket);
+                }
+            }
 
-        //     foreach (var groupId in representationGroups.Keys)
-        //     {
-        //         var ticketsForRepresentation = representationGroups[groupId];
-        //         if (ticketsForRepresentation.Count > 0)
-        //         {
-        //             // Prendre la première ticket pour obtenir les informations de base
-        //             var firstTicket = ticketsForRepresentation.First();
-        //             if(firstTicket.Representation == null) { throw new ArgumentNullException(nameof(firstTicket.Representation)); }
-        //             var representationDate = firstTicket.Representation.Date;
-        //             if(firstTicket.Representation.Show == null) { throw new ArgumentNullException(nameof(firstTicket.Representation.Show)); }
-        //             var showName = firstTicket.Representation.Show.Name;
-        //             var ticketsSold = ticketsForRepresentation.Count;
-        //             double totalAmountBeforeTaxe = ticketsForRepresentation.Sum(ticket => (double)ticket.Representation.Show.BasePrice);
+            foreach (var groupId in representationGroups.Keys)
+            {
+                var ticketsForRepresentation = representationGroups[groupId];
+                if (ticketsForRepresentation.Count > 0)
+                {
+                    // Prendre la première ticket pour obtenir les informations de base
+                    var firstTicket = ticketsForRepresentation.First();
+                    if(firstTicket.Representation == null) { throw new ArgumentNullException(nameof(firstTicket.Representation)); }
+                    var representationDate = firstTicket.Representation.Date;
+                    if(firstTicket.Representation.Show == null) { throw new ArgumentNullException(nameof(firstTicket.Representation.Show)); }
+                    var showName = firstTicket.Representation.Show.Name;
+                    var ticketsSold = ticketsForRepresentation.Count;
+                    double totalAmountBeforeTaxe = ticketsForRepresentation.Sum(ticket => (double)ticket.Representation.Show.BasePrice);
 
-        //             SellLines.Add(new SellLine(ticketsSold, representationDate, showName, totalAmountBeforeTaxe));
-        //         }
-        //     }
-        // }
-
-
-        // /// <summary>
-        // /// Method called when the selected Filter changes
-        // /// </summary>
-        // partial void OnSelectedFilterChanged(string value)
-        // {
-        //     if (value != null)
-        //     {
-        //         if (value == "Quotidien")
-        //         {
-        //             LoadOrdersForADateAsync(SelectedDate);
-        //         }
-        //         else
-        //         {
-        //             LoadOrdersForAMonthAsync(SelectedDate.Month, SelectedDate.Year);
-        //         }
-        //     }
-        // }
-
-        // /// <summary>
-        // /// Method called when the selected date changes
-        // /// </summary>
-        // partial void OnSelectedDateChanged(DateTime value)
-        // {
-        //     if (SelectedFilter == "Quotidien")
-        //     {
-        //         LoadOrdersForADateAsync(SelectedDate);
-        //     }
-        //     else
-        //     {
-        //         LoadOrdersForAMonthAsync(SelectedDate.Month, SelectedDate.Year);
-        //     }
-        // }
+                    SellLines.Add(new SellLine(ticketsSold, representationDate, showName, totalAmountBeforeTaxe));
+                }
+            }
+        }
 
 
-        // /// <summary>
-        // /// Method to load the orders for a date
-        // /// </summary>
-        // private async void LoadOrdersForADateAsync(DateTime selectedDate)
-        // {
-        //     var ordersForDate = await DAL.OrderFactory.GetByDateAsync(selectedDate);
-        //     Orders.Clear();
+        /// <summary>
+        /// Method called when the selected Filter changes
+        /// </summary>
+        partial void OnSelectedFilterChanged(string value)
+        {
+            if (value != null)
+            {
+                if (value == "Quotidien")
+                {
+                    LoadOrdersForADateAsync(SelectedDate);
+                }
+                else
+                {
+                    LoadOrdersForAMonthAsync(SelectedDate.Month, SelectedDate.Year);
+                }
+            }
+        }
 
-        //     foreach (var order in ordersForDate)
-        //     {
-        //         Orders.Add(order);
-        //     }
+        /// <summary>
+        /// Method called when the selected date changes
+        /// </summary>
+        partial void OnSelectedDateChanged(DateTime value)
+        {
+            if (SelectedFilter == "Quotidien")
+            {
+                LoadOrdersForADateAsync(SelectedDate);
+            }
+            else
+            {
+                LoadOrdersForAMonthAsync(SelectedDate.Month, SelectedDate.Year);
+            }
+        }
 
-        //     await CreateSellLines();
-        // }
 
-        // /// <summary>
-        // /// Method to load order for a month and a year
-        // /// </summary>
-        // private async void LoadOrdersForAMonthAsync(int month, int year)
-        // {
-        //     var ordersForMonth = await DAL.OrderFactory.GetByMonthAndYearAsync(month, year);
-        //     Orders.Clear();
+        /// <summary>
+        /// Method to load the orders for a date
+        /// </summary>
+        private async void LoadOrdersForADateAsync(DateTime selectedDate)
+        {
+            var ordersForDate = await DAL.OrderFactory.GetByDateAsync(selectedDate);
+            Orders.Clear();
 
-        //     foreach (var order in ordersForMonth)
-        //     {
-        //         Orders.Add(order);
-        //     }
+            foreach (var order in ordersForDate)
+            {
+                Orders.Add(order);
+            }
 
-        //     await CreateSellLines();
-        // }
+            await CreateSellLines();
+        }
+
+        /// <summary>
+        /// Method to load order for a month and a year
+        /// </summary>
+        private async void LoadOrdersForAMonthAsync(int month, int year)
+        {
+            var ordersForMonth = await DAL.OrderFactory.GetByMonthAndYearAsync(month, year);
+            Orders.Clear();
+
+            foreach (var order in ordersForMonth)
+            {
+                Orders.Add(order);
+            }
+
+            await CreateSellLines();
+        }
 
         /// <summary>
         /// Initialize the properties
