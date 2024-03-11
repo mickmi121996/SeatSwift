@@ -278,14 +278,15 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Create a new command
                 int result = await DataBaseTool.ExecuteNonQueryAsync(this.ConnectionString,
-                    "UPDATE User SET IsActive = @IsActive, FirstName = @FirstName, LastName = @LastName, Type = @Type, Email = @Email, Phone = @Phone WHERE EmployeeNumber = @EmployeeNumber",
+                    "UPDATE User SET IsActive = @IsActive, FirstName = @FirstName, LastName = @LastName, Type = @Type, Email = @Email, EmployeeNumber = @EmployeeNumber, Phone = @Phone WHERE Id = @Id",
                     new MySqlParameter("@IsActive", user.IsActive),
                     new MySqlParameter("@FirstName", user.FirstName),
                     new MySqlParameter("@LastName", user.LastName),
                     new MySqlParameter("@Type", user.Type.ToString()),
                     new MySqlParameter("@Email", user.Email),
+                    new MySqlParameter("@EmployeeNumber", user.EmployeeNumber),
                     new MySqlParameter("@Phone", user.PhoneNumber),
-                    new MySqlParameter("@EmployeeNumber", user.EmployeeNumber)
+                    new MySqlParameter("@Id", user.Id)
                 );
 
                 // Check if the user was updated

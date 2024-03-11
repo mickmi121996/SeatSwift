@@ -1,4 +1,5 @@
 ﻿using AppGestion.ViewModels.Windows;
+using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,12 @@ namespace AppGestion.Views.Windows
             VMAddEditEmploye vMAddEditEmploye = new VMAddEditEmploye();
             this.DataContext = vMAddEditEmploye;
         }
-
+        public AddEditEmploye(User user)
+        {
+            InitializeComponent();
+            VMAddEditEmploye vMAddEditEmploye = new VMAddEditEmploye(user);
+            this.DataContext = vMAddEditEmploye;
+        }
         #region Button Close | Restore | Minimize 
 
         /// <summary>

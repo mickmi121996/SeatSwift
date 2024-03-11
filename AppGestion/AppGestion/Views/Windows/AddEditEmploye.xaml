@@ -7,8 +7,9 @@
         xmlns:viewModel="clr-namespace:AppGestion.ViewModels.Windows"
         d:DataContext="{d:DesignInstance Type=viewModel:VMAddEditEmploye}"
         xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"   
+        xmlns:components="clr-namespace:AppGestion.Components"
         mc:Ignorable="d"
-        Title="AddEditEmploye" Height="500" Width="350"        
+        Title="AddEditEmploye" Height="500" Width="450"        
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         Background="Transparent" AllowsTransparency="True"
         FontFamily="Poppins" ResizeMode="NoResize">
@@ -48,51 +49,56 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
                     <!-- Nom -->
                     <Label Grid.Row="0" Grid.Column="0" Content="Nom :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <!-- Prénom -->
                     <Label Grid.Row="1" Grid.Column="0" Content="Prénom :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <!-- Numéro d'employé -->
                     <Label Grid.Row="2" Grid.Column="0" Content="Numéro d'employé :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="2" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" Text="{Binding EmployeeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <!-- Adresse courriel -->
                     <Label Grid.Row="3" Grid.Column="0" Content="Adresse courriel :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="3" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="red" Text="{Binding InvalidEmailErrorMessage}" Visibility="{Binding InvalidEmailErrorMessageVisibility}"></TextBlock>
 
                     <!-- Téléphone -->
-                    <Label Grid.Row="4" Grid.Column="0" Content="Téléphone :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="4" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                    <Label Grid.Row="5" Grid.Column="0" Content="Téléphone :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="5" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" Text="{Binding PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <!-- Mot de passe -->
-                    <Label Grid.Row="5" Grid.Column="0" Content="Mot de passe :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
-                    <PasswordBox Grid.Row="5" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                    <Label Visibility="{Binding PasswordVisibility}"  Grid.Row="6" Grid.Column="0" Content="Mot de passe :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <components:BindablePasswordBox Visibility="{Binding PasswordVisibility}" Grid.Row="6" Grid.Column="1" Margin="10,0,10,0" Foreground="{DynamicResource SecondaryBackGroundColor}" Padding="0" Password="{Binding Password,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <components:BindablePasswordBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding ConfirmCommand}"/>
+                        </components:BindablePasswordBox.InputBindings>
+                    </components:BindablePasswordBox>
 
                     <!-- Rôle -->
-                    <Label Grid.Row="6" Grid.Column="0" Content="Rôle :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
-                    <ComboBox Grid.Row="6" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" SelectedIndex="0" >
-                        <ComboBoxItem Content="Admin"/>
-                        <ComboBoxItem Content="Comptable"/>
+                    <Label Grid.Row="7" Grid.Column="0" Content="Rôle :" HorizontalAlignment="Right" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                    <ComboBox ItemsSource="{Binding ListRole,Mode=TwoWay}" SelectedItem="{Binding SelectedRole, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" SelectedIndex="0" >
                     </ComboBox>
 
 
                 </Grid>
             </meterialDesign:Card>
-            <Button Grid.Row="7" Grid.Column="1" Margin="10,0,10,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Confirmer" Height="30" VerticalAlignment="Center"/>
+            <Button Grid.Row="7" Grid.Column="1" Command="{Binding ConfirmCommand}" Margin="10,0,10,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Confirmer" Height="30" VerticalAlignment="Center"/>
         </Grid>
     </Border>
 </Window>

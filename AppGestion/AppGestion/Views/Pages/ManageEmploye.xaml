@@ -37,18 +37,19 @@
                     HeadersVisibility="Column"
                     HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
                     VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
-                    SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding SelectedUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ItemsSource="{Binding Users}"
                     RowStyle="{DynamicResource DataGridRowStyle}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Nom" Binding="{Binding EventName}" Width="*" />
-                        <DataGridTextColumn Header="Prénom" Binding="{Binding RepresentationDate}" Width="*" />
-                        <DataGridTextColumn Header="Numéro employé" Binding="{Binding TicketsSold}" Width="*" />
+                        <DataGridTextColumn Header="Nom" Binding="{Binding LastName}" Width="*" />
+                        <DataGridTextColumn Header="Prénom" Binding="{Binding FirstName}" Width="*" />
+                        <DataGridTextColumn Header="Numéro employé" Binding="{Binding EmployeeNumber}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
         </meterialDesign:Card>
 
-        <Button Grid.Row="1"  Margin="10,0,10,0" HorizontalAlignment="Left" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Content="Supprimer employé"  VerticalAlignment="Center"/>
+        <Button Grid.Row="1"  Margin="10,0,10,0" Command="{Binding DeleteUserCommand}" HorizontalAlignment="Left" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Content="Supprimer employé"  VerticalAlignment="Center"/>
         <Button Grid.Row="1" Command="{Binding OpenAddEmployeCommand}" Margin="10,0,5,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Ajouter employé"  VerticalAlignment="Center"/>
         <Button Grid.Row="1" Grid.Column="1" Command="{Binding OpenEditEmployeCommand}" Margin="10,0,10,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Modifier employé"  VerticalAlignment="Center"/>
 
@@ -68,32 +69,32 @@
 
                 <StackPanel Grid.Row="1" Margin="0,0,0,10">
                     <Label Padding="0" FontSize="15" Content="Nom :" FontWeight="Bold"/>
-                    <TextBlock Padding="0" Text="[Nom]"/>
+                    <TextBlock Padding="0" Text="{Binding SelectedUser.LastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Margin="0,0,0,10">
                     <Label FontSize="15" Content="Prénom :" FontWeight="Bold" Padding="0"/>
-                    <TextBlock Text="[Prénom]" Padding="0"/>
+                    <TextBlock Padding="0" Text="{Binding SelectedUser.FirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="3" Margin="0,0,0,10">
                     <Label FontSize="15" Content="Rôle :" FontWeight="Bold" Padding="0"/>
-                    <TextBlock Text="[Role de l'utilisateur]" Padding="0"/>
+                    <TextBlock Padding="0" Text="{Binding SelectedUser.Type,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="4" Margin="0,0,0,10">
                     <Label FontSize="15" Content="Numéro d'employé :" FontWeight="Bold" Padding="0"/>
-                    <TextBlock Text="[Numéro]" Padding="0"/>
+                    <TextBlock Padding="0" Text="{Binding SelectedUser.EmployeeNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="5" Margin="0,0,0,10">
                     <Label FontSize="15" Content="Numéro de téléphone :" FontWeight="Bold" Padding="0"/>
-                    <TextBlock Text="[Numéro de téléphone]" Padding="0"/>
+                    <TextBlock Padding="0" Text="{Binding SelectedUser.PhoneNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="6">
                     <Label FontSize="15" Content="Adresse courriel :" FontWeight="Bold" Padding="0"/>
-                    <TextBlock Text="[Adresse courriel]" Padding="0"/>
+                    <TextBlock Padding="0" Text="{Binding SelectedUser.Email,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </Grid>
         </meterialDesign:Card>
