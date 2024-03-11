@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AppGestion.Tools;
 using System.Windows.Shapes;
+using SeatSwiftDLL;
 
 namespace AppGestion.Views.Windows
 {
@@ -24,10 +25,10 @@ namespace AppGestion.Views.Windows
     /// </summary>
     public partial class AddEditRepresentation : Window
     {
-        public AddEditRepresentation()
+        public AddEditRepresentation(Show show)
         {
             InitializeComponent();
-            VMAddEditRepresentation vMAddEditRepresentation = new VMAddEditRepresentation();
+            VMAddEditRepresentation vMAddEditRepresentation = new VMAddEditRepresentation(show);
             this.DataContext = vMAddEditRepresentation;
 
             // Get the culture from the config file and set it

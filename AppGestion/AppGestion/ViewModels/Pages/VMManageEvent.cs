@@ -42,7 +42,6 @@ namespace AppGestion.ViewModels.Pages
         /// The selected representation
         /// </summary>
         [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(OpenEditRepresantationCommand))]
         [NotifyCanExecuteChangedFor(nameof(DeleteRepresentationCommand))]
         private Representation _selectedRepresentation;
 
@@ -130,24 +129,9 @@ namespace AppGestion.ViewModels.Pages
         public void OpenAddRepresantation()
         {
             // Open the AddEditEvent window
-            AddEditRepresentation Addwindow = new AddEditRepresentation();
+            AddEditRepresentation Addwindow = new AddEditRepresentation(SelectedShow);
             Addwindow.ShowDialog();
 
-            // Reload the data
-            LoadData();
-        }
-
-        /// <summary>
-        /// Command to open the EditRepresantation window
-        /// </summary>
-        [RelayCommand(CanExecute = nameof(CanEditRepresentation))]
-        public void OpenEditRepresantation()
-        {
-            // Open the AddEditEvent window
-            AddEditRepresentation Editwindow = new AddEditRepresentation();
-            Editwindow.ShowDialog();
-
-            // Reload the data
             LoadData();
         }
 

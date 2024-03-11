@@ -57,13 +57,13 @@
                         </Grid>
                     </Grid>
                 </meterialDesign:Card>
-                
+
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    
+
                     <meterialDesign:Card Margin="5,0,10,5" Grid.Column="1" Padding="5,4,5,5">
                         <Calendar x:Name="calendar"
                           DisplayDateStart="{Binding CurrentDate}"
@@ -81,20 +81,19 @@
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Label Grid.Row="0" Content="Salle :" Margin="3,0,10,5" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Bottom"/>
-                            <ComboBox Grid.Row="5" Grid.Column="1" Margin="5,5,5,0" VerticalAlignment="Top" SelectedIndex="0" >
-                                <ComboBoxItem Content="Chicoutimi"/>
-                                <ComboBoxItem Content="Jonquière"/>
+                            <ComboBox ItemsSource="{Binding Auditoriums}" 
+                              SelectedItem="{Binding SelectedAuditorium}" 
+                              DisplayMemberPath="Name" 
+                              Grid.Row="5" Grid.Column="1" Margin="5,5,5,0" 
+                              VerticalAlignment="Top" SelectedIndex="0">
                             </ComboBox>
+
                         </Grid>
                     </meterialDesign:Card>
                 </Grid>
-                
-
             </Grid>
 
-
-
-            <Button Grid.Row="7" Grid.Column="1" Margin="10,0,10,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Confirmer" Height="30" VerticalAlignment="Center"/>
+            <Button Command="{Binding ConfirmCommand}" Grid.Row="7" Grid.Column="1" Margin="10,0,10,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Confirmer" Height="30" VerticalAlignment="Center"/>
         </Grid>
     </Border>
 </Window>
