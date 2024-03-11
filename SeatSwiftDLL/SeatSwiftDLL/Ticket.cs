@@ -52,6 +52,17 @@ namespace SeatSwiftDLL
         /// </summary>
         public Order? Order { get; set; }
 
+        /// <summary>
+        /// The data for the QR code
+        /// </summary>
+        public string QRCodeData
+        {
+            get
+            {
+                return $"{ReservationNumber};{Representation?.Date};{Seat?.SeatNumber}";
+            }
+        }
+
         #endregion
 
 

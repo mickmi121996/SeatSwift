@@ -33,14 +33,14 @@
                     HeadersVisibility="Column"
                     HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
                     VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
-                    SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ItemsSource="{Binding Orders}"
+                    SelectedItem="{Binding SelectedOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     RowStyle="{DynamicResource DataGridRowStyle}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="# commande" Binding="{Binding RepresentationDate}" Width="*" />
-                        <DataGridTextColumn Header="Événement" Binding="{Binding EventName}" Width="*" />
-                        <DataGridTextColumn Header="Date" Binding="{Binding TicketsSold}" Width="*" />
-                        <DataGridTextColumn Header="Nombre de billets" Binding="{Binding TicketsSold}" Width="*" />
-                        <DataGridTextColumn Header="$ Total" Binding="{Binding TicketsSold}" Width="*" />
+                        <DataGridTextColumn Header="# commande" Binding="{Binding OrderNumber}" Width="*" />
+                        <DataGridTextColumn Header="Date" Binding="{Binding OrderDate}" Width="*" />
+                        <DataGridTextColumn Header="Email" Binding="{Binding Client.Email}" Width="*" />
+                        <DataGridTextColumn Header="$ Avant Taxe" Binding="{Binding TotalPrice}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
@@ -57,36 +57,42 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <Label Padding="0"  FontSize="16" FontWeight="Bold" Content="Informations de la commande" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"></Label>
 
                 <StackPanel Grid.Row="1" Margin="0,0,0,10">
                     <Label Padding="0" FontSize="15" Content="Numéro de commande :" FontWeight="Bold"/>
-                    <TextBlock Padding="0" Text="[#Commande]"/>
+                    <TextBlock Padding="0" Text="{Binding SelectedOrder.OrderNumber}"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Margin="0,0,0,10">
-                    <Label FontSize="15" Content="Prénom :" FontWeight="Bold" Padding="0"/>
-                    <TextBlock Text="[Événement]" Padding="0"/>
+                    <Label FontSize="15" Content="Nom :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="{Binding SelectedOrder.Client.LastName}" Padding="0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="3" Margin="0,0,0,10">
-                    <Label FontSize="15" Content="Représenetation :" FontWeight="Bold" Padding="0"/>
-                    <TextBlock Text="[Date et heure]" Padding="0"/>
+                    <Label FontSize="15" Content="Prénom :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="{Binding SelectedOrder.Client.FirstName}" Padding="0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="4" Margin="0,0,0,10">
-                    <Label FontSize="15" Content="courriel :" FontWeight="Bold" Padding="0"/>
-                    <TextBlock Text="[courriel]" Padding="0"/>
+                    <Label FontSize="15" Content="Date de commande :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="{Binding SelectedOrder.OrderDate}" Padding="0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="5" Margin="0,0,0,10">
-                    <Label FontSize="15" Content="Nombre de billets :" FontWeight="Bold" Padding="0"/>
-                    <TextBlock Text="[Nombre de billet]" Padding="0"/>
+                    <Label FontSize="15" Content="courriel :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="{Binding SelectedOrder.Client.Email}" Padding="0"/>
                 </StackPanel>
 
-                <Button Grid.Row="7" Grid.Column="1" Command="{Binding OpenEditEmployeCommand}"  HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Renvoyer courriel"  VerticalAlignment="Bottom"/>
+                <StackPanel Grid.Row="6" Margin="0,0,0,10">
+                    <Label FontSize="15" Content="Montant avant taxe :" FontWeight="Bold" Padding="0"/>
+                    <TextBlock Text="{Binding SelectedOrder.TotalPrice}" Padding="0"/>
+                </StackPanel>
+
+                <Button Grid.Row="7" Grid.Column="1" Command="{Binding ResendEmailCommand}"  HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Renvoyer courriel"  VerticalAlignment="Bottom"/>
 
             </Grid>
         </meterialDesign:Card>

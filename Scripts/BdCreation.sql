@@ -68,7 +68,8 @@ CREATE TABLE `auditorium` (
     UNIQUE KEY `ShowName` (`ShowName`),
     KEY `FK_Show_User` (`UserId`),
     CONSTRAINT `FK_Show_User` FOREIGN KEY (`UserId`) REFERENCES `user` (`Id`)
-) CREATE TABLE `ticket` (
+) 
+CREATE TABLE `ticket` (
     `Id` int NOT NULL AUTO_INCREMENT,
     `RepresentationId` int NOT NULL,
     `SeatId` int NOT NULL,
@@ -84,7 +85,9 @@ CREATE TABLE `auditorium` (
     CONSTRAINT `ticket_ibfk_1` FOREIGN KEY (`RepresentationId`) REFERENCES `representation` (`Id`),
     CONSTRAINT `ticket_ibfk_2` FOREIGN KEY (`SeatId`) REFERENCES `seat` (`Id`),
     CONSTRAINT `ticket_ibfk_3` FOREIGN KEY (`OrderId`) REFERENCES `orders` (`Id`)
-) CREATE TABLE `user` (
+) 
+
+CREATE TABLE `user` (
     `Id` int NOT NULL AUTO_INCREMENT,
     `IsActive` tinyint(1) NOT NULL,
     `FirstName` varchar(255) NOT NULL,

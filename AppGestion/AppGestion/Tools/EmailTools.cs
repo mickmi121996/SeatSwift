@@ -26,10 +26,10 @@ namespace AppGestion.Tools
         {
             // Create the email
             MimeMessage message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Équipe TCBM", "tcbmtimesheet@outlook.com"));
+            message.From.Add(new MailboxAddress("SeatSwift", "tcbmtimesheet@outlook.com"));
             message.To.Add(new MailboxAddress("Le destinataire", destinataire));
             message.Subject = sujet;
-            message.Body = new TextPart("plain") { Text = contenu };
+            message.Body = new TextPart("html") { Text = contenu };
 
             // Send the email
             using (var client = new SmtpClient())
