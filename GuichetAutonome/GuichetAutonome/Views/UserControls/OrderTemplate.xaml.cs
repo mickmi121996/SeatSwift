@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GuichetAutonome.ViewModels.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ namespace GuichetAutonome.Views.UserControls
         public OrderTemplate()
         {
             InitializeComponent();
+            VMOrderTemplate vMOrderTemplate = new VMOrderTemplate();
+            this.DataContext = vMOrderTemplate;
         }
     }
 }

@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:GuichetAutonome.Views.Pages"
       xmlns:viewModel="clr-namespace:GuichetAutonome.ViewModels.Pages"
       d:DataContext="{d:DesignInstance Type=viewModel:VMRegistration}"      
+      xmlns:components="clr-namespace:GuichetAutonome.Components"
       xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="675" d:DesignWidth="900"
@@ -21,50 +22,54 @@
         </Grid.RowDefinitions>
 
         <meterialDesign:Card Margin="10,10,8,0" Background="{DynamicResource FourthIconColor}">
-            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <DockPanel Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="top">
 
                 <Label Padding="0" DockPanel.Dock="Top" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Informations obligatoires"></Label>
 
-                <StackPanel DockPanel.Dock="Top" Margin="0,10,0,10" >
+                <StackPanel DockPanel.Dock="Top" Margin="0,5,0,5" >
                     <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Nom :"></Label>
-                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
+                    <TextBox Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
                 </StackPanel>
 
-                <StackPanel DockPanel.Dock="Top" Margin="0,10,0,10" >
+                <StackPanel DockPanel.Dock="Top" Margin="0,5,0,5" >
                     <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Prénom :"></Label>
-                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
+                    <TextBox Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
                 </StackPanel>
 
-                <StackPanel DockPanel.Dock="Top" Margin="0,10,0,10" >
+                <StackPanel DockPanel.Dock="Top" Margin="0,5,0,5" >
                     <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Adresse courriel :"></Label>
-                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
+                    <TextBox Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
                 </StackPanel>
 
-                <StackPanel DockPanel.Dock="Top" Margin="0,10,0,10" >
+                <TextBlock DockPanel.Dock="Top"  VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="red" Text="{Binding InvalidEmailErrorMessage}" Visibility="{Binding InvalidEmailErrorMessageVisibility}"></TextBlock>
+
+                <StackPanel Visibility="{Binding PasswordVisibility}" DockPanel.Dock="Top" Margin="0,5,0,5" >
                     <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Mot de passe :"></Label>
-                    <PasswordBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></PasswordBox>
+                    <components:BindablePasswordBox Visibility="{Binding PasswordVisibility}" Grid.Row="6" Grid.Column="1" Margin="0,5,0,5" Foreground="{DynamicResource SecondaryBackGroundColor}" Padding="0" Password="{Binding Password,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </components:BindablePasswordBox>
                 </StackPanel>
 
-                <StackPanel DockPanel.Dock="Top" Margin="0,10,0,10" >
+                <StackPanel Visibility="{Binding PasswordVisibility}" DockPanel.Dock="Top" Margin="0,5,0,5" >
                     <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Mot de passe :"></Label>
-                    <PasswordBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></PasswordBox>
+                    <components:BindablePasswordBox Visibility="{Binding PasswordVisibility}" Grid.Row="6" Grid.Column="1" Margin="0,5,0,5" Foreground="{DynamicResource SecondaryBackGroundColor}" Padding="0" Password="{Binding Confirmation,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </components:BindablePasswordBox>
                 </StackPanel>
             </DockPanel>
         </meterialDesign:Card>
 
-        <meterialDesign:Card Grid.Column="1" Margin="7,10,10,0" Padding="0,30" Background="{DynamicResource FourthIconColor}">
-            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+        <meterialDesign:Card Grid.Column="1" Margin="7,10,10,0" Padding="0" Background="{DynamicResource FourthIconColor}">
+            <DockPanel HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="top">
                 <Label Padding="0" DockPanel.Dock="Top" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Informations facultatives"></Label>
 
 
-                <StackPanel DockPanel.Dock="Top" Margin="0,10,0,10" >
+                <StackPanel DockPanel.Dock="Top" Margin="0,5,0,5" >
                     <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Ville :"></Label>
-                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
+                    <TextBox  Text="{Binding City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
                 </StackPanel>
 
-                <StackPanel DockPanel.Dock="Top" Margin="0,10,0,10" >
+                <StackPanel DockPanel.Dock="Top" Margin="0,5,0,5" >
                     <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Numéro de téléphone :"></Label>
-                    <TextBox Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
+                    <TextBox Text="{Binding PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="20"></TextBox>
                 </StackPanel>
             </DockPanel>
         </meterialDesign:Card>

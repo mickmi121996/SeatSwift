@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GuichetAutonome.ViewModels.UserControls;
+using SeatSwiftDLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,11 @@ namespace GuichetAutonome.Views.UserControls
     /// </summary>
     public partial class EventTemplate : UserControl
     {
-        public EventTemplate()
+        public EventTemplate(Show show)
         {
             InitializeComponent();
+            VMEventTemplate vMEventTemplate = new VMEventTemplate(show);
+            this.DataContext = vMEventTemplate;
         }
     }
 }

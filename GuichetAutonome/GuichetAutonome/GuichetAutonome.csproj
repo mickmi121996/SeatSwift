@@ -13,17 +13,24 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="MailKit" Version="4.4.0" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="QRCoder" Version="1.4.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Classes\" />
     <Folder Include="Converters\" />
-    <Folder Include="ViewModels\UserControls\" />
     <Folder Include="ViewModels\Windows\" />
     <Folder Include="Views\Windows\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SeatSwiftDLL">
+      <HintPath>..\..\SeatSwiftDLL\SeatSwiftDLL\bin\Debug\net6.0\SeatSwiftDLL.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

@@ -41,17 +41,18 @@
         <Button  Command="{Binding ChangePageToConnectionCommand}" Margin="15" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Déconnexion" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>
 
 
-        <meterialDesign:Card Margin="15"  Grid.Row="1" Background="{DynamicResource FourthIconColor}">
-            <ScrollViewer >
-                <ScrollViewer.Resources>
-                    <Style TargetType="{x:Type ScrollBar}">
-                        <Setter Property="Width" Value="20"/>
-                        <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundColor}"/>
-                    </Style>
-                </ScrollViewer.Resources>
-                <Button Content="test" Command="{Binding ChangePageToSeatSelectionCommand}"></Button>
+        <meterialDesign:Card Margin="15" Grid.Row="1" Background="{DynamicResource FourthIconColor}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding YourItemsSource}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ContentControl Margin="20" Content="{Binding}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </ScrollViewer>
         </meterialDesign:Card>
+
 
     </Grid>
 </Page>

@@ -34,6 +34,7 @@ namespace AppGestion.DataAccessLayer.Factories
             int seatNumber = dataReader.GetInt32("SeatNumber");
             string seatStatus = dataReader.GetString("SeatStatus");
             string sectionName = dataReader.GetString("SectionName");
+            string rowName = dataReader.GetString("RowName");
             int XCoordinate = dataReader.GetInt32("XCoordinate");
             int YCoordinate = dataReader.GetInt32("YCoordinate");
 
@@ -45,7 +46,7 @@ namespace AppGestion.DataAccessLayer.Factories
             Auditorium auditorium = await new AuditoriumFactory().GetByIdAsync(auditoriumId);
 
             // Create the order
-            return new Seat(id, seatNumber, status,auditorium, section, XCoordinate, YCoordinate);
+            return new Seat(id, seatNumber, status,auditorium, section, rowName, XCoordinate, YCoordinate);
         }
 
         /// <summary>
@@ -60,6 +61,8 @@ namespace AppGestion.DataAccessLayer.Factories
             int seatNumber = dataRow.Field<int>("SeatNumber");
             string sectionName = dataRow.Field<string>("SectionName")
                 ?? throw new ArgumentNullException("The section name is null");
+            string rowName = dataRow.Field<string>("RowName")
+                ?? throw new ArgumentNullException("The row name is null");
             string seatStatus = dataRow.Field<string>("SeatStatus")
                 ?? throw new ArgumentNullException("The seat status is null");
             int XCoordinate = dataRow.Field<int>("XCoordinate");
@@ -73,7 +76,7 @@ namespace AppGestion.DataAccessLayer.Factories
             Auditorium auditorium = await new AuditoriumFactory().GetByIdAsync(auditoriumId);
 
             // Create the order
-            return new Seat(id, seatNumber, status, auditorium, section, XCoordinate, YCoordinate);
+            return new Seat(id, seatNumber, status, auditorium, section,rowName ,XCoordinate, YCoordinate);
         }
 
         #endregion

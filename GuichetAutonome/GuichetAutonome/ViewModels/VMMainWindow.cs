@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using GuichetAutonome.ViewModels.Pages;
 using GuichetAutonome.Views;
 using GuichetAutonome.Views.Pages;
+using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,18 @@ namespace GuichetAutonome.ViewModels
         /// </summary>
         [ObservableProperty]
         private Page _currentPage;
+
+        /// <summary>
+        /// The the connection status of the user
+        /// </summary>
+        [ObservableProperty]
+        private bool _isConnected;
+
+        /// <summary>
+        /// The user currently connected
+        /// </summary>
+        [ObservableProperty]
+        private Client _client;
 
         #endregion
 
@@ -109,35 +122,20 @@ namespace GuichetAutonome.ViewModels
             }
         }
 
-        //public void ChangeUser(User user)
-        //{
-        //    this._user = user;
+        public void ChangeUser(Client client)
+        {
+            Client = client;
 
-        //    if (user.IsPasswordTemporary)
-        //    {
-        //        FirstConnectionView firstConnection = new FirstConnectionView(User);
-        //        firstConnection.Show();
-        //    }
-
-        //    IsManagerButtonVisible = Visibility.Collapsed;
-        //    IsAdminPanelVisible = Visibility.Collapsed;
-
-        //    if (User is Manager || User is Administrator)
-        //    {
-        //        IsManagerButtonVisible = Visibility.Visible;
-        //    }
-
-        //    if (User is Administrator)
-        //    {
-        //        IsAdminPanelVisible = Visibility.Visible;
-        //    }
-        //}
+            IsConnected = true;
+        }
 
         /// <summary>
         /// Initialize the properties
         /// </summary>
         private void InitializeProperties()
         {
+            Client = new Client();
+            IsConnected = false;
             CurrentPage = new Connection();
         }
 

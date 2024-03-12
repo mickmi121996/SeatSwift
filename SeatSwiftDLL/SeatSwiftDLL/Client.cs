@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SeatSwiftDLL.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -107,8 +108,22 @@ namespace SeatSwiftDLL
 
         #endregion
 
+        #region Account validation
 
-        # region Interface methods
+        /// <summary>
+        /// Check if the password of a user is correct
+        /// </summary>
+        /// <param password="password">The password of the user</param>
+        /// <param name="user" >The user object</param>
+        /// <returns>True if the password is correct, false otherwise</returns>
+        public bool IsPasswordValide(string password, byte[] hash, byte[] salt)
+        {
+            return PasswordTools.VerifyPassword(password, hash, salt);
+        }
+
+        #endregion
+
+        #region Interface methods
 
         public object Clone()
         {

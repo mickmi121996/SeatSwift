@@ -1,4 +1,5 @@
 ﻿using GuichetAutonome.ViewModels.Pages;
+using MySqlX.XDevAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,13 @@ namespace GuichetAutonome.Views.Pages
         {
             InitializeComponent();
             VMRegistration vMRegistration = new VMRegistration();
+            this.DataContext = vMRegistration;
+        }
+
+        public Registration(SeatSwiftDLL.Client client)
+        {
+            InitializeComponent();
+            VMRegistration vMRegistration = new VMRegistration(client);
             this.DataContext = vMRegistration;
         }
     }

@@ -4,9 +4,90 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GuichetAutonome.Views.UserControls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:viewModel="clr-namespace:GuichetAutonome.ViewModels.UserControls"
+             d:DataContext="{d:DesignInstance Type=viewModel:VMEventTemplate}" 
+             FontFamily="Poppins"
+             xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d">
     <Grid>
-            
+        <meterialDesign:Card Background="{DynamicResource FourthIconColor}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="225"></ColumnDefinition>
+                    <ColumnDefinition Width="225"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Image Margin="5" Height="300"  Source="{Binding Show.ImageUrl}" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="Fill"></Image>
+
+                <Grid Margin="5" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,0,10">
+                        <Label Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="15" Content="Nom :" FontWeight="Bold" Padding="0"/>
+                        <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}"  Text="{Binding Show.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,0,10">
+                        <Label Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="15" Content="Artiste/Groupe :" FontWeight="Bold" Padding="0"/>
+                        <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}"  Text="{Binding Show.Artist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,0,0,10">
+                        <Label Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="15" Content="Prix de base :" FontWeight="Bold" Padding="0"/>
+                        <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="{Binding Show.ShowType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Grid.Column="1" Margin="0,0,0,10">
+                        <Label Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="15" Content="Description :" FontWeight="Bold" Padding="0"/>
+                        <ScrollViewer Height="90">
+                            <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="{Binding Show.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0" TextWrapping="Wrap"/>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Margin="5" Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    
+                    <StackPanel Grid.Row="0">
+                        <Label Padding="0" Grid.Row="0" Content="Salle :" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Bottom"/>
+                        <ComboBox ItemsSource="{Binding Auditoriums}" 
+                              SelectedItem="{Binding SelectedAuditorium}" 
+                              DisplayMemberPath="Name" 
+                              Grid.Row="5" Grid.Column="1" 
+                              VerticalAlignment="Top" SelectedIndex="0">
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1">
+                        <Label Padding="0" Grid.Row="0" Content="Date et Heure :" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Bottom"/>
+                        <ComboBox ItemsSource="{Binding Representations}" 
+                              SelectedItem="{Binding SelectedRepresentation}" 
+                              DisplayMemberPath="Date" 
+                              Grid.Row="5" Grid.Column="1" 
+                              VerticalAlignment="Top" SelectedIndex="0">
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2">
+                        <Label Padding="0" Grid.Row="0" Content="Nombre de billets :" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Bottom"/>
+                        <TextBox  Foreground="{DynamicResource SecondaryBackGroundColor}"  VerticalAlignment="Center" Text="{Binding NumberOfTickets, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </Grid>
+
+                <Button Margin="5" Grid.Row="3" Grid.Column="2" Command="{Binding ContinueCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Continuer" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="35" FontWeight="Bold" FontSize="20"></Button>
+
+            </Grid>
+        </meterialDesign:Card>
     </Grid>
 </UserControl>

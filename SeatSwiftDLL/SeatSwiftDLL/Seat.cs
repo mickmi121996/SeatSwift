@@ -48,6 +48,11 @@ namespace SeatSwiftDLL
         public SectionName SectionName { get; set; }
 
         /// <summary>
+        /// The row number of the seat
+        /// </summary>
+        public string RowName { get; set; }
+
+        /// <summary>
         /// The auditorium of the seat
         /// </summary>
         public Auditorium? Auditorium { get; set; }
@@ -69,6 +74,7 @@ namespace SeatSwiftDLL
             SectionName = default;
             XCoordinate = default;
             YCoordinate = default;
+            RowName = string.Empty;
         }
 
         /// <summary>
@@ -80,7 +86,7 @@ namespace SeatSwiftDLL
         /// <param name="sectionName">The section name of the seat</param>
         /// <param name="xCoordinate">The x coordinates of the seat in the auditorium</param>
         /// <param name="yCoordinate">The y coordinates of the seat in the auditorium</param>
-        public Seat(int id, int seatNumber, SeatStatus status,Auditorium auditorium, SectionName sectionName, int xCoordinate, int yCoordinate)
+        public Seat(int id, int seatNumber, SeatStatus status,Auditorium auditorium, SectionName sectionName,string rowName ,int xCoordinate, int yCoordinate)
         {
             if(auditorium == null) {throw new ArgumentNullException(nameof(auditorium));}
                 
@@ -91,6 +97,7 @@ namespace SeatSwiftDLL
             this.SectionName = sectionName;
             this.XCoordinate = xCoordinate;
             this.YCoordinate = yCoordinate;
+            this.RowName = rowName;
         }
 
         #endregion
