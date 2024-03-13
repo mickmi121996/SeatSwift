@@ -75,6 +75,8 @@
         </meterialDesign:Card>
 
 
-        <Button Command="{Binding RegisterCommand}" Grid.Column="1" Grid.Row="1" Margin="10" HorizontalAlignment="Right" Content="Créer un compte" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="20"></Button>
+        <Button Command="{Binding ChangePageToConnectionCommand}" Visibility="{Binding IsRegistrationState}" Grid.Column="0" Grid.Row="1" Margin="10" HorizontalAlignment="Left" Content="Retour" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="20"></Button>
+        <Button Command="{Binding ChangePageToSelectionCommand}" Visibility="{Binding ModifyStateVisibility}" Grid.Column="0" Grid.Row="1" Margin="10" HorizontalAlignment="Left" Content="Retour" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="20"></Button>
+        <Button Command="{Binding RegisterCommand}" Grid.Column="1" Grid.Row="1" Margin="10" HorizontalAlignment="Right" Content="Confirmer" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="20"></Button>
     </Grid>
 </Page>

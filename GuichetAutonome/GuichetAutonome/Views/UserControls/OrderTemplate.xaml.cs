@@ -1,4 +1,5 @@
 ﻿using GuichetAutonome.ViewModels.UserControls;
+using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,10 @@ namespace GuichetAutonome.Views.UserControls
     /// </summary>
     public partial class OrderTemplate : UserControl
     {
-        public OrderTemplate()
+        public OrderTemplate(Order order)
         {
             InitializeComponent();
-            VMOrderTemplate vMOrderTemplate = new VMOrderTemplate();
+            VMOrderTemplate vMOrderTemplate = new VMOrderTemplate(order);
             this.DataContext = vMOrderTemplate;
         }
     }

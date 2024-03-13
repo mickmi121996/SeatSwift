@@ -42,6 +42,10 @@ namespace AppGestion.ViewModels.Pages
         /// </summary>
         public VMResendEmail()
         {
+            // Initialize the view model
+            _orders = new ObservableCollection<Order>();
+            _selectedOrder = new Order();
+
             Initialize();
         }
 
@@ -122,10 +126,25 @@ namespace AppGestion.ViewModels.Pages
         /// <summary>
         /// Initialize the view model
         /// </summary>
-        public void Initialize()
+        public async void Initialize()
         {
-            Orders = new ObservableCollection<Order>();
-            SelectedOrder = new Order();
+            Orders = new ObservableCollection<Order>(await DAL.OrderFactory.GetAllAsync());
+
+            // Clear the list of orders
+            Orders.Clear();
+
+            // Add the orders to the list
+            foreach (var order in Orders)
+            {
+                Orders.Add(order);
+            }
+
+            // If there is at least one order
+            if (Orders.Count > 0)
+            {
+                // Select the first order
+                SelectedOrder = Orders[0];
+            }
         }
 
         #endregion

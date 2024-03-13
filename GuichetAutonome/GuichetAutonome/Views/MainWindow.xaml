@@ -10,7 +10,7 @@
         Title="MainWindow" Height="675" Width="900"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
         Background="Transparent" AllowsTransparency="True"
-        FontFamily="Poppins" WindowState="Maximized">
+        FontFamily="Poppins">
     <Border Background="{DynamicResource PrimaryBackgroundColor}">
         <Grid>
             <Grid.RowDefinitions>

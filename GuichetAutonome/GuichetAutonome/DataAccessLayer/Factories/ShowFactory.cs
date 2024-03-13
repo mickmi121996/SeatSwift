@@ -174,7 +174,7 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 using (
                     DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
                     (this.ConnectionString,
-                    "SELECT * FROM Shows WHERE IsActive = 1 AND Id IN (SELECT ShowId FROM Representations WHERE Date > NOW())")
+                    "SELECT * FROM Shows WHERE IsActive = 1 AND Id IN (SELECT ShowId FROM Representation WHERE Date > NOW())")
                 )
                 {
                     // Create a list of Show objects

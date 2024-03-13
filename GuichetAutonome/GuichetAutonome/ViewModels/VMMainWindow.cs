@@ -6,6 +6,7 @@ using GuichetAutonome.Views.Pages;
 using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,6 +56,12 @@ namespace GuichetAutonome.ViewModels
         /// </summary>
         [ObservableProperty]
         private Client _client;
+
+        /// <summary>
+        /// A list of order as a cart
+        /// </summary>
+        [ObservableProperty]
+        private ObservableCollection<Order> _cart;
 
         #endregion
 
@@ -111,10 +118,6 @@ namespace GuichetAutonome.ViewModels
             else if (pageType == typeof(CartShow))
             {
                 CurrentPage = new CartShow();
-            }
-            else if (pageType == typeof(SeatSelection))
-            {
-                CurrentPage = new SeatSelection();
             }
             else if (pageType == typeof(Thanks))
             {

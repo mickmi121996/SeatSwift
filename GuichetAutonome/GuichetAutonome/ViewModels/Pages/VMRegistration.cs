@@ -23,6 +23,18 @@ namespace GuichetAutonome.ViewModels.Pages
         private bool _isModifyState;
 
         /// <summary>
+        /// The isRegistrationState
+        /// </summary>
+        [ObservableProperty]
+        private Visibility _isRegistrationState;
+
+        /// <summary>
+        /// The visibility of ModifyState
+        /// </summary>
+        [ObservableProperty]
+        private Visibility _modifyStateVisibility;
+
+        /// <summary>
         /// The visibility of the password
         /// </summary>
         [ObservableProperty]
@@ -107,6 +119,8 @@ namespace GuichetAutonome.ViewModels.Pages
         {
             _client = new SeatSwiftDLL.Client();
             _isModifyState = false;
+            _modifyStateVisibility = Visibility.Collapsed;
+            _isRegistrationState = Visibility.Visible;
             _passwordVisibility = Visibility.Visible;
             InitializeProperties();
         }
@@ -118,6 +132,8 @@ namespace GuichetAutonome.ViewModels.Pages
         {
             _client = client;
             _isModifyState = true;
+            _modifyStateVisibility = Visibility.Visible;
+            _isRegistrationState = Visibility.Collapsed;
             _passwordVisibility = Visibility.Collapsed;
             _password = "********";
             _confirmation = "********";
@@ -141,7 +157,7 @@ namespace GuichetAutonome.ViewModels.Pages
         {
             try
             {
-                if (_isModifyState)
+                if (IsModifyState)
                 {
                     // Update the client
                     Client = new SeatSwiftDLL.Client
@@ -152,6 +168,9 @@ namespace GuichetAutonome.ViewModels.Pages
                         PhoneNumber = PhoneNumber,
                         City = City
                     };
+
+                    await DAL.ClientFactory.UpdateAsync(Client);
+                    VMMainWindow.Instance.ChangePage(typeof(EventSelection));
                 }
                 else
                 {
@@ -170,16 +189,33 @@ namespace GuichetAutonome.ViewModels.Pages
                     Client = await DAL.ClientFactory.GetByEmailAsync(Client.Email);
 
                     await DAL.ClientFactory.CreateSaltAndHashAsync(Password, Client);
+
+                    // Change the page to the connection page
+                    VMMainWindow.Instance.ChangePage(typeof(Connection));
                 }
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
 
-
-            // Change the page to the connection page
+        /// <summary>
+        /// Command to change the page to the connection page
+        /// </summary>
+        [RelayCommand]
+        public void ChangePageToConnection()
+        {
             VMMainWindow.Instance.ChangePage(typeof(Connection));
+        }
+
+        /// <summary>
+        /// Command to change the page to the Selection page
+        /// </summary>
+        [RelayCommand]
+        public void ChangePageToSelection()
+        {
+            VMMainWindow.Instance.ChangePage(typeof(EventSelection));
         }
 
         /// <summary>

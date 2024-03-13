@@ -33,14 +33,13 @@
               HeadersVisibility="Column"
               HorizontalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
               VerticalGridLinesBrush="{DynamicResource MaterialDesignDivider}"
-              SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              ItemsSource="{Binding Orders, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              SelectedItem="{Binding SelectedOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
               RowStyle="{DynamicResource DataGridRowStyle}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="# commande" Binding="{Binding RepresentationDate}" Width="*" />
-                        <DataGridTextColumn Header="Événement" Binding="{Binding EventName}" Width="*" />
-                        <DataGridTextColumn Header="Date" Binding="{Binding TicketsSold}" Width="*" />
-                        <DataGridTextColumn Header="Nombre de billets" Binding="{Binding TicketsSold}" Width="*" />
-                        <DataGridTextColumn Header="$ Total" Binding="{Binding TicketsSold}" Width="*" />
+                        <DataGridTextColumn Header="# commande" Binding="{Binding OrderNumber}" Width="*" />
+                        <DataGridTextColumn Header="Date" Binding="{Binding OrderDate}" Width="*" />
+                        <DataGridTextColumn Header="$ Total" Binding="{Binding TotalPrice}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
@@ -55,7 +54,6 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="70"></RowDefinition>
 
                 </Grid.RowDefinitions>
@@ -64,35 +62,42 @@
 
                 <StackPanel Grid.Row="1" Margin="0,15,0,15" >
                     <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Numéro de commande :"></Label>
-                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[# de commande]" FontSize="20"></TextBlock>
+                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="{Binding SelectedOrder.OrderNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20"></TextBlock>
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Margin="0,15,0,15" >
-                    <Label VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Nombre de billets :"></Label>
-                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[# de billets]" FontSize="20"></TextBlock>
+                    <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Total avant taxe :"></Label>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="{Binding SelectedOrder.TotalPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20"></TextBlock>
+                        <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content=" $"></Label>
+                    </StackPanel>
                 </StackPanel>
 
                 <StackPanel Grid.Row="3" Margin="0,15,0,15" >
-                    <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Total avant taxe :"></Label>
-                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="20"></TextBlock>
+                    <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="TPS :"></Label>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="{Binding SelectedOrder.TPS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20"></TextBlock>
+                        <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content=" $"></Label>
+                    </StackPanel>
                 </StackPanel>
 
                 <StackPanel Grid.Row="4" Margin="0,15,0,15" >
-                    <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="TPS :"></Label>
-                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="20"></TextBlock>
+                    <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="TVQ :"></Label>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="{Binding SelectedOrder.TVQ, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20"></TextBlock>
+                        <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content=" $"></Label>
+                    </StackPanel>
                 </StackPanel>
 
                 <StackPanel Grid.Row="5" Margin="0,15,0,15" >
-                    <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="TVQ :"></Label>
-                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="20"></TextBlock>
-                </StackPanel>
-
-                <StackPanel Grid.Row="6" Margin="0,15,0,15" >
                     <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Total :"></Label>
-                    <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="[$$$$$]" FontSize="20"></TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="{Binding SelectedOrder.TotalAmountAfterTaxe, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20"></TextBlock>
+                        <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content=" $"></Label>
+                    </StackPanel>
                 </StackPanel>
                 <Button Grid.Row="8" Command="{Binding ChangePageToEventSelectionCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Retour" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="20"></Button>
-                <Button Grid.Row="8" Command="{Binding ChangePageToEventSelectionCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Renvoyer" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="20"></Button>
+                <Button Grid.Row="8" Command="{Binding ResendEmailCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Renvoyer" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="20"></Button>
 
             </Grid>
             

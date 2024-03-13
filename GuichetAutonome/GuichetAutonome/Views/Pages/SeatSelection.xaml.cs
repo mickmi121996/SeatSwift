@@ -1,4 +1,5 @@
 ﻿using GuichetAutonome.ViewModels.Pages;
+using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,10 @@ namespace GuichetAutonome.Views.Pages
     /// </summary>
     public partial class SeatSelection : Page
     {
-        public SeatSelection()
+        public SeatSelection(Representation representation, int numberOfTicket)
         {
             InitializeComponent();
-            VMSeatSelection vMSeatSelection = new VMSeatSelection();
+            VMSeatSelection vMSeatSelection = new VMSeatSelection(representation, numberOfTicket);
             this.DataContext = vMSeatSelection;
         }
     }

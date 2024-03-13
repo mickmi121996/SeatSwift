@@ -17,8 +17,6 @@
         </Grid.RowDefinitions>
 
         <StackPanel Margin="15" Orientation="Horizontal">
-            <Label Padding="0"  VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Votre panier :"></Label>
-
             <Button Command="{Binding ChangePageToCartCommand}" Margin="10,0" Width="60" Height="60" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" BorderThickness="1">
                 <Button.Resources>
                     <Style TargetType="Border">
@@ -35,24 +33,37 @@
                 <Path Data="{StaticResource Cart}" Stretch="Uniform" Fill="{DynamicResource SecondaryBackGroundColor}" Width="50" Height="50"/>
             </Button>
 
+            <Button Command="{Binding ChangePageToCompteInfoCommand}" Margin="10,0" Width="60" Height="60" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" BorderThickness="1">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="2"/>
+                    </Style>
+                </Button.Resources>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+                <Path Data="{StaticResource customers}" Stretch="Uniform" Fill="{DynamicResource SecondaryBackGroundColor}" Width="50" Height="50"/>
+            </Button>
+
             <Button Command="{Binding ChangePageToHistoryCommand}" Margin="15,0" HorizontalAlignment="Right" Content="Historique" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>
         </StackPanel>
         
         <Button  Command="{Binding ChangePageToConnectionCommand}" Margin="15" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Déconnexion" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>
 
 
-        <meterialDesign:Card Margin="15" Grid.Row="1" Background="{DynamicResource FourthIconColor}">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding YourItemsSource}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ContentControl Margin="20" Content="{Binding}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-        </meterialDesign:Card>
-
+        <ScrollViewer Margin="15" Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding UserControls}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ContentControl Margin="20" Content="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
 
     </Grid>
 </Page>

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GuichetAutonome.DataAccessLayer;
+using GuichetAutonome.ViewModels.UserControls;
 using GuichetAutonome.Views.Pages;
 using GuichetAutonome.Views.UserControls;
 using SeatSwiftDLL;
@@ -33,6 +34,8 @@ namespace GuichetAutonome.ViewModels.Pages
         public VMEventSelection()
         {
             _userControls = new ObservableCollection<UserControl>();
+
+            Task.Run(() => InitializeUsersControl());
         }
 
         #endregion
@@ -64,7 +67,18 @@ namespace GuichetAutonome.ViewModels.Pages
         [RelayCommand]
         public void ChangePageToConnection()
         {
+            // Disconnect the user
+            VMMainWindow.Instance.Client = null;
             VMMainWindow.Instance.ChangePage(typeof(Connection));
+        }
+
+        /// <summary>
+        /// Command to change page to the compte info page
+        /// </summary>
+        [RelayCommand]
+        public void ChangePageToCompteInfo()
+        {
+            VMMainWindow.Instance.CurrentPage = new Registration(VMMainWindow.Instance.Client);
         }
 
         /// <summary>
@@ -109,6 +123,18 @@ namespace GuichetAutonome.ViewModels.Pages
                         () => UserControls.Add(new EventTemplate(show))
                     );
                 }
+
+                // Changes the order of the list of users control
+                Application.Current.Dispatcher.Invoke(
+                    () =>
+                        UserControls = new ObservableCollection<UserControl>(
+                            UserControls
+                                .OrderBy(
+                                    uc =>
+                                        (uc.DataContext as VMEventTemplate)?.Show.Name
+                                )
+                        )
+                );
             }
             catch (Exception e)
             {

@@ -9,16 +9,16 @@
              FontFamily="Poppins"
              xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d">
-    <Grid>
+    <Grid Margin="10">
         <meterialDesign:Card Background="{DynamicResource FourthIconColor}">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="225"></ColumnDefinition>
-                    <ColumnDefinition Width="225"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Image Margin="5" Height="300"  Source="{Binding Show.ImageUrl}" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="Fill"></Image>
+                <Image Margin="5" Height="275"  Source="{Binding Show.ImageUrl}" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="Fill"></Image>
 
                 <Grid Margin="5" Grid.Column="1">
                     <Grid.RowDefinitions>

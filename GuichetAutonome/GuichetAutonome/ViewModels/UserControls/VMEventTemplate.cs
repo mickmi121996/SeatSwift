@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GuichetAutonome.DataAccessLayer;
+using GuichetAutonome.Views.Pages;
 using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
@@ -80,7 +81,8 @@ namespace GuichetAutonome.ViewModels.UserControls
         [RelayCommand(CanExecute = nameof(CanContinue))]
         public void Continue()
         {
-
+            // Go to the seat selection page
+            VMMainWindow.Instance.CurrentPage = new SeatSelection(SelectedRepresentation, NumberOfTickets);
         }
 
         /// <summary>

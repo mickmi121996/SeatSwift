@@ -19,18 +19,13 @@
 
         <StackPanel Margin="15" HorizontalAlignment="Left" Orientation="Horizontal">
             <Label  VerticalAlignment="Center" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Meilleurs billets pour :"></Label>
-            <ComboBox BorderBrush="{DynamicResource SecondaryBackGroundColor}" Width="150" Height="40" FontWeight="Bold" FontSize="20" Background="{DynamicResource SecondaryBackGroundColor}" Foreground="{DynamicResource FourthIconColor}">
-                <ComboBoxItem Content="La salle" />
-                <ComboBoxItem Content="La section" />
+            <ComboBox ItemsSource="{Binding Filters}" SelectedItem="{Binding Filters, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderBrush="{DynamicResource SecondaryBackGroundColor}" Width="150" Height="40" FontWeight="Bold" FontSize="20" Background="{DynamicResource SecondaryBackGroundColor}" Foreground="{DynamicResource FourthIconColor}">
             </ComboBox>
 
 
-            <Label Margin="25,0" VerticalAlignment="Center" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Section :"></Label>
+            <Label Visibility="{Binding IsSelectionFilterVisible}" Margin="25,0" VerticalAlignment="Center" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Section :"></Label>
 
-            <ComboBox BorderBrush="{DynamicResource SecondaryBackGroundColor}" Width="150" Height="40" FontWeight="Bold" FontSize="20" Background="{DynamicResource SecondaryBackGroundColor}" Foreground="{DynamicResource FourthIconColor}">
-                <ComboBoxItem Content="Balcon" />
-                <ComboBoxItem Content="Parterre" />
-                <ComboBoxItem Content="Logo" />
+            <ComboBox Visibility="{Binding IsSelectionFilterVisible}" SelectedItem="{Binding SelectedSectionName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding SectionNames}" BorderBrush="{DynamicResource SecondaryBackGroundColor}" Width="150" Height="40" FontWeight="Bold" FontSize="20" Background="{DynamicResource SecondaryBackGroundColor}" Foreground="{DynamicResource FourthIconColor}">
             </ComboBox>
         </StackPanel>
 

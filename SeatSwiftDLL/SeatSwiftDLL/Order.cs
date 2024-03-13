@@ -42,6 +42,21 @@ namespace SeatSwiftDLL
         public decimal TotalPrice { get; set; }
 
         /// <summary>
+        /// The TPS amount
+        /// </summary>
+        public decimal TPS { get; set; }
+
+        /// <summary>
+        /// The TVQ amount
+        /// </summary>
+        public decimal TVQ { get; set; }
+
+        /// <summary>
+        /// The total amount of the transaction after taxes
+        /// </summary>
+        public decimal TotalAmountAfterTaxe { get; set; }
+
+        /// <summary>
         /// The client of the order
         /// </summary>
         public Client? Client { get; set; }
@@ -62,6 +77,9 @@ namespace SeatSwiftDLL
             OrderNumber = string.Empty;
             OrderDate = DateTime.Now;
             TotalPrice = default;
+            TPS = default;
+            TVQ = default;
+            TotalAmountAfterTaxe = default;
             Client = null;
         }
 
@@ -83,6 +101,9 @@ namespace SeatSwiftDLL
             this.OrderNumber = orderNumber;
             this.OrderDate = orderDate;
             this.TotalPrice = totalPrice;
+            TPS = TpsCalculation(TotalPrice);
+            TVQ = TvqCalculation(TotalPrice);
+            TotalAmountAfterTaxe = TotalAmountAfterTaxeCalculation(TotalPrice, TPS, TVQ);
             this.Client = client;
         }
 
@@ -97,5 +118,42 @@ namespace SeatSwiftDLL
         }
 
         # endregion
+
+
+        #region Methods
+
+        /// <summary>
+        /// The tps calculation
+        /// </summary>
+        /// <param name="totalAmountBeforeTaxe">The total amount before taxes</param>
+        /// <returns>The tps amount</returns>
+        public decimal TpsCalculation(decimal totalAmountBeforeTaxe)
+        {
+            return totalAmountBeforeTaxe * 0.05m;
+        }
+
+        /// <summary>
+        /// The tvq calculation
+        /// </summary>
+        /// <param name="totalAmountBeforeTaxe">The total amount before taxes</param>
+        /// <returns>The tvq amount</returns>
+        public decimal TvqCalculation(decimal totalAmountBeforeTaxe)
+        {
+            return totalAmountBeforeTaxe * 0.09975m;
+        }
+
+        /// <summary>
+        /// The total amount after taxes calculation
+        /// </summary>
+        /// <param name="totalAmountBeforeTaxe">The total amount before taxes</param>
+        /// <param name="tps">The tps amount</param>
+        /// <param name="tvq">The tvq amount</param>
+        /// <returns>The total amount after taxes</returns>
+        public decimal TotalAmountAfterTaxeCalculation(decimal totalAmountBeforeTaxe, decimal tps, decimal tvq)
+        {
+            return totalAmountBeforeTaxe + tps + tvq;
+        }
+
+        #endregion
     }
 }
