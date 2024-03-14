@@ -42,6 +42,18 @@ namespace AppGestion.ViewModels.Windows
         private DateTime _selectedDate;
 
         /// <summary>
+        /// The is creating ticket
+        /// </summary>
+        [ObservableProperty]
+        private bool isCreatingTickets;
+
+        /// <summary>
+        /// The is creating ticket
+        /// </summary>
+        [ObservableProperty]
+        private Visibility isCreatingTicketsVisibility;
+
+        /// <summary>
         /// The selected time
         /// </summary>
         [ObservableProperty]
@@ -108,6 +120,7 @@ namespace AppGestion.ViewModels.Windows
         {
             try
             {
+                IsCreatingTicketsVisibility = Visibility.Visible;
                 // Create the representation
                 Representation representation = new Representation()
                 {
@@ -115,19 +128,29 @@ namespace AppGestion.ViewModels.Windows
                     Auditorium = SelectedAuditorium,
                     Date = SelectedDateTime,
                     Status = RepresentationStatus.Available
-                    
+
                 };
 
                 // Add the representation to the database
                 await DAL.RepresentationFactory.CreateAsync(representation);
+
+                // Get a representation in the database
+                Representation = await DAL.RepresentationFactory.GetByShowAndDateAsync(Show, SelectedDateTime);
+
+                // Create the tickets
+                await CreateTickets();
+
+                IsCreatingTicketsVisibility = Visibility.Hidden;
 
                 // Close the window
                 Application.Current.Windows.OfType<AddEditRepresentation>().FirstOrDefault()?.Close();
             }
             catch (Exception ex)
             {
+                IsCreatingTicketsVisibility = Visibility.Hidden;
                 // Open a message box
                 MessageBox.Show(ex.Message, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+
             }
         }
 
@@ -142,6 +165,7 @@ namespace AppGestion.ViewModels.Windows
         private void InitializeProperties()
         {
             GetCurrentDate();
+            IsCreatingTicketsVisibility = Visibility.Hidden;
             Title = "Nouvelle représentation pour " + Show.Name;
             SelectedDate = CurrentDate;
             SelectedTime = CurrentTime;
@@ -175,6 +199,39 @@ namespace AppGestion.ViewModels.Windows
                 }
             }
 
+        }
+
+        /// <summary>
+        /// Method to create all the tickets for the representation
+        /// </summary>
+        private async Task CreateTickets()
+        {
+            if (Representation.Auditorium is not null)
+            {
+                // Get the list of seats
+                var seats = await DAL.SeatFactory.GetAllByAuditoriumIdAsync(Representation.Auditorium.Id);
+                
+                // Create a list of tickets
+                List<Ticket> tickets = new List<Ticket>();
+
+                // Create a ticket for each seat
+                foreach (var seat in seats)
+                {
+                    Ticket ticket = new Ticket()
+                    {
+                        IsActive = true,
+                        Representation = Representation,
+                        Seat = seat,
+                        ReservationNumber = $"{Representation.Id}{seat.Id}",
+                        TicketStatus = TicketStatus.Available
+                    };
+
+                    tickets.Add(ticket);
+                }
+
+                // Add the tickets to the database
+                await DAL.TicketFactory.CreateRangeAsync(tickets);
+            }
         }
 
         /// <summary>

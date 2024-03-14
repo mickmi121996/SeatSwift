@@ -40,6 +40,8 @@ namespace GuichetAutonome.ViewModels.Pages
 
         public VMHistoryShow()
         {
+            VMMainWindow.Instance.ResetInactivityTimer();
+
             // Initialize the view model
             _orders = new ObservableCollection<Order>();
             _selectedOrder = new Order();

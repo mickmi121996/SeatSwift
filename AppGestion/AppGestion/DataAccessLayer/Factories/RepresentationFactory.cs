@@ -252,6 +252,49 @@ namespace AppGestion.DataAccessLayer.Factories
         }
 
         /// <summary>
+        /// Get by show and date
+        /// </summary>
+        /// <param name="show">The show</param>
+        /// <param name="date">The date</param>
+        /// <returns>The representation</returns>
+        /// <exception cref="DataAccessLayerException">Thrown when an error occurs in the data access layer</exception>
+        /// <exception cref="ArgumentException">Thrown when the show is null</exception>
+        public async Task<Representation> GetByShowAndDateAsync(Show show, DateTime date)
+        {
+            if (show == null)
+            {
+                throw new ArgumentNullException(nameof(show));
+            }
+
+            try
+            {
+                // Get the representation for the given show and date
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
+                    (this.ConnectionString,
+                    "SELECT * FROM representation WHERE ShowId = @showId AND Date = @date AND IsActive = 1;",
+                    new MySqlParameter("@showId", show.Id),
+                    new MySqlParameter("@date", date)
+                    )
+                )
+                {
+                    // If no representation is found, throw an exception
+                    if (result.Rows.Count == 0)
+                    {
+                        throw new KeyNotFoundException("No representation with the show id " + show.Id + " and the date " + date + " was found");
+                    }
+
+                    // Create the Show object
+                    return await CreateFromRowAsync(result.Rows[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the representation with the given show and date", ex);
+            }
+        }
+
+        /// <summary>
         /// Get all representations
         /// </summary>
         /// <returns>The list of representations</returns>

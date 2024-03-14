@@ -19,7 +19,7 @@
 
         <StackPanel Margin="15" HorizontalAlignment="Left" Orientation="Horizontal">
             <Label  VerticalAlignment="Center" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Meilleurs billets pour :"></Label>
-            <ComboBox ItemsSource="{Binding Filters}" SelectedItem="{Binding Filters, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderBrush="{DynamicResource SecondaryBackGroundColor}" Width="150" Height="40" FontWeight="Bold" FontSize="20" Background="{DynamicResource SecondaryBackGroundColor}" Foreground="{DynamicResource FourthIconColor}">
+            <ComboBox ItemsSource="{Binding Filters}" SelectedItem="{Binding SelectedFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderBrush="{DynamicResource SecondaryBackGroundColor}" Width="150" Height="40" FontWeight="Bold" FontSize="20" Background="{DynamicResource SecondaryBackGroundColor}" Foreground="{DynamicResource FourthIconColor}">
             </ComboBox>
 
 

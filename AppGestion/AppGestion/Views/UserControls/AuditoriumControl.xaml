@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="AppGestion.Views.UserControls.AuditoriumControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AppGestion.Views.UserControls"
+             xmlns:viewModel="clr-namespace:AppGestion.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewModel:AuditoriumViewModel}" 
+             FontFamily="Poppins"
+             xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d">
+    <Grid x:Name="SeatsGrid">
+        
+    </Grid>
+</UserControl>

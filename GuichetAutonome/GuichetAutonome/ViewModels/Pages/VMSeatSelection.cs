@@ -74,6 +74,8 @@ namespace GuichetAutonome.ViewModels.Pages
 
         public VMSeatSelection(Representation representation, int numberOfTicket)
         {
+            VMMainWindow.Instance.ResetInactivityTimer();
+
             _representation = representation;
             _numberOfTickets = numberOfTicket;
 

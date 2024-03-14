@@ -18,27 +18,32 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Image Margin="5" Height="100"  Source="{Binding Show.ImageUrl}" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="Fill"></Image>
+                <Image Margin="5" Height="1" Source="{Binding Show.ImageUrl}" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="Fill"></Image>
 
                 <Grid Margin="5" Grid.Column="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,0,10">
+                        <Label Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="15" Content="# Commande :" FontWeight="Bold" Padding="0"/>
+                        <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}"  Text="{Binding Order.OrderNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,0,10">
                         <Label Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="15" Content="Nom :" FontWeight="Bold" Padding="0"/>
                         <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}"  Text="{Binding Show.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,0,10">
+                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,0,0,10">
                         <Label Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="15" Content="Artiste/Groupe :" FontWeight="Bold" Padding="0"/>
                         <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}"  Text="{Binding Show.Artist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,0,0,10">
+                    <StackPanel Grid.Row="3" Grid.Column="1" Margin="0,0,0,10">
                         <Label Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="15" Content="Type :" FontWeight="Bold" Padding="0"/>
                         <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="{Binding Show.ShowType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="0"/>
                     </StackPanel>
@@ -59,13 +64,13 @@
                     <StackPanel Grid.Row="1" >
                         <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Total avant taxe :"></Label>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="{Binding SelectedOrder.TotalPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20"></TextBlock>
+                            <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="{Binding SelectedOrder.TotalPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:F2}}" FontSize="20"></TextBlock>
                             <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content=" $"></Label>
                         </StackPanel>
                     </StackPanel>
                 </Grid>
 
-                <Button Margin="5" Grid.Row="3" Grid.Column="2" Command="{Binding ContinueCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Supprimer" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="30" FontWeight="Bold" FontSize="20"></Button>
+                <Button Margin="5" Grid.Row="3" Grid.Column="2" Command="{Binding}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Supprimer" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="30" FontWeight="Bold" FontSize="20"></Button>
 
             </Grid>
         </meterialDesign:Card>

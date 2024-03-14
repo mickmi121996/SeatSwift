@@ -1,4 +1,4 @@
-﻿using GuichetAutonome.ViewModels.UserControls;
+﻿using AppGestion.ViewModels;
 using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
@@ -15,18 +15,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GuichetAutonome.Views.UserControls
+namespace AppGestion.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for OrderTemplate.xaml
+    /// Interaction logic for SeatControl.xaml
     /// </summary>
-    public partial class OrderTemplate : UserControl
+    public partial class SeatControl : UserControl
     {
-        public OrderTemplate(List<Ticket> tickets)
+        public SeatControl(Seat seat)
         {
             InitializeComponent();
-            VMOrderTemplate vMOrderTemplate = new VMOrderTemplate(tickets);
-            this.DataContext = vMOrderTemplate;
+            SeatViewModel seatViewModel = new SeatViewModel(seat);
+            this.DataContext = seatViewModel;
         }
     }
 }

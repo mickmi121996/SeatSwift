@@ -59,7 +59,7 @@ namespace SeatSwiftDLL
         {
             get
             {
-                return $"{ReservationNumber};{Representation?.Date};{Seat?.SeatNumber}";
+                return $"{ReservationNumber} ; {Representation?.Date} ; {Seat?.RowName} ; {Seat?.SeatNumber}";
             }
         }
 

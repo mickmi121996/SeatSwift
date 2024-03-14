@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="AppGestion.Views.UserControls.SeatControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AppGestion.Views.UserControls"
+             xmlns:viewModel="clr-namespace:AppGestion.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewModel:SeatViewModel}" 
+             FontFamily="Poppins"
+             xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d">
+    <ToggleButton IsChecked="{Binding IsInService, Mode=TwoWay}" Content="{Binding SeatNumber}"
+                  Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <ToggleButton.Style>
+            <Style TargetType="ToggleButton">
+                <!-- Couleur par défaut -->
+                <Setter Property="Background" Value="LightGray"/>
+                <!-- Couleur pour la section Parterre -->
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SectionName}" Value="Parterre">
+                        <Setter Property="Background" Value="LightGreen"/>
+                    </DataTrigger>
+                    <!-- Couleur pour la section Balcon -->
+                    <DataTrigger Binding="{Binding SectionName}" Value="Balcon">
+                        <Setter Property="Background" Value="SkyBlue"/>
+                    </DataTrigger>
+                    <!-- Couleur pour la section Loge -->
+                    <DataTrigger Binding="{Binding SectionName}" Value="Loge">
+                        <Setter Property="Background" Value="SandyBrown"/>
+                    </DataTrigger>
+                    <!-- Gestion du siège non disponible -->
+                    <Trigger Property="IsChecked" Value="False">
+                        <Setter Property="Background" Value="Gray"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ToggleButton.Style>
+
+    </ToggleButton>
+</UserControl>

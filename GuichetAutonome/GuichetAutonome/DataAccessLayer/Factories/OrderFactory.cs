@@ -146,6 +146,42 @@ namespace GuichetAutonome.DataAccessLayer.Factories
         }
 
         /// <summary>
+        /// Get by order number
+        /// </summary>
+        /// <param name="orderNumber">Order number</param>
+        /// <returns>Order</returns>
+        /// <exception cref="KeyNotFoundException">If no order with the specified order number is found</exception>
+        /// <exception cref="Exception">If an error occurred while getting the order</exception>
+        public async Task<Order> GetByOrderNumberAsync(string orderNumber)
+        {
+            try
+            {
+                // Get the show with the given id
+                using (
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
+                    (this.ConnectionString,
+                    "SELECT * FROM orders WHERE OrderNumber = @orderNumber;",
+                    new MySqlParameter("@orderNumber", orderNumber)
+                    )
+                )
+                {
+                    // If no show is found, throw an exception
+                    if (result.Rows.Count == 0)
+                    {
+                        throw new KeyNotFoundException("No order with the order number " + orderNumber + " was found");
+                    }
+
+                    // Create the Show object
+                    return await CreateFromRowAsync(result.Rows[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the order with the given order number", ex);
+            }
+        }
+
+        /// <summary>
         /// Get all active orders of a client
         /// </summary>
         /// <param name="clientId">Client id</param>
@@ -402,6 +438,41 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             catch (Exception ex)
             {
                 throw new Exception("An error occurred while getting the sell by month", ex);
+            }
+        }
+
+        /// <summary>
+        /// Check if the order number is unique
+        /// </summary>
+        /// <param name="orderNumber">Order number</param>
+        /// <returns>True if the order number is unique, false otherwise</returns>
+        /// <exception cref="Exception">If an error occurred while checking the order number</exception>
+        /// <exception cref="ArgumentNullException">If the order number is null</exception>
+        public async Task<bool> IsOrderNumberUniqueAsync(string orderNumber)
+        {
+            // Check if the order number is null
+            if (orderNumber is null)
+            {
+                throw new ArgumentNullException("The order number is null");
+            }
+
+            try
+            {
+                // Check if the order number is unique
+                using (
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
+                    (this.ConnectionString,
+                    "SELECT * FROM orders WHERE OrderNumber = @orderNumber;",
+                    new MySqlParameter("@orderNumber", orderNumber)
+                    )
+                )
+                {
+                    return result.Rows.Count == 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while checking if the order number is unique", ex);
             }
         }
 

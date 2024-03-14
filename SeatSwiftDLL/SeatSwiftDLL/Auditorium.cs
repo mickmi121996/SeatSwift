@@ -71,8 +71,8 @@ namespace SeatSwiftDLL
             this.Id = id;
             this.IsActive = isActive;
             this.Name = name;
-            this.NumberOfRows = default;
-            this.NumberOfColumns = default;
+            this.NumberOfRows = rows;
+            this.NumberOfColumns = columns;
         }
 
         #endregion

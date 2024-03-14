@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace GuichetAutonome.ViewModels.Pages
 {
     public partial class VMThanks : ObservableObject
-    {      
+    {
         #region Properties
 
 
@@ -22,8 +22,12 @@ namespace GuichetAutonome.ViewModels.Pages
 
         public VMThanks()
         {
-            // Constructor
+            VMMainWindow.Instance.ResetInactivityTimer();
+
+            // Démarre un délai dès l'initialisation du ViewModel
+            Task.Delay(20000).ContinueWith(_ => ChangePageToConnection(), TaskScheduler.FromCurrentSynchronizationContext());
         }
+
 
         #endregion
 
@@ -34,10 +38,12 @@ namespace GuichetAutonome.ViewModels.Pages
         /// Command to the connection page
         /// </summary>
         [RelayCommand]
-        public async Task ChangePageToConnection()
+        public void ChangePageToConnection()
         {
-            VMMainWindow.Instance.ChangePage(typeof(Connection));
+            // Déconnecte l'utilisateur
+            VMMainWindow.Instance.LogoutUser();
         }
+
 
         /// <summary>
         /// Command to the event selection page

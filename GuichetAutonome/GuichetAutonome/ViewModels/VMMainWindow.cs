@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace GuichetAutonome.ViewModels
 {
@@ -37,6 +38,8 @@ namespace GuichetAutonome.ViewModels
         /// </summary>
         private static VMMainWindow? _instance;
 
+        private DispatcherTimer _inactivityTimer;
+
         #region Properties
 
         /// <summary>
@@ -61,7 +64,7 @@ namespace GuichetAutonome.ViewModels
         /// A list of order as a cart
         /// </summary>
         [ObservableProperty]
-        private ObservableCollection<Order> _cart;
+        private ObservableCollection<Ticket> _cart;
 
         #endregion
 
@@ -74,6 +77,8 @@ namespace GuichetAutonome.ViewModels
         public VMMainWindow()
         {
             InitializeProperties();
+
+            SetupInactivityTimer();
         }
 
         #endregion
@@ -125,6 +130,38 @@ namespace GuichetAutonome.ViewModels
             }
         }
 
+        private void SetupInactivityTimer()
+        {
+            _inactivityTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMinutes(5)
+            };
+
+            _inactivityTimer.Tick += OnInactivityTimerExpired;
+            _inactivityTimer.Start();
+        }
+
+        public void ResetInactivityTimer()
+        {
+            _inactivityTimer?.Stop();
+            _inactivityTimer?.Start();
+        }
+
+        private void OnInactivityTimerExpired(object? sender, EventArgs e)
+        {
+            LogoutUser();
+        }
+
+        public void LogoutUser()
+        {
+            IsConnected = false;
+            Client = null;
+            Cart.Clear();
+            ChangePage(typeof(Connection));
+            
+            ResetInactivityTimer();
+        }
+
         public void ChangeUser(Client client)
         {
             Client = client;
@@ -140,6 +177,7 @@ namespace GuichetAutonome.ViewModels
             Client = new Client();
             IsConnected = false;
             CurrentPage = new Connection();
+            Cart = new ObservableCollection<Ticket>();
         }
 
         #endregion

@@ -117,6 +117,8 @@ namespace GuichetAutonome.ViewModels.Pages
         /// </summary>
         public VMRegistration()
         {
+            VMMainWindow.Instance.ResetInactivityTimer();
+
             _client = new SeatSwiftDLL.Client();
             _isModifyState = false;
             _modifyStateVisibility = Visibility.Collapsed;

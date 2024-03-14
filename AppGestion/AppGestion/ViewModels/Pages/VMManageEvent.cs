@@ -45,6 +45,8 @@ namespace AppGestion.ViewModels.Pages
         [NotifyCanExecuteChangedFor(nameof(DeleteRepresentationCommand))]
         private Representation _selectedRepresentation;
 
+        private bool _isInitialLoadComplete = false;
+
         #endregion
 
 
@@ -185,7 +187,7 @@ namespace AppGestion.ViewModels.Pages
         /// <summary>
         /// Load the data
         /// </summary>
-        private async void LoadData()
+        private async Task LoadData()
         {
             // Clear the list of show
             Shows.Clear();
@@ -206,17 +208,21 @@ namespace AppGestion.ViewModels.Pages
                 SelectedShow = Shows[0];
             }
 
-            await LoadRepresentation();
+            LoadRepresentation();
+
+            _isInitialLoadComplete = true;
 
         }
 
         /// <summary>
         /// Load the representation for the selected show
         /// </summary>
-        private async Task LoadRepresentation()
+        private async void LoadRepresentation()
         {
             // Clear the list of representation
             Representations.Clear();
+
+            SelectedRepresentation = null;
 
             // Get the list of representation
             var representations = await DAL.RepresentationFactory.GetByShowAsync(SelectedShow);
@@ -240,12 +246,12 @@ namespace AppGestion.ViewModels.Pages
         /// </summary>
         partial void OnSelectedShowChanged(Show value)
         {
-            // make the task to load the representation
-            if(Representations is not null)
+            if (Representations is not null && _isInitialLoadComplete)
             {
                 LoadRepresentation();
             }
         }
+
 
         #endregion
     }

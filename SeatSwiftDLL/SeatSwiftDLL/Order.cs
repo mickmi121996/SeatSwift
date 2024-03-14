@@ -60,9 +60,9 @@ namespace SeatSwiftDLL
         /// The client of the order
         /// </summary>
         public Client? Client { get; set; }
-        
 
-        # endregion
+
+        #endregion
 
 
         #region Constructor
@@ -94,7 +94,7 @@ namespace SeatSwiftDLL
         /// <param name="client">The client of the order</param>
         public Order(int id, bool isActive, string orderNumber, DateTime orderDate, decimal totalPrice, Client client)
         {
-            if(client == null) { throw new ArgumentNullException(nameof(client)); }
+            if (client == null) { throw new ArgumentNullException(nameof(client)); }
 
             this.Id = id;
             this.IsActive = isActive;

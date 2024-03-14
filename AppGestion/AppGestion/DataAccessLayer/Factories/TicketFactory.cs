@@ -281,6 +281,36 @@ namespace AppGestion.DataAccessLayer.Factories
         }
 
         /// <summary>
+        /// Create ticket with a list of tickets.
+        /// </summary>
+        /// <param name="tickets">The list of tickets to create.</param>
+        /// <exception cref="Exception">A delegate callback throws an exception.</exception>
+        /// <exception cref="MySqlException">A MySQL exception was thrown.</exception>
+        public async Task CreateRangeAsync(List<Ticket> tickets)
+        {
+            try
+            {
+                // Create the tickets
+                foreach (var ticket in tickets)
+                {
+                    await DataBaseTool.ExecuteNonQueryAsync
+                    (this.ConnectionString,
+                    "INSERT INTO ticket (IsActive, ReservationNumber, TicketStatus, RepresentationId, SeatId ) VALUES (@isActive, @reservationNumber, @ticketStatus, @representationId, @seatId);",
+                    new MySqlParameter("@isActive", ticket.IsActive),
+                    new MySqlParameter("@reservationNumber", ticket.ReservationNumber),
+                    new MySqlParameter("@ticketStatus", ticket.TicketStatus.ToString()),
+                    new MySqlParameter("@representationId", ticket.Representation.Id),
+                    new MySqlParameter("@seatId", ticket.Seat.Id)
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while creating the tickets", ex);
+            }
+        }
+
+        /// <summary>
         /// set the ticket status to Reserved.
         /// </summary>
         /// <param name="ticket">The ticket to reserve.</param>

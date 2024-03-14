@@ -33,7 +33,11 @@ namespace GuichetAutonome.ViewModels.Pages
 
         public VMEventSelection()
         {
+            VMMainWindow.Instance.ResetInactivityTimer();
+
             _userControls = new ObservableCollection<UserControl>();
+
+            VMMainWindow.Instance.ResetInactivityTimer();
 
             Task.Run(() => InitializeUsersControl());
         }
@@ -67,9 +71,7 @@ namespace GuichetAutonome.ViewModels.Pages
         [RelayCommand]
         public void ChangePageToConnection()
         {
-            // Disconnect the user
-            VMMainWindow.Instance.Client = null;
-            VMMainWindow.Instance.ChangePage(typeof(Connection));
+            VMMainWindow.Instance.LogoutUser();
         }
 
         /// <summary>

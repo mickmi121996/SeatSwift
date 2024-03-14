@@ -32,7 +32,7 @@ namespace AppGestion.DataAccessLayer.Factories
             int id = dataReader.GetInt32("Id");
             bool isActive = dataReader.GetBoolean("IsActive");
             string name = dataReader.GetString("AuditoriumName");
-            int numberOfRows = dataReader.GetInt32("NumberOfRows");
+            int numberOfRows = dataReader.GetInt32("numberOfRows");
             int numberOfColumns = dataReader.GetInt32("NumberOfColumns");
 
             // Create the auditorium
@@ -54,7 +54,7 @@ namespace AppGestion.DataAccessLayer.Factories
             bool isActive = row.Field<bool>("IsActive");
             string name = row.Field<string>("AuditoriumName")??
             throw new ArgumentNullException("The name of the auditorium cannot be null");
-            int numberOfRows = row.Field<int>("NumberOfRows");
+            int numberOfRows = row.Field<int>("numberOfRows");
             int numberOfColumns = row.Field<int>("NumberOfColumns");
 
             // Create the auditorium
