@@ -94,7 +94,6 @@ namespace AppGestion.DataAccessLayer.Factories
         {
             try
             {
-                // Get all seats of the auditorium
                 using (
                     DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
                         this.ConnectionString,
@@ -103,10 +102,8 @@ namespace AppGestion.DataAccessLayer.Factories
                     )
                 )
                 {
-                    // Create a list of seats
                     List<Seat> seats = new List<Seat>();
 
-                    // Create a seat for each row
                     foreach (DataRow row in result.Rows)
                     {
                         seats.Add(await CreateFromRowAsync(row));
@@ -120,6 +117,7 @@ namespace AppGestion.DataAccessLayer.Factories
                 throw new Exception("An error occurred while getting the seats of the auditorium", e);
             }
         }
+
 
         /// <summary>
         /// Get a seat by its id

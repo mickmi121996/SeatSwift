@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AppGestion.ViewModels
 {
@@ -45,6 +46,12 @@ namespace AppGestion.ViewModels
         private string _title;
 
         /// <summary>
+        /// The is creating ticket
+        /// </summary>
+        [ObservableProperty]
+        private Visibility _isCurrentlyWorking;
+
+        /// <summary>
         /// The the connection status of the user
         /// </summary>
         [ObservableProperty]
@@ -66,6 +73,7 @@ namespace AppGestion.ViewModels
         /// </summary>
         public VMMainWindow(User user)
         {
+            _isCurrentlyWorking = Visibility.Collapsed;
             _title = string.Empty;
             _isConnected = false;
             _user = new User();

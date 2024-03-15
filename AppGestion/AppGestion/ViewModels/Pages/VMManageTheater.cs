@@ -1,6 +1,8 @@
 ﻿using AppGestion.DataAccessLayer;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using SeatSwiftDLL;
+using SeatSwiftDLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +10,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace AppGestion.ViewModels.Pages
 {
@@ -22,17 +26,18 @@ namespace AppGestion.ViewModels.Pages
         private ObservableCollection<Auditorium> _auditoriums;
 
         /// <summary>
-        /// The selected auditorium
+        /// A list of Auditoriums
         /// </summary>
         [ObservableProperty]
-        private Auditorium _selectedAuditorium;
+        private ObservableCollection<Seat> _seats;
 
         /// <summary>
         /// The selected auditorium
         /// </summary>
         [ObservableProperty]
-        private AuditoriumViewModel _auditoriumViewModel;
+        private Auditorium _selectedAuditorium;
 
+        public event Action SeatsInitialized;
 
         private bool _isInitialLoadComplete = false;
 
@@ -62,27 +67,47 @@ namespace AppGestion.ViewModels.Pages
 
         #region methods
 
+        [RelayCommand]
+        public async Task ToggleSeat(Seat seat)
+        {
+            if (seat != null)
+            {
+                seat.Status = seat.Status == SeatStatus.InService ? SeatStatus.OutOfService : SeatStatus.InService;
+                // Mettre à jour la base de données ou le service web si nécessaire ici
+                try
+                {
+                    await DAL.SeatFactory.UpdateStatusAsync(seat.Id, seat.Status);
+                }
+                catch (Exception ex)
+                {
+                    // Message box error
+                    MessageBox.Show("Erreur lors de la mise à jour du siège.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+
         /// <summary>
         /// Initialize the properties
         /// </summary>
         private void InitializeProperties()
         {
+            _isInitialLoadComplete = false;
             Auditoriums = new ObservableCollection<Auditorium>();
             SelectedAuditorium = new Auditorium();
         }
+
 
         /// <summary>
         /// Method called when the selected Auditorium changes
         /// </summary>
         partial void OnSelectedAuditoriumChanged(Auditorium value)
         {
-            if (value is not null)
+            if (value is not null && value.Id>0)
             {
-                // Initialisez le tableau 2D avec les dimensions de l'auditorium sélectionné.
-                AuditoriumViewModel = new AuditoriumViewModel(value);
+                _ = InitializeSeats();
             }
         }
-
 
         /// <summary>
         /// Method to get the list of auditoriums
@@ -101,7 +126,23 @@ namespace AppGestion.ViewModels.Pages
             if (Auditoriums.Count > 0)
             {
                 SelectedAuditorium = Auditoriums[0];
+
+                await InitializeSeats();
             }
+
+        }
+
+        public async Task InitializeSeats()
+        {
+
+            var seatList = await DAL.SeatFactory.GetAllByAuditoriumIdAsync(SelectedAuditorium.Id);
+            foreach (var seat in seatList)
+            {
+                seat.XCoordinate = -1;
+                seat.YCoordinate = -1;
+                Seats.Add(seat);
+            }
+            SeatsInitialized?.Invoke();
         }
 
         #endregion

@@ -224,20 +224,23 @@ namespace AppGestion.ViewModels.Pages
 
             SelectedRepresentation = null;
 
-            // Get the list of representation
-            var representations = await DAL.RepresentationFactory.GetByShowAsync(SelectedShow);
-
-            // Add the representation to the list
-            foreach (var representation in representations)
+            if(SelectedShow != null)
             {
-                Representations.Add(representation);
-            }
+                // Get the list of representation
+                var representations = await DAL.RepresentationFactory.GetByShowAsync(SelectedShow);
 
-            // if the list is not empty
-            if (Representations.Count > 0)
-            {
-                // Set the selected representation
-                SelectedRepresentation = Representations[0];
+                // Add the representation to the list
+                foreach (var representation in representations)
+                {
+                    Representations.Add(representation);
+                }
+
+                // if the list is not empty
+                if (Representations.Count > 0)
+                {
+                    // Set the selected representation
+                    SelectedRepresentation = Representations[0];
+                }
             }
         }
 

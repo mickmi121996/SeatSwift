@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:converters="clr-namespace:AppGestion.Converters"
       xmlns:viewModel="clr-namespace:AppGestion.ViewModels.Pages"
       d:DataContext="{d:DesignInstance Type=viewModel:VMManageTheater}"
       xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -10,7 +11,9 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ManageTheater" FontFamily="Poppins">
-
+    <Page.Resources>
+        <converters:SeatStatusToBooleanConverter x:Key="SeatStatusToBooleanConverter"/>
+    </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -18,7 +21,28 @@
         </Grid.ColumnDefinitions>
 
         <!-- Grille de la salle -->
-        <local:AuditoriumControl Grid.Column="0" DataContext="{Binding AuditoriumViewModel}" Margin="10"/>
+        <ItemsControl Name="SeatsGrid" ItemsSource="{Binding Seats}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ToggleButton Content="{Binding SeatNumber}" 
+                  IsChecked="{Binding Path=Status, Converter={StaticResource SeatStatusToBooleanConverter}}"
+                  Command="{Binding DataContext.ToggleSeatCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                  CommandParameter="{Binding}">
+                        <ToggleButton.Style>
+                            <Style TargetType="ToggleButton">
+                                <Setter Property="Margin" Value="1"/>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
 
         <StackPanel Grid.Column="2">
@@ -27,7 +51,7 @@
             <!-- Nouveaux éléments pour la configuration de la grille -->
             <TextBlock FontSize="16" Foreground="{DynamicResource SecondaryBlueColor}" Margin="10,10,10,0" Text="Choix de l'auditorium" FontWeight="Bold"/>
             <ComboBox ItemsSource="{Binding Auditoriums}" 
-                              SelectedItem="{Binding SelectedAuditorium}" 
+                              SelectedItem="{Binding SelectedAuditorium, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               DisplayMemberPath="Name" 
                               Margin="10,5,10,0"
                               SelectedIndex="0">
@@ -37,11 +61,5 @@
             <Label FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Margin="10,5,10,0" Content="Nombre de sièges :"/>
             <TextBlock Margin="10,5,10,0" Text="{Binding SelectedAuditorium.NumberOfColumns, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
-
-        <StackPanel Grid.Column="2" Margin="10,10,10,5" VerticalAlignment="Bottom">
-            <Button Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Margin="0,10" Content="Enregistrer"/>
-            <Button Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Margin="0,10" Content="Visualiser la salle"/>
-        </StackPanel>
-
     </Grid>
 </Page>

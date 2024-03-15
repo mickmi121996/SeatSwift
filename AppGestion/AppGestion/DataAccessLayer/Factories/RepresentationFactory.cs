@@ -128,7 +128,7 @@ namespace AppGestion.DataAccessLayer.Factories
         {
             if (show == null)
             {
-                throw new ArgumentNullException(nameof(show));
+                throw new ArgumentNullException();
             }
 
             try

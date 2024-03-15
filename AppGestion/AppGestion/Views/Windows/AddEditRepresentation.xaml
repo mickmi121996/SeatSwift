@@ -95,7 +95,7 @@
 
             <Button Command="{Binding ConfirmCommand}" Grid.Row="7" Grid.Column="1" Margin="10,0,10,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Confirmer" Height="30" VerticalAlignment="Center"/>
 
-            <Grid Grid.RowSpan="3" Visibility="{Binding IsCreatingTicketsVisibility}"
+            <Grid Margin="3" Grid.RowSpan="3" Visibility="{Binding IsCreatingTicketsVisibility}"
              Background="#DD000000">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <ProgressBar IsIndeterminate="True" Style="{StaticResource MaterialDesignCircularProgressBar}" Width="50" Height="50"/>
