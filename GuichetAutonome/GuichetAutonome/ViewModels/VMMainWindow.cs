@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GuichetAutonome.DataAccessLayer;
 using GuichetAutonome.ViewModels.Pages;
 using GuichetAutonome.Views;
 using GuichetAutonome.Views.Pages;
@@ -64,7 +65,7 @@ namespace GuichetAutonome.ViewModels
         /// A list of order as a cart
         /// </summary>
         [ObservableProperty]
-        private ObservableCollection<Ticket> _cart;
+        private List<Ticket> _cart;
 
         #endregion
 
@@ -152,15 +153,25 @@ namespace GuichetAutonome.ViewModels
             LogoutUser();
         }
 
-        public void LogoutUser()
+        public async Task LogoutUser()
         {
+            if (Cart != null && Cart.Count > 0)
+            {
+                foreach (var ticket in Cart)
+                {
+                    await DAL.TicketFactory.MakeAvailableAsync(ticket);
+                }
+                Cart.Clear(); 
+            }
+
             IsConnected = false;
             Client = null;
-            Cart.Clear();
+
             ChangePage(typeof(Connection));
-            
+
             ResetInactivityTimer();
         }
+
 
         public void ChangeUser(Client client)
         {
@@ -177,7 +188,7 @@ namespace GuichetAutonome.ViewModels
             Client = new Client();
             IsConnected = false;
             CurrentPage = new Connection();
-            Cart = new ObservableCollection<Ticket>();
+            Cart = new List<Ticket>();
         }
 
         #endregion

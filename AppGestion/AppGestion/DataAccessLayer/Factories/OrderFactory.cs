@@ -202,19 +202,18 @@ namespace AppGestion.DataAccessLayer.Factories
         {
             try
             {
-                // Get all shows
+                DateTime dateWithoutTime = date.Date;
+
                 using (
                     DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
                     (this.ConnectionString,
-                    "SELECT * FROM orders WHERE IsActive = 1 AND OrderDate = @date;",
-                    new MySqlParameter("@date", date)
+                    "SELECT * FROM orders WHERE IsActive = 1 AND DATE(OrderDate) = @date;",
+                    new MySqlParameter("@date", dateWithoutTime)
                     )
                 )
                 {
-                    // Create the list of shows
                     List<Order> orders = new List<Order>();
 
-                    // Create the shows
                     foreach (DataRow row in result.Rows)
                     {
                         orders.Add(await CreateFromRowAsync(row));
@@ -225,9 +224,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the orders of the client with the given id", ex);
+                throw new Exception("An error occurred while getting the orders for the given date", ex);
             }
         }
+
 
         /// <summary>
         /// Get all active orders for a mount and year
@@ -361,11 +361,11 @@ namespace AppGestion.DataAccessLayer.Factories
         /// <returns>List of tuples containing month and sell if 0 sell, return the mount and 0</returns>
         /// <exception cref="Exception">If an error occurred while getting the sell</exception>
         /// <exception cref="KeyNotFoundException">If no sell is found for the current year</exception>
-        public async Task<List<Tuple<string, int>>> GetSellByMonthAsync()
+        public async Task<List<Tuple<string, decimal>>> GetSellByMonthAsync()
         {
             try
             {
-                var sellByMonth = new List<Tuple<string, int>>();
+                var sellByMonth = new List<Tuple<string, decimal>>();
 
                 string query = @"
                 SELECT MONTH(OrderDate) AS Month, SUM(TotalPrice) AS Sell
@@ -382,13 +382,15 @@ namespace AppGestion.DataAccessLayer.Factories
                         var row = result.AsEnumerable().FirstOrDefault(r => r.Field<int>("Month") == i);
                         if (row is null)
                         {
-                            sellByMonth.Add(Tuple.Create(month, 0));
+                            sellByMonth.Add(Tuple.Create(month, 0m));
                         }
                         else
                         {
-                            sellByMonth.Add(Tuple.Create(month, Convert.ToInt32(row["Sell"])));
+                            decimal sellValue = row.IsNull("Sell") ? 0m : Convert.ToDecimal(row["Sell"]);
+                            sellByMonth.Add(Tuple.Create(month, sellValue));
                         }
                     }
+
                 }
 
                 if (sellByMonth.Count == 0)

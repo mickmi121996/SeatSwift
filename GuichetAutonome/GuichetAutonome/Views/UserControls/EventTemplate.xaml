@@ -10,7 +10,7 @@
              FontFamily="Poppins"
              xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d">
-    <Grid Margin="10">
+    <Grid Margin="0,0,10,20">
         <meterialDesign:Card Background="{DynamicResource FourthIconColor}">
             <Grid>
                 <Grid.ColumnDefinitions>

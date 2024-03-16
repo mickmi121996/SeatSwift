@@ -79,6 +79,33 @@ namespace AppGestion.DataAccessLayer.Factories
             return new Seat(id, seatNumber, status, auditorium, section,rowName ,XCoordinate, YCoordinate);
         }
 
+        /// <summary>
+        /// Create seat from a data row withID
+        /// </summary>
+        /// <param name="dataRow">Data row</param>
+        /// <returns>seat</returns>
+        public async Task<Seat> CreateFromRowIDAsync(DataRow dataRow)
+        {
+            int id = dataRow.Field<int>("Id");
+            int auditoriumId = dataRow.Field<int>("AuditoriumId");
+            int seatNumber = dataRow.Field<int>("SeatNumber");
+            string sectionName = dataRow.Field<string>("SectionName")
+                ?? throw new ArgumentNullException("The section name is null");
+            string rowName = dataRow.Field<string>("RowName")
+                ?? throw new ArgumentNullException("The row name is null");
+            string seatStatus = dataRow.Field<string>("SeatStatus")
+                ?? throw new ArgumentNullException("The seat status is null");
+            int XCoordinate = dataRow.Field<int>("XCoordinate");
+            int YCoordinate = dataRow.Field<int>("YCoordinate");
+
+            // convert section name to enum
+            SectionName section = (SectionName)Enum.Parse(typeof(SectionName), sectionName);
+            SeatStatus status = (SeatStatus)Enum.Parse(typeof(SeatStatus), seatStatus);
+
+            // Create the order
+            return new Seat(id, seatNumber, status, auditoriumId, section, rowName, XCoordinate, YCoordinate);
+        }
+
         #endregion
 
 
@@ -107,6 +134,40 @@ namespace AppGestion.DataAccessLayer.Factories
                     foreach (DataRow row in result.Rows)
                     {
                         seats.Add(await CreateFromRowAsync(row));
+                    }
+
+                    return seats;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("An error occurred while getting the seats of the auditorium", e);
+            }
+        }
+
+        /// <summary>
+        /// Get all seats of an auditorium
+        /// </summary>
+        /// <param name="auditoriumId">The id of the auditorium</param>
+        /// <returns>The list of seats</returns>    
+        /// <exception cref="Exception">Throws an exception if the data could not be retrieved</exception>
+        public async Task<List<Seat>> GetAllByAuditoriumIdSimpleAsync(int auditoriumId)
+        {
+            try
+            {
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Seat WHERE AuditoriumId = @auditoriumId",
+                        new MySqlParameter("@auditoriumId", auditoriumId)
+                    )
+                )
+                {
+                    List<Seat> seats = new List<Seat>();
+
+                    foreach (DataRow row in result.Rows)
+                    {
+                        seats.Add(await CreateFromRowIDAsync(row));
                     }
 
                     return seats;

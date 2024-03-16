@@ -67,7 +67,7 @@ namespace AppGestion.ViewModels.Pages
         /// Get the number of order by month.
         /// </summary>
         [ObservableProperty]
-        private ObservableCollection<Tuple<string, int>> _orderByMonth;
+        private ObservableCollection<Tuple<string, decimal>> _orderByMonth;
 
         /// <summary>
         /// Number of show by type
@@ -160,21 +160,21 @@ namespace AppGestion.ViewModels.Pages
             {
                 new LineSeries
                 {
-                    Title = "Billets vendus :",
+                    Title = "Montants pour le mois :",
                     Values = new ChartValues<ObservableValue>
                     {
-                        new ObservableValue(OrderByMonth.FirstOrDefault(x => x.Item1 == "01").Item2),
-                        new ObservableValue(OrderByMonth.FirstOrDefault(x => x.Item1 == "02").Item2),
-                        new ObservableValue(OrderByMonth.FirstOrDefault(x => x.Item1 == "03").Item2),
-                        new ObservableValue(OrderByMonth.FirstOrDefault(x => x.Item1 == "04").Item2),
-                        new ObservableValue(OrderByMonth.FirstOrDefault(x => x.Item1 == "05").Item2),
-                        new ObservableValue(OrderByMonth.FirstOrDefault(x => x.Item1 == "06").Item2),
-                        new ObservableValue(OrderByMonth.FirstOrDefault(x => x.Item1 == "07").Item2),
-                        new ObservableValue(OrderByMonth.FirstOrDefault(x => x.Item1 == "08").Item2),
-                        new ObservableValue(OrderByMonth.FirstOrDefault(x => x.Item1 == "09").Item2),
-                        new ObservableValue(OrderByMonth.FirstOrDefault(x => x.Item1 == "10").Item2),
-                        new ObservableValue(OrderByMonth.FirstOrDefault(x => x.Item1 == "11").Item2),
-                        new ObservableValue(OrderByMonth.FirstOrDefault(x => x.Item1 == "12").Item2)
+                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "01").Item2)),
+                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "02").Item2)),
+                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "03").Item2)),
+                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "04").Item2)),
+                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "05").Item2)),
+                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "06").Item2)),
+                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "07").Item2)),
+                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "08").Item2)),
+                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "09").Item2)),
+                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "10").Item2)),
+                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "11").Item2)),
+                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "12").Item2)),
                     }
                 }
             };
@@ -201,7 +201,7 @@ namespace AppGestion.ViewModels.Pages
             PassedEvents = 0;
             ActifClients = new ObservableCollection<SeatSwiftDLL.Client>();
             ShowByType = new ObservableCollection<Tuple<ShowType, int>>();
-            OrderByMonth = new ObservableCollection<Tuple<string, int>>();
+            OrderByMonth = new ObservableCollection<Tuple<string, decimal>>();
         }
 
         /// <summary>

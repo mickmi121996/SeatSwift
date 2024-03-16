@@ -107,42 +107,32 @@ namespace GuichetAutonome.ViewModels.Pages
             try
             {
                 var ticketsGroupedByRepresentation = VMMainWindow.Instance.Cart
-                    .GroupBy(ticket => ticket.Representation.Id)
+                    .GroupBy(ticket => ticket.RepresentationId)
                     .ToList();
 
                 foreach (var group in ticketsGroupedByRepresentation)
                 {
                     List<Ticket> ticketsForCurrentRepresentation = group.ToList();
 
-                    OrderTemplate orderTemplateForCurrentRepresentation = new OrderTemplate(ticketsForCurrentRepresentation);
-
-                    Application.Current.Dispatcher.Invoke(() =>
+                    var orderTemplateForCurrentRepresentation = new OrderTemplate(ticketsForCurrentRepresentation);
+                    await Application.Current.Dispatcher.InvokeAsync(async () =>
                     {
+                        await orderTemplateForCurrentRepresentation.InitializeAsync(ticketsForCurrentRepresentation);
                         UserControls.Add(orderTemplateForCurrentRepresentation);
                     });
                 }
 
-                // Changes the order of the list of users control
-                Application.Current.Dispatcher.Invoke(
-                    () =>
-                        UserControls = new ObservableCollection<UserControl>(
-                            UserControls
-                                .OrderBy(
-                                    uc =>
-                                        (uc.DataContext as VMOrderTemplate)?.Show.Name
-                                )
-                        )
-                );
+                // Ajustez l'ordre de la liste des UserControl, si nécessaire
+                Application.Current.Dispatcher.Invoke(() => UserControls = new ObservableCollection<UserControl>(
+                    UserControls.OrderBy(uc => (uc.DataContext as VMOrderTemplate)?.Show.Name)));
             }
             catch (Exception e)
             {
-                // Message box to display the error
                 MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-            await Task.CompletedTask;
         }
-        
+
+
         /// <summary>
         /// The method to calculate the total price of the cart
         /// </summary>

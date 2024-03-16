@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AppGestion.ViewModels.Pages
 {
@@ -36,6 +37,12 @@ namespace AppGestion.ViewModels.Pages
         private string _selectedFilter;
 
         /// <summary>
+        /// The selected filter
+        /// </summary>
+        [ObservableProperty]
+        private Visibility _isCurrentlyLoading;
+
+        /// <summary>
         /// The list of orders
         /// </summary>
         [ObservableProperty]
@@ -59,6 +66,7 @@ namespace AppGestion.ViewModels.Pages
         /// </summary>
         public VMSalesReport()
         {
+            SelectedFilter = null;
             InitializeProperties();
             CreateSellLines();
         }
@@ -74,17 +82,24 @@ namespace AppGestion.ViewModels.Pages
         [RelayCommand (CanExecute = nameof(CanExecuteExport))]
         public void SaveReport()
         {
-            // Open the file explorer
-            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
-            saveFileDialog.Filter = "PDF file (*.pdf)|*.pdf";
-            saveFileDialog.Title = "Save the report";
-            saveFileDialog.ShowDialog();
-
-            // If the user selected a path
-            if (saveFileDialog.FileName != "")
+            if(SellLines.Count > 0)
             {
-                // Create the report
-                PDFTools.CreateSalesReportPdf(saveFileDialog.FileName, SellLines.ToList(), SelectedDate, SelectedFilter);
+                // Open the file explorer
+                Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+                saveFileDialog.Filter = "PDF file (*.pdf)|*.pdf";
+                saveFileDialog.Title = "Save the report";
+                saveFileDialog.ShowDialog();
+
+                // If the user selected a path
+                if (saveFileDialog.FileName != "")
+                {
+                    // Create the report
+                    PDFTools.CreateSalesReportPdf(saveFileDialog.FileName, SellLines.ToList(), SelectedDate, SelectedFilter);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Aucune vente effectuée pour les dates sélectionnées", "Warning", MessageBoxButton.OK);
             }
         }
 
@@ -93,15 +108,7 @@ namespace AppGestion.ViewModels.Pages
         /// </summary>
         private bool CanExecuteExport()
         {
-            // if there is at least one sell line
-            if (SellLines.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return true;
         }
 
         #endregion
@@ -109,51 +116,56 @@ namespace AppGestion.ViewModels.Pages
 
         #region methods
 
-        /// <summary>
-        /// Method to create the sell lines for the selected orders
-        /// </summary>
         public async Task CreateSellLines()
         {
+            IsCurrentlyLoading = Visibility.Visible;
             SellLines.Clear();
 
-            // Dictionnaire pour regrouper les tickets par représentation
             var representationGroups = new Dictionary<int, List<Ticket>>();
 
-            foreach (var order in Orders)
+            if (Orders.Count > 0)
             {
-                var tickets = await DAL.TicketFactory.GetByOrderAsync(order);
-
-                foreach (var ticket in tickets)
+                var ordersCopy = Orders.ToList();
+                foreach (var order in ordersCopy)
                 {
-                    // Vérifier si le groupe pour cette représentation existe déjà
-                    if(ticket.Representation == null) { throw new ArgumentNullException(nameof(ticket.Representation)); }
-                    if (!representationGroups.ContainsKey(ticket.Representation.Id))
+                    var tickets = await DAL.TicketFactory.GetByOrderAsync(order);
+
+                    foreach (var ticket in tickets)
                     {
-                        representationGroups[ticket.Representation.Id] = new List<Ticket>();
+                        if (ticket.Representation == null) { throw new ArgumentNullException(nameof(ticket.Representation)); }
+                        if (!representationGroups.ContainsKey(ticket.Representation.Id))
+                        {
+                            representationGroups[ticket.Representation.Id] = new List<Ticket>();
+                        }
+
+                        representationGroups[ticket.Representation.Id].Add(ticket);
                     }
-
-                    representationGroups[ticket.Representation.Id].Add(ticket);
                 }
-            }
 
-            foreach (var groupId in representationGroups.Keys)
-            {
-                var ticketsForRepresentation = representationGroups[groupId];
-                if (ticketsForRepresentation.Count > 0)
+                foreach (var groupId in representationGroups.Keys)
                 {
-                    // Prendre la première ticket pour obtenir les informations de base
-                    var firstTicket = ticketsForRepresentation.First();
-                    if(firstTicket.Representation == null) { throw new ArgumentNullException(nameof(firstTicket.Representation)); }
-                    var representationDate = firstTicket.Representation.Date;
-                    if(firstTicket.Representation.Show == null) { throw new ArgumentNullException(nameof(firstTicket.Representation.Show)); }
-                    var showName = firstTicket.Representation.Show.Name;
-                    var ticketsSold = ticketsForRepresentation.Count;
-                    double totalAmountBeforeTaxe = ticketsForRepresentation.Sum(ticket => (double)ticket.Representation.Show.BasePrice);
+                    var ticketsForRepresentation = representationGroups[groupId];
+                    if (ticketsForRepresentation.Count > 0)
+                    {
+                        var firstTicket = ticketsForRepresentation.First();
+                        if (firstTicket.Representation == null) { throw new ArgumentNullException(nameof(firstTicket.Representation)); }
+                        var representationDate = firstTicket.Representation.Date;
+                        if (firstTicket.Representation.Show == null) { throw new ArgumentNullException(nameof(firstTicket.Representation.Show)); }
+                        var showName = firstTicket.Representation.Show.Name;
+                        var ticketsSold = ticketsForRepresentation.Count;
+                        double totalAmountBeforeTaxe = ticketsForRepresentation.Sum(ticket => (double)ticket.Representation.Show.BasePrice);
 
-                    SellLines.Add(new SellLine(ticketsSold, representationDate, showName, totalAmountBeforeTaxe));
+                        // Vérifier si une SellLine identique existe déjà
+                        if (!SellLines.Any(sl => sl.ShowName == showName && sl.RepresentationDate == representationDate))
+                        {
+                            SellLines.Add(new SellLine(ticketsSold, representationDate, showName, totalAmountBeforeTaxe));
+                        }
+                    }
                 }
             }
+            IsCurrentlyLoading = Visibility.Collapsed;
         }
+
 
 
         /// <summary>
@@ -227,6 +239,7 @@ namespace AppGestion.ViewModels.Pages
         /// </summary>
         private void InitializeProperties()
         {
+            IsCurrentlyLoading = Visibility.Visible;
             SelectedDate = DateTime.Now;
             FilterList = new List<string> { "Quotidien", "Mensuel" };
             SelectedFilter = "Quotidien";

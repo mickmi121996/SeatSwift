@@ -133,7 +133,7 @@ namespace AppGestion.ViewModels.Pages
         public async Task InitializeSeats()
         {
             VMMainWindow.Instance.IsCurrentlyWorking = Visibility.Visible;
-            var seatList = await DAL.SeatFactory.GetAllByAuditoriumIdAsync(SelectedAuditorium.Id);
+            var seatList = await DAL.SeatFactory.GetAllByAuditoriumIdSimpleAsync(SelectedAuditorium.Id);
             foreach (var seat in seatList)
             {
                 seat.XCoordinate -= 1;

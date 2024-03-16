@@ -79,6 +79,33 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             return new Seat(id, seatNumber, status, auditorium, section, rowName, XCoordinate, YCoordinate);
         }
 
+        /// <summary>
+        /// Create seat from a data row withID
+        /// </summary>
+        /// <param name="dataRow">Data row</param>
+        /// <returns>seat</returns>
+        public async Task<Seat> CreateFromRowIDAsync(DataRow dataRow)
+        {
+            int id = dataRow.Field<int>("Id");
+            int auditoriumId = dataRow.Field<int>("AuditoriumId");
+            int seatNumber = dataRow.Field<int>("SeatNumber");
+            string sectionName = dataRow.Field<string>("SectionName")
+                ?? throw new ArgumentNullException("The section name is null");
+            string rowName = dataRow.Field<string>("RowName")
+                ?? throw new ArgumentNullException("The row name is null");
+            string seatStatus = dataRow.Field<string>("SeatStatus")
+                ?? throw new ArgumentNullException("The seat status is null");
+            int XCoordinate = dataRow.Field<int>("XCoordinate");
+            int YCoordinate = dataRow.Field<int>("YCoordinate");
+
+            // convert section name to enum
+            SectionName section = (SectionName)Enum.Parse(typeof(SectionName), sectionName);
+            SeatStatus status = (SeatStatus)Enum.Parse(typeof(SeatStatus), seatStatus);
+
+            // Create the order
+            return new Seat(id, seatNumber, status, auditoriumId, section, rowName, XCoordinate, YCoordinate);
+        }
+
         #endregion
 
 
@@ -109,7 +136,7 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                     // Create a seat for each row
                     foreach (DataRow row in result.Rows)
                     {
-                        seats.Add(await CreateFromRowAsync(row));
+                        seats.Add(await CreateFromRowIDAsync(row));
                     }
 
                     return seats;

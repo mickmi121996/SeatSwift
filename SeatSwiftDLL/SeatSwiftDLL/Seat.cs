@@ -56,9 +56,10 @@ namespace SeatSwiftDLL
         /// The auditorium of the seat
         /// </summary>
         public Auditorium? Auditorium { get; set; }
+        public int AuditoriumId { get; set; }
 
         #endregion
-        
+
 
         #region Constructor
 
@@ -100,11 +101,32 @@ namespace SeatSwiftDLL
             this.RowName = rowName;
         }
 
+        /// <summary>
+        /// The parameterized constructor using only the ID
+        /// </summary>
+        /// <param name="id">The Id of the seat in the database</param>
+        /// <param name="seatNumber">The number of the seat</param>
+        /// <param name="auditorium">The auditorium of the seat</param>
+        /// <param name="sectionName">The section name of the seat</param>
+        /// <param name="xCoordinate">The x coordinates of the seat in the auditorium</param>
+        /// <param name="yCoordinate">The y coordinates of the seat in the auditorium</param>
+        public Seat(int id, int seatNumber, SeatStatus status, int auditoriumId, SectionName sectionName, string rowName, int xCoordinate, int yCoordinate)
+        {
+            this.Id = id;
+            this.SeatNumber = seatNumber;
+            this.Status = status;
+            this.AuditoriumId = auditoriumId;
+            this.SectionName = sectionName;
+            this.XCoordinate = xCoordinate;
+            this.YCoordinate = yCoordinate;
+            this.RowName = rowName;
+        }
+
         #endregion
 
 
-        # region Interface methods
-        
+        #region Interface methods
+
         public object Clone()
         {
             throw new NotImplementedException();

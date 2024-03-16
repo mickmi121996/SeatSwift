@@ -15,7 +15,6 @@ namespace AppGestion.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            // value est censé être un objet de type 'Seat'
             var seat = (Seat)value;
             if (seat.Status == SeatStatus.InService)
             {
@@ -33,7 +32,7 @@ namespace AppGestion.Converters
             }
             else
             {
-                return Brushes.Gray; // OutOfService ou non défini
+                return Brushes.Gray;
             }
         }
 

@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AppGestion.ViewModels.Pages
 {
@@ -21,7 +22,6 @@ namespace AppGestion.ViewModels.Pages
         /// The selected date
         /// </summary>
         [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(SaveReportCommand))]
         private DateTime _selectedDate;
 
         /// <summary>
@@ -34,7 +34,6 @@ namespace AppGestion.ViewModels.Pages
         /// The selected filter
         /// </summary>
         [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(SaveReportCommand))]
         private string _selectedFilter;
 
         /// <summary>
@@ -50,6 +49,12 @@ namespace AppGestion.ViewModels.Pages
         /// </summary>
         [ObservableProperty]
         private ObservableCollection<TransactionLine> _transactionLines;
+
+        /// <summary>
+        /// The selected filter
+        /// </summary>
+        [ObservableProperty]
+        private Visibility _isCurrentlyLoading;
 
         #endregion
 
@@ -76,17 +81,24 @@ namespace AppGestion.ViewModels.Pages
         [RelayCommand(CanExecute = nameof(CanExecuteExport))]
         public void SaveReport()
         {
-            // Open the file explorer
-            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
-            saveFileDialog.Filter = "PDF file (*.pdf)|*.pdf";
-            saveFileDialog.Title = "Save the report";
-            saveFileDialog.ShowDialog();
-
-            // If the user selected a path
-            if (saveFileDialog.FileName != "")
+            if(TransactionLines.Count  > 0)
             {
-                // Create the report
-                PDFTools.CreateTransactionsReportPdf(saveFileDialog.FileName, TransactionLines.ToList(), SelectedDate, SelectedFilter);
+                // Open the file explorer
+                Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+                saveFileDialog.Filter = "PDF file (*.pdf)|*.pdf";
+                saveFileDialog.Title = "Save the report";
+                saveFileDialog.ShowDialog();
+
+                // If the user selected a path
+                if (saveFileDialog.FileName != "")
+                {
+                    // Create the report
+                    PDFTools.CreateTransactionsReportPdf(saveFileDialog.FileName, TransactionLines.ToList(), SelectedDate, SelectedFilter);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Aucune Transaction effectuée pour les dates sélectionnées","Warning",MessageBoxButton.OK);
             }
         }
 
@@ -96,14 +108,7 @@ namespace AppGestion.ViewModels.Pages
         private bool CanExecuteExport()
         {
             // if there is at least one sell line
-            if (TransactionLines.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return true;
         }
 
         #endregion
@@ -116,31 +121,45 @@ namespace AppGestion.ViewModels.Pages
         /// </summary>
         public async Task CreateTransactionLines()
         {
+            IsCurrentlyLoading = Visibility.Visible;
             TransactionLines.Clear();
-
-            foreach (var order in Orders)
+            if (Orders.Count > 0)
             {
-                var tickets = await DAL.TicketFactory.GetByOrderAsync(order);
-                if (tickets.Count > 0)
+                var ordersCopy = Orders.ToList();
+                foreach (var order in ordersCopy)
                 {
-                    // Calculer le nombre total de tickets et le montant total avant taxes pour cette commande
-                    int ticketsSold = tickets.Count;
-                    double totalAmountBeforeTaxe = tickets.Sum(ticket => (double)ticket.Representation.Show.BasePrice);
+                    var tickets = await DAL.TicketFactory.GetByOrderAsync(order);
+                    if (tickets.Count > 0)
+                    {
+                        // Calculer le nombre total de tickets et le montant total avant taxes pour cette commande
+                        int ticketsSold = tickets.Count;
+                        double totalAmountBeforeTaxe = tickets.Sum(ticket => (double)ticket.Representation.Show.BasePrice);
 
-                    // Créer une nouvelle ligne de transaction pour cette commande
-                    var transactionLine = new TransactionLine(
-                        order.OrderNumber,
-                        order.OrderDate,
-                        totalAmountBeforeTaxe,
-                        order.Client.Email,
-                        ticketsSold
-                    );
+                        // Vérifier si une TransactionLine avec le même OrderNumber existe déjà
+                        bool isLineExists = TransactionLines.Any(tl => tl.OrderNumber == order.OrderNumber);
 
-                    // Ajouter la ligne de transaction à la liste
-                    TransactionLines.Add(transactionLine);
+                        if (!isLineExists)
+                        {
+                            // Créer une nouvelle ligne de transaction pour cette commande
+                            var transactionLine = new TransactionLine(
+                                order.OrderNumber,
+                                order.OrderDate,
+                                totalAmountBeforeTaxe,
+                                order.Client.Email,
+                                ticketsSold
+                            );
+
+                            // Ajouter la ligne de transaction à la liste
+                            TransactionLines.Add(transactionLine);
+                        }
+                    }
                 }
             }
+            CanExecuteExport();
+            IsCurrentlyLoading = Visibility.Collapsed;
         }
+
+
 
 
 
@@ -215,11 +234,11 @@ namespace AppGestion.ViewModels.Pages
         /// </summary>
         private void InitializeProperties()
         {
+            TransactionLines = new ObservableCollection<TransactionLine>();
             SelectedDate = DateTime.Now;
             FilterList = new List<string> { "Quotidien", "Mensuel" };
             SelectedFilter = "Quotidien";
             Orders = new ObservableCollection<Order>();
-            TransactionLines = new ObservableCollection<TransactionLine>();
         }
 
         #endregion

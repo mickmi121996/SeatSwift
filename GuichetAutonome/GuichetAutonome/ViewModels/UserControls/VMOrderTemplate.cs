@@ -73,29 +73,6 @@ namespace GuichetAutonome.ViewModels.UserControls
             //Generate a random number
             var random = new Random();
             _orderNumber = random.Next(100000, 999999).ToString();
-
-            // Create the list of tickets
-            var ticketToAdd = tickets;
-            // Add the ticket to the collection
-            foreach (var ticket in ticketToAdd)
-            {
-                _tickets.Add(ticket);
-
-                // Increment the number of tickets
-                _numberOfTickets++;
-
-                // Add the price of the ticket to the total price
-                if(ticket.Representation is not null)
-                {
-                    if(ticket.Representation.Show is not null)
-                    {
-                        _totalPrice += ticket.Representation.Show.BasePrice;
-                        _show = ticket.Representation.Show;
-                    }
-                }                
-            }
-
-            CreateOrder();
         }
 
         #endregion
@@ -130,6 +107,45 @@ namespace GuichetAutonome.ViewModels.UserControls
                 // Make a message box
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }  
+        }
+        public async Task InitializeTicketsAsync(List<Ticket> tickets)
+        {
+            foreach (var ticket in tickets)
+            {
+                var ticket1 = await GiveTicketObject(ticket);
+                if (ticket1 != null)
+                {
+                    Tickets.Add(ticket1);
+                    NumberOfTickets++;
+                    if (ticket1.Representation?.Show != null)
+                    {
+                        TotalPrice += ticket1.Representation.Show.BasePrice;
+                        Show = ticket1.Representation.Show;
+                    }
+                }
+            }
+
+            CreateOrder();
+        }
+
+
+
+
+        public async Task<Ticket> GiveTicketObject(Ticket ticket)
+        {
+            try
+            {
+                ticket.Seat = await DAL.SeatFactory.GetByIdAsync(ticket.SeatId);
+                ticket.Representation = await DAL.RepresentationFactory.GetByIdAsync(ticket.RepresentationId);
+
+                return ticket;
+            }
+            catch (Exception ex)
+            {
+                // Make a message box
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
         }
 
         #endregion

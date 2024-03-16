@@ -28,5 +28,14 @@ namespace GuichetAutonome.Views.UserControls
             VMOrderTemplate vMOrderTemplate = new VMOrderTemplate(tickets);
             this.DataContext = vMOrderTemplate;
         }
+
+        public async Task InitializeAsync(List<Ticket> tickets)
+        {
+            // Supposons que DataContext est de type VMOrderTemplate
+            if (this.DataContext is VMOrderTemplate viewModel)
+            {
+                await viewModel.InitializeTicketsAsync(tickets);
+            }
+        }
     }
 }

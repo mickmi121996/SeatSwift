@@ -145,6 +145,31 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             return ticket;
         }
 
+        /// <summary>
+        /// Creates a new Ticket object from a data row
+        /// </summary>
+        /// <param name="dataRow">The data row.</param>
+        /// <returns>The newly created Ticket object.</returns>
+        public async Task<Ticket> CreateFromRowIdAsync(DataRow dataRow)
+        {
+            int id = dataRow.Field<int>("Id");
+            bool isActive = dataRow.Field<bool>("IsActive");
+            string reservationNumber = dataRow.Field<string>("ReservationNumber")
+                ?? throw new Exception("ReservationNumber cannot be null");
+            string ticketStatus = dataRow.Field<string>("TicketStatus")
+                ?? throw new Exception("TicketStatus cannot be null");
+            int seatId = dataRow.Field<int>("SeatId");
+            int representationId = dataRow.Field<int>("RepresentationId");
+            int? orderId = dataRow.Field<int?>("OrderId");
+
+            // Convert the enum to a string
+            TicketStatus ticketStatusEnum = (TicketStatus)Enum.Parse(typeof(TicketStatus), ticketStatus);
+
+            Ticket ticket = new Ticket(id, isActive, reservationNumber, ticketStatusEnum, representationId, seatId, orderId);
+
+            return ticket;
+        }
+
         #endregion
 
 
@@ -210,7 +235,7 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                     List<Ticket> tickets = new List<Ticket>();
                     foreach (DataRow row in result.Rows)
                     {
-                        tickets.Add(await CreateFromRowAsync(row));
+                        tickets.Add(await CreateFromRowIdAsync(row));
                     }
                     return tickets;
                 }

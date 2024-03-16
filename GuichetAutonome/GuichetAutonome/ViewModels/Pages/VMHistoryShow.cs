@@ -123,7 +123,11 @@ namespace GuichetAutonome.ViewModels.Pages
         /// </summary>
         public bool CanResendEmail()
         {
-            return true;
+            if(SelectedOrder is not null)
+            {
+                return true;
+            }
+            return false;
         }
 
         #endregion
@@ -136,13 +140,13 @@ namespace GuichetAutonome.ViewModels.Pages
         /// </summary>
         public async void Initialize()
         {
-            var Orders = await DAL.OrderFactory.GetByClientIdAsync(VMMainWindow.Instance.Client.Id);
+            var orders = await DAL.OrderFactory.GetByClientIdAsync(VMMainWindow.Instance.Client.Id);
 
             // Clear the list of orders
             Orders.Clear();
 
             // Add the orders to the list
-            foreach (var order in Orders)
+            foreach (var order in orders)
             {
                 Orders.Add(order);
             }

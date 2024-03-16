@@ -40,7 +40,7 @@
                         <DataGridTextColumn Header="# commande" Binding="{Binding OrderNumber}" Width="*" />
                         <DataGridTextColumn Header="Date" Binding="{Binding OrderDate}" Width="*" />
                         <DataGridTextColumn Header="Email" Binding="{Binding Client.Email}" Width="*" />
-                        <DataGridTextColumn Header="$ Avant Taxe" Binding="{Binding TotalPrice}" Width="*" />
+                        <DataGridTextColumn Header="$ Avant Taxe" Binding="{Binding TotalPrice, StringFormat=\{0:C\}}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

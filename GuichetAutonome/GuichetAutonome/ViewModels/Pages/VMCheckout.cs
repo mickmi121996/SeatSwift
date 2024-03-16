@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using SeatSwiftDLL;
 using GuichetAutonome.DataAccessLayer;
+using GuichetAutonome.Properties;
+using GuichetAutonome.Tools;
 
 namespace GuichetAutonome.ViewModels.Pages
 {
@@ -152,7 +154,7 @@ namespace GuichetAutonome.ViewModels.Pages
         [RelayCommand(CanExecute = nameof(CanChangePageToThanks))]
         public async Task ChangePageToThanks()
         {
-            // Create the orders for the ticket groups
+            // Crée les commandes pour les groupes de tickets
             var ticketGroups = GroupTicketsByRepresentation();
             Orders = new List<Order>();
 
@@ -161,18 +163,18 @@ namespace GuichetAutonome.ViewModels.Pages
                 foreach (var group in ticketGroups)
                 {
                     string orderNumber;
-                    
+
                     do
                     {
-                        // Generate a random order number
+                        // Génère un numéro de commande aléatoire
                         orderNumber = GenerateRandomOrderNumber();
 
                     } while (!await DAL.OrderFactory.IsOrderNumberUniqueAsync(orderNumber));
 
-                    // Calculate the total price of the group
+                    // Calcule le prix total du groupe
                     decimal totalPrice = CalculateTotalPrice(group);
 
-                    // Create the order
+                    // Crée la commande
                     var order = new Order
                     {
                         IsActive = true,
@@ -182,34 +184,60 @@ namespace GuichetAutonome.ViewModels.Pages
                         Client = VMMainWindow.Instance.Client
                     };
 
-                    // Create the order in the database
+                    // Crée la commande dans la base de données
                     await DAL.OrderFactory.CreateAsync(order);
 
-                    // Get the order from the database
+                    // Récupère la commande de la base de données
                     order = await DAL.OrderFactory.GetByOrderNumberAsync(orderNumber);
 
-                    // Assign the tickets to the order
+                    // Assigne les tickets à la commande
                     foreach (var ticket in group)
                     {
                         await DAL.TicketFactory.AsignToOrderAsync(ticket, order);
                     }
 
-                    // Add the order to the list of orders
+                    // Ajoute la commande à la liste des commandes
                     Orders.Add(order);
+
+                    // Envoie l'email de confirmation
+                    await SendOrderConfirmationEmail(order, group);
                 }
 
-                // Clear the cart
+                // Vide le panier
                 VMMainWindow.Instance.Cart.Clear();
 
-                // Change the page to the thanks page
+                // Change la page vers la page de remerciements
                 VMMainWindow.Instance.ChangePage(typeof(Thanks));
             }
             catch (Exception ex)
             {
-                // Make a message box
+                // Affiche un message d'erreur
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
+        public async Task SendOrderConfirmationEmail(Order order, List<Ticket> tickets)
+        {
+            StringBuilder qrCodesHtml = new StringBuilder();
+            foreach (Ticket ticket in tickets)
+            {
+                string qrCodeBase64 = CodeQRTools.GenerateQRCodeBase64(ticket.QRCodeData);
+                qrCodesHtml.AppendFormat("<img src=\"data:image/png;base64,{0}\" style=\"width: 270px; height: 270px;\" alt=\"QR Code\" /><br/>", qrCodeBase64);
+            }
+
+            string emailTemplate = Resources.EmailCore;
+            string emailContent = string.Format(emailTemplate, order.OrderNumber, qrCodesHtml.ToString());
+
+            string emailSubject = "Confirmation de votre commande #" + order.OrderNumber;
+
+            if (VMMainWindow.Instance.Client != null)
+            {
+                await EmailTools.SendEmailWithSMTP2GO(VMMainWindow.Instance.Client.Email, emailSubject, emailContent);
+            }
+        }
+
+
 
 
         /// <summary>

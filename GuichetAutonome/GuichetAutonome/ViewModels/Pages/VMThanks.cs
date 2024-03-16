@@ -5,62 +5,42 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GuichetAutonome.ViewModels.Pages
 {
     public partial class VMThanks : ObservableObject
     {
-        #region Properties
-
-
-
-        #endregion
-
-
-        #region Constructor
+        private CancellationTokenSource delayCancellation;
 
         public VMThanks()
         {
             VMMainWindow.Instance.ResetInactivityTimer();
 
-            // Démarre un délai dès l'initialisation du ViewModel
-            Task.Delay(20000).ContinueWith(_ => ChangePageToConnection(), TaskScheduler.FromCurrentSynchronizationContext());
+            delayCancellation = new CancellationTokenSource();
+
+            Task.Delay(20000, delayCancellation.Token).ContinueWith(_ =>
+            {
+                if (!_.IsCanceled)
+                {
+                    ChangePageToConnection();
+                }
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
-
-        #endregion
-
-
-        #region Commands
-
-        /// <summary>
-        /// Command to the connection page
-        /// </summary>
         [RelayCommand]
         public void ChangePageToConnection()
         {
-            // Déconnecte l'utilisateur
             VMMainWindow.Instance.LogoutUser();
         }
 
-
-        /// <summary>
-        /// Command to the event selection page
-        /// </summary>
         [RelayCommand]
         public async Task ChangePageToEventSelection()
         {
+            delayCancellation.Cancel();
+
             VMMainWindow.Instance.ChangePage(typeof(EventSelection));
         }
-
-        #endregion
-
-
-        #region Methods
-
-
-
-        #endregion
     }
 }

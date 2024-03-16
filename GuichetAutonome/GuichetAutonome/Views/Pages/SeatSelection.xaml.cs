@@ -89,27 +89,59 @@ namespace GuichetAutonome.Views.Pages
             }
 
             // À l'intérieur de votre boucle foreach où vous créez les ToggleButtons
-            foreach (var seat in viewModel.Seats)
+            foreach (var ticket in viewModel.Tickets)
             {
-                Ticket ticket = await DAL.TicketFactory.GetByRepresentationAndSeatAsync(viewModel.Representation, seat);
-
                 var button = new ToggleButton
                 {
                     Margin = new Thickness(2),
                     IsChecked = false,
-                    IsEnabled = ticket.TicketStatus == TicketStatus.Available && seat.Status == SeatStatus.InService,
+                    IsEnabled = false,
+                    Tag = ticket,
+                    Foreground = GetColorFromSectionName(ticket.Seat.SectionName),
                     Style = (Style)FindResource("SeatToggleButtonStyle"),
                 };
 
+                // Ajouter les gestionnaires d'événements
+                button.Checked += async (sender, e) => await ToggleSeatStatusAsync(sender, true);
+                button.Unchecked += async (sender, e) => await ToggleSeatStatusAsync(sender, false);
+
                 // Positionnez le bouton sur le Grid
-                if (seat.XCoordinate >= 0 && seat.YCoordinate >= 0)
+                if (ticket.Seat.XCoordinate >= 0 && ticket.Seat.YCoordinate >= 0)
                 {
-                    Grid.SetRow(button, seat.YCoordinate);
-                    Grid.SetColumn(button, seat.XCoordinate);
+                    Grid.SetRow(button, ticket.Seat.YCoordinate);
+                    Grid.SetColumn(button, ticket.Seat.XCoordinate);
                     grid.Children.Add(button);
                 }
             }
+
+            viewModel._isSeatLoad = true;
+            viewModel.SelectedFilter = viewModel.Filters[0];
         }
+        private async Task ToggleSeatStatusAsync(object sender, bool isChecked)
+        {
+            if (sender is ToggleButton button && button.Tag is Ticket ticket)
+            {
+                try
+                {
+                    if (isChecked)
+                    {
+                        // Le siège est sélectionné, réservez le billet
+                        await DAL.TicketFactory.ReserveAsync(ticket);
+                    }
+                    else
+                    {
+                        // Le siège est désélectionné, rendez le billet disponible
+                        await DAL.TicketFactory.MakeAvailableAsync(ticket);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+
 
 
 
@@ -118,7 +150,13 @@ namespace GuichetAutonome.Views.Pages
             var viewModel = DataContext as VMSeatSelection;
             if (viewModel == null || viewModel.Auditorium == null) return;
 
-            IEnumerable<Seat> filteredSeats;
+            foreach (var prevSelectedSeat in viewModel.SelectedTickets)
+            {
+                ToggleSeat(prevSelectedSeat, false);
+            }
+            viewModel.SelectedTickets.Clear();
+
+            IEnumerable<Ticket> filteredTicket;
 
             // Filtrez les sièges en fonction du filtre sélectionné
             if (filter == "Section")
@@ -126,8 +164,8 @@ namespace GuichetAutonome.Views.Pages
                 // Convertir le nom de la section sélectionnée en enum
                 if (Enum.TryParse<SectionName>(viewModel.SelectedSectionName, out var selectedSection))
                 {
-                    filteredSeats = viewModel.Seats
-                        .Where(seat => seat.Status == SeatStatus.InService && seat.SectionName == selectedSection);
+                    filteredTicket = viewModel.Tickets
+                        .Where(ticket => ticket.Seat.Status == SeatStatus.InService && ticket.Seat.SectionName == selectedSection);
                 }
                 else
                 {
@@ -137,19 +175,23 @@ namespace GuichetAutonome.Views.Pages
             }
             else // Filtre "Salle", sélectionnez tous les sièges disponibles
             {
-                filteredSeats = viewModel.Seats
-                    .Where(seat => seat.Status == SeatStatus.InService);
+                filteredTicket = viewModel.Tickets
+                    .Where(ticket => ticket.Seat.Status == SeatStatus.InService
+                     && ticket.TicketStatus == TicketStatus.Available
+                     && ticket.Seat.SectionName != SectionName.Loge);
             }
 
             // Trier les sièges par rangée et numéro de siège
-            var orderedSeats = filteredSeats
-                .OrderBy(seat => seat.RowName) // Trier par rangée pour "devant"
-                .ThenBy(seat => seat.XCoordinate) // Trier par coordonnée X pour l'ordre de siège
+            var orderedSeats = filteredTicket
+                .OrderBy(ticket => ticket.Seat.YCoordinate)
+                .ThenBy(ticket => ticket.Seat.SeatNumber % 2 == 0 ? 1 : 0)
+                .ThenBy(ticket => ticket.Seat.SeatNumber)
                 .ToList();
 
-            List<Seat> selectedSeats = new List<Seat>();
 
-            foreach (var rowGroup in orderedSeats.GroupBy(seat => seat.RowName))
+            List<Ticket> selectedSeats = new List<Ticket>();
+
+            foreach (var rowGroup in orderedSeats.GroupBy(ticket => ticket.Seat.RowName))
             {
                 var seatsInRow = rowGroup.ToList();
 
@@ -158,9 +200,9 @@ namespace GuichetAutonome.Views.Pages
                     var potentialGroup = seatsInRow.GetRange(i, numberOfSeatsToSelect);
                     bool allSeatsAvailable = true;
 
-                    foreach (var seat in potentialGroup)
+                    foreach (var ticket in potentialGroup)
                     {
-                        if (!await CheckSeatAvailability(seat))
+                        if (!(ticket.TicketStatus == TicketStatus.Available))
                         {
                             allSeatsAvailable = false;
                             break;
@@ -179,19 +221,24 @@ namespace GuichetAutonome.Views.Pages
 
             foreach (var seat in selectedSeats)
             {
-                //await ToggleSeat(seat);
+                seat.Representation = viewModel.Representation;
+                ToggleSeat(seat, true);
             }
+            viewModel.SelectedTickets.AddRange(selectedSeats);
         }
 
-
-        // Méthode pour vérifier la disponibilité des sièges
-        private async Task<bool> CheckSeatAvailability(Seat seat)
+        private void ToggleSeat(Ticket ticket, bool isSelected)
         {
-            var viewModel = DataContext as VMSeatSelection;
-            if (viewModel == null) throw new InvalidOperationException("DataContext must be set to an instance of VMSeatSelection.");
+            // Trouver le ToggleButton correspondant au siège
+            var button = SeatsGrid.Children
+                .OfType<ToggleButton>()
+                .FirstOrDefault(tb => tb.Tag is Ticket && ((Ticket)tb.Tag).Seat.Id == ticket.Seat.Id);
 
-            var ticket = await DAL.TicketFactory.GetByRepresentationAndSeatAsync(viewModel.Representation, seat);
-            return ticket.TicketStatus == TicketStatus.Available;
+            if (button != null)
+            {
+                button.IsEnabled = isSelected;
+                button.IsChecked = isSelected;
+            }
         }
 
 

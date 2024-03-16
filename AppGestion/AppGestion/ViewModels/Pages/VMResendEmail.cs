@@ -128,13 +128,13 @@ namespace AppGestion.ViewModels.Pages
         /// </summary>
         public async void Initialize()
         {
-            Orders = new ObservableCollection<Order>(await DAL.OrderFactory.GetAllAsync());
+            var orders = new ObservableCollection<Order>(await DAL.OrderFactory.GetAllAsync());
 
             // Clear the list of orders
             Orders.Clear();
 
             // Add the orders to the list
-            foreach (var order in Orders)
+            foreach (var order in orders)
             {
                 Orders.Add(order);
             }
