@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GuichetAutonome.Views.UserControls"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:viewModel="clr-namespace:GuichetAutonome.ViewModels.UserControls"
              d:DataContext="{d:DesignInstance Type=viewModel:VMEventTemplate}" 
              FontFamily="Poppins"
@@ -48,8 +49,8 @@
                         <Label Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="15" Content="Prix de base :" FontWeight="Bold" Padding="0"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" 
-                                   Text="{Binding SelectedOrder.TPS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:F2}}" 
-                                   ></TextBlock>
+                                   Text="{Binding Show.BasePrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:F2}}">
+                            </TextBlock>
                             <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content=" $"></Label>
                         </StackPanel>
                     </StackPanel>
@@ -71,7 +72,7 @@
                     </Grid.RowDefinitions>
                     
                     <StackPanel Grid.Row="0">
-                        <Label Padding="0" Grid.Row="0" Content="Salle :" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Bottom"/>
+                        <Label Padding="0" FontSize="15" Grid.Row="0" Content="Salle :" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Bottom"/>
                         <ComboBox ItemsSource="{Binding Auditoriums}" 
                               SelectedItem="{Binding SelectedAuditorium}" 
                               DisplayMemberPath="Name" 
@@ -81,7 +82,7 @@
                     </StackPanel>
 
                     <StackPanel Grid.Row="1">
-                        <Label Padding="0" Grid.Row="0" Content="Date et Heure :" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Bottom"/>
+                        <Label Padding="0" FontSize="15" Grid.Row="0" Content="Date et Heure :" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Bottom"/>
                         <ComboBox ItemsSource="{Binding Representations}" 
                               SelectedItem="{Binding SelectedRepresentation}" 
                               DisplayMemberPath="Date" 
@@ -91,9 +92,21 @@
                     </StackPanel>
 
                     <StackPanel Grid.Row="2">
-                        <Label Padding="0" Grid.Row="0" Content="Nombre de billets :" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Bottom"/>
-                        <TextBox  Foreground="{DynamicResource SecondaryBackGroundColor}"  VerticalAlignment="Center" Text="{Binding NumberOfTickets, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Padding="0" FontSize="15" Grid.Row="0" Content="Nombre de billets :" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Bottom"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Padding="0" FontSize="20" Grid.Row="0" Content="+" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                            <controls:NumericUpDown Minimum="0"                                                 
+                            Maximum="{Binding Show.MaxTicketsByClient}" 
+                            Value="{Binding NumberOfTickets, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Foreground="{DynamicResource SecondaryBackGroundColor}"  
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            ButtonsAlignment="Opposite"/>
+                            <Label Padding="0" FontSize="20" Grid.Row="0" Content="-" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" VerticalAlignment="Center"/>
+                        </StackPanel>
+
                     </StackPanel>
+
                 </Grid>
 
                 <Button Margin="5" Grid.Row="3" Grid.Column="2" Command="{Binding ContinueCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Continuer" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="35" FontWeight="Bold" FontSize="20"></Button>

@@ -9,7 +9,7 @@
         d:DataContext="{d:DesignInstance Type=viewModel:VMConnection}"
         xmlns:meterialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"       
         mc:Ignorable="d"
-        Title="Connexion" Height="750" Width="1200"     
+        Title="Connexion" Height="750" Width="1300"     
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         Background="Transparent" AllowsTransparency="True"
         FontFamily="Poppins" ResizeMode="NoResize">

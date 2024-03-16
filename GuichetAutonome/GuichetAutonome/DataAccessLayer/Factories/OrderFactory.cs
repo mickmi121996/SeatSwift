@@ -83,7 +83,7 @@ namespace GuichetAutonome.DataAccessLayer.Factories
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>Order</returns>
-        public async Task<Order> GetByIdAsync(int id)
+        public async Task<Order> GetByIdAsync(int? id)
         {
             try
             {

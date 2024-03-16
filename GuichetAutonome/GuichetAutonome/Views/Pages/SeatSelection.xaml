@@ -10,6 +10,11 @@
       mc:Ignorable="d" 
       d:DesignHeight="768" d:DesignWidth="1024"
       Title="SeatSelection" FontFamily="Poppins">
+    <Page.Resources>
+        <Style x:Key="SeatToggleButtonStyle" TargetType="ToggleButton">
+        </Style>
+
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="90"></RowDefinition>
@@ -30,9 +35,8 @@
         </StackPanel>
 
 
-        <meterialDesign:Card Margin="15,0"  Grid.Row="1" Background="{DynamicResource FourthIconColor}">
-
-        </meterialDesign:Card>
+        <Grid Margin="15,0" IsEnabled="False" Background="{DynamicResource FourthIconColor}" Grid.Row="1" x:Name="SeatsGrid">
+        </Grid>
 
         <Button Grid.Row="2" Command="{Binding AddOrderToCartCommand}" Margin="15,0" HorizontalAlignment="Right" Content="Ajouter au panier" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>
         <Button Grid.Row="2" Command="{Binding ChangePageToEventSelectionCommand}" Margin="15,0" HorizontalAlignment="Left" Content="Retour" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>

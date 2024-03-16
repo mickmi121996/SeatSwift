@@ -94,6 +94,7 @@ namespace AppGestion.ViewModels.Pages
         {
             _isInitialLoadComplete = false;
             Auditoriums = new ObservableCollection<Auditorium>();
+            Seats = new ObservableCollection<Seat>();
             SelectedAuditorium = new Auditorium();
         }
 
@@ -115,6 +116,7 @@ namespace AppGestion.ViewModels.Pages
         private async void GetAuditoriums()
         {
             var auditoriums = await DAL.AuditoriumFactory.GetAllActiveAsync();
+            Auditoriums.Insert(0, new Auditorium { Name = "Sélectionner un auditorium" });
 
             // Create the list of auditoriums
             foreach (var auditorium in auditoriums)
@@ -122,24 +124,19 @@ namespace AppGestion.ViewModels.Pages
                 Auditoriums.Add(auditorium);
             }
 
-            // Set the selected auditorium
-            if (Auditoriums.Count > 0)
+            if (auditoriums.Count > 0)
             {
-                SelectedAuditorium = Auditoriums[0];
-
-                await InitializeSeats();
+                SelectedAuditorium = Auditoriums.FirstOrDefault();
             }
-
         }
 
         public async Task InitializeSeats()
         {
-
+            VMMainWindow.Instance.IsCurrentlyWorking = Visibility.Visible;
             var seatList = await DAL.SeatFactory.GetAllByAuditoriumIdAsync(SelectedAuditorium.Id);
             foreach (var seat in seatList)
             {
-                seat.XCoordinate = -1;
-                seat.YCoordinate = -1;
+                seat.XCoordinate -= 1;
                 Seats.Add(seat);
             }
             SeatsInitialized?.Invoke();

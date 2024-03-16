@@ -95,13 +95,15 @@
 
             <Button Command="{Binding ConfirmCommand}" Grid.Row="7" Grid.Column="1" Margin="10,0,10,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Confirmer" Height="30" VerticalAlignment="Center"/>
 
-            <Grid Margin="3" Grid.RowSpan="3" Visibility="{Binding IsCreatingTicketsVisibility}"
-             Background="#DD000000">
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <ProgressBar IsIndeterminate="True" Style="{StaticResource MaterialDesignCircularProgressBar}" Width="50" Height="50"/>
-                    <TextBlock Text="Création des billets pour la représentation en cours, veuillez patienter..." Foreground="White" Margin="5" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Grid>
+            <Border Grid.RowSpan="3" Visibility="{Binding IsCreatingTicketsVisibility}"
+                     Background="#DD000000" CornerRadius="7">
+                <Grid >
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <ProgressBar IsIndeterminate="True" Style="{StaticResource MaterialDesignCircularProgressBar}" Width="50" Height="50"/>
+                        <TextBlock Text="Création des billets pour la représentation en cours, veuillez patienter..." Foreground="White" Margin="5" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
         </Grid>
     </Border>
 </Window>

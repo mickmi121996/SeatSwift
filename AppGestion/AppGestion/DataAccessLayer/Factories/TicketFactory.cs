@@ -246,6 +246,45 @@ namespace AppGestion.DataAccessLayer.Factories
         }
 
         /// <summary>
+        /// Get the Ticket objects for a given representation and seat.
+        /// </summary>
+        /// <param name="representation">The representation to get the tickets for.</param>
+        /// <param name="seat">The seat to get the tickets for.</param>
+        /// <returns>The Ticket object for the given representation and seat, or null if no such object exists.</returns>
+        /// <exception cref="Exception">A delegate callback throws an exception.</exception>
+        /// <exception cref="MySqlException">A MySQL exception was thrown.</exception>
+        public async Task<Ticket> GetByRepresentationAndSeatAsync(Representation representation, Seat seat)
+        {
+            try
+            {
+                // Get the ticket for the given representation and seat
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
+                    (this.ConnectionString,
+                    "SELECT * FROM ticket WHERE RepresentationId = @representationId AND SeatId = @seatId;",
+                    new MySqlParameter("@representationId", representation.Id),
+                    new MySqlParameter("@seatId", seat.Id)
+                    )
+                )
+                {
+                    // If no ticket is found, return null
+                    if (result.Rows.Count == 0)
+                    {
+                        return null;
+                    }
+
+                    // Create the ticket object
+                    return await CreateFromRowAsync(result.Rows[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the ticket for the given representation and seat", ex);
+            }
+        }
+        
+
+        /// <summary>
         /// Get all Ticket objects for a given order.
         /// </summary>
         /// <param name="order">The order to get the tickets for.</param>

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GuichetAutonome.DataAccessLayer;
 using GuichetAutonome.Views.Pages;
 using SeatSwiftDLL;
 using SeatSwiftDLL.Enums;
@@ -56,10 +57,22 @@ namespace GuichetAutonome.ViewModels.Pages
         private ObservableCollection<Ticket> _tickets;
 
         /// <summary>
+        /// The observable collection of tickets for the representation
+        /// </summary>
+        [ObservableProperty]
+        private ObservableCollection<Seat> _seats;
+
+        /// <summary>
         /// The representation
         /// </summary>
         [ObservableProperty]
         private Representation _representation;
+
+        /// <summary>
+        /// The representation
+        /// </summary>
+        [ObservableProperty]
+        private Auditorium _auditorium;
 
         /// <summary>
         /// The number of tickets
@@ -76,8 +89,12 @@ namespace GuichetAutonome.ViewModels.Pages
         {
             VMMainWindow.Instance.ResetInactivityTimer();
 
+            _seats = new ObservableCollection<Seat>();
+
             _representation = representation;
             _numberOfTickets = numberOfTicket;
+
+            InitializeSeats();
 
             InitializeFilterAndSectionName();
         }
@@ -138,6 +155,48 @@ namespace GuichetAutonome.ViewModels.Pages
             SelectedFilter = Filters[0];
         }
 
+        [RelayCommand]
+        public async Task ToggleSeat(Seat seat)
+        {
+            if (seat != null)
+            {
+                seat.Status = seat.Status == SeatStatus.InService ? SeatStatus.OutOfService : SeatStatus.InService;
+                // Mettre à jour la base de données ou le service web si nécessaire ici
+                try
+                {
+                    await DAL.SeatFactory.UpdateStatusAsync(seat.Id, seat.Status);
+                }
+                catch (Exception ex)
+                {
+                    // Message box error
+                    MessageBox.Show("Erreur lors de la mise à jour du siège.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        public event Action SeatsInitialized;
+        /// <summary>
+        /// Get the list of seat for the selected representation
+        /// </summary>
+        public async Task InitializeSeats()
+        {
+            if(Representation.Auditorium is not null)
+            {
+                Auditorium = await DAL.AuditoriumFactory.GetByIdAsync(Representation.Auditorium.Id);
+
+                var seatList = await DAL.SeatFactory.GetAllByAuditoriumIdAsync(Auditorium.Id);
+
+                foreach (var seat in seatList)
+                {
+                    seat.XCoordinate -= 1;
+                    Seats.Add(seat);            
+                }
+                SeatsInitialized?.Invoke();
+            }
+        }
+
+        // Déclaration d'un événement public
+        public event Action FilterOrSectionChanged;
 
         /// <summary>
         /// Method called when the selected Auditorium changes
@@ -156,6 +215,12 @@ namespace GuichetAutonome.ViewModels.Pages
                     IsSelectionFilterVisible = Visibility.Visible;
                 }
             }
+            FilterOrSectionChanged?.Invoke();
+        }
+
+        partial void OnSelectedSectionNameChanged(string value)
+        {
+            FilterOrSectionChanged?.Invoke();
         }
 
         #endregion

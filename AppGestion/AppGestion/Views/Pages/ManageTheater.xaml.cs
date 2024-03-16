@@ -1,4 +1,6 @@
-﻿using AppGestion.ViewModels.Pages;
+﻿using AppGestion.ViewModels;
+using AppGestion.ViewModels.Pages;
+using LiveCharts.Wpf.Charts.Base;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using SeatSwiftDLL.Enums;
@@ -76,9 +78,10 @@ namespace AppGestion.Views.Pages
             var rows = viewModel.SelectedAuditorium.NumberOfRows;
             var columns = viewModel.SelectedAuditorium.NumberOfColumns;
 
-            var grid = SeatsGrid.ItemsPanel.LoadContent() as Grid;
-            grid.RowDefinitions.Clear();
+            // Accès direct au Grid défini dans le XAML
+            var grid = this.SeatsGrid;
             grid.Children.Clear();
+            grid.RowDefinitions.Clear();
             grid.ColumnDefinitions.Clear();
 
             for (int i = 0; i < rows; i++)
@@ -91,21 +94,53 @@ namespace AppGestion.Views.Pages
                 grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             }
 
+            // À l'intérieur de votre boucle foreach où vous créez les ToggleButtons
             foreach (var seat in viewModel.Seats)
             {
                 var button = new ToggleButton
                 {
                     Content = seat.SeatNumber,
+                    Margin = new Thickness(2),
                     IsChecked = seat.Status == SeatStatus.InService,
+                    Style = (Style)FindResource("SeatToggleButtonStyle"),
                 };
+
+
+                // Positionnez le bouton sur le Grid
                 if (seat.XCoordinate >= 0 && seat.YCoordinate >= 0)
                 {
                     Grid.SetRow(button, seat.YCoordinate);
                     Grid.SetColumn(button, seat.XCoordinate);
                     grid.Children.Add(button);
                 }
+
+                // Attacher les gestionnaires d'événements Checked et Unchecked
+                button.Checked += async (s, e) => await ((VMManageTheater)this.DataContext).ToggleSeat(seat);
+                button.Unchecked += async (s, e) => await ((VMManageTheater)this.DataContext).ToggleSeat(seat);
+            }
+
+            VMMainWindow.Instance.IsCurrentlyWorking = Visibility.Collapsed;
+        }
+
+        private Brush GetColorFromSectionName(SectionName sectionName)
+        {
+            switch (sectionName)
+            {
+                case SectionName.Parterre: return Brushes.Green;
+                case SectionName.Balcon: return Brushes.Purple;
+                case SectionName.Loge: return Brushes.Blue;
+                default: return Brushes.Gray;
             }
         }
+
+        // Méthode pour mettre à jour la couleur d'un bouton lors du changement d'état
+        private void UpdateButtonColor(ToggleButton button, SectionName sectionName, bool isChecked)
+        {
+            if (button == null) return;
+
+            button.Background = isChecked ? GetColorFromSectionName(sectionName) : Brushes.Gray;
+        }
+
 
 
         #endregion

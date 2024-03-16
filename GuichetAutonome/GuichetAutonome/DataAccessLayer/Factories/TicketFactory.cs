@@ -35,7 +35,7 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             string ticketStatus = dataReader.GetString("TicketStatus");
             int seatId = dataReader.GetInt32("SeatId");
             int representationId = dataReader.GetInt32("RepresentationId");
-            int orderId = dataReader.GetInt32("OrderId");
+            int? orderId = dataReader.GetInt32("OrderId");
 
             // Convert the enum to a string
             TicketStatus ticketStatusEnum = (TicketStatus)Enum.Parse(typeof(TicketStatus), ticketStatus);
@@ -62,6 +62,44 @@ namespace GuichetAutonome.DataAccessLayer.Factories
         }
 
         /// <summary>
+        /// Get the Ticket objects for a given representation and seat.
+        /// </summary>
+        /// <param name="representation">The representation to get the tickets for.</param>
+        /// <param name="seat">The seat to get the tickets for.</param>
+        /// <returns>The Ticket object for the given representation and seat, or null if no such object exists.</returns>
+        /// <exception cref="Exception">A delegate callback throws an exception.</exception>
+        /// <exception cref="MySqlException">A MySQL exception was thrown.</exception>
+        public async Task<Ticket> GetByRepresentationAndSeatAsync(Representation representation, Seat seat)
+        {
+            try
+            {
+                // Get the ticket for the given representation and seat
+                using (
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
+                    (this.ConnectionString,
+                    "SELECT * FROM ticket WHERE RepresentationId = @representationId AND SeatId = @seatId;",
+                    new MySqlParameter("@representationId", representation.Id),
+                    new MySqlParameter("@seatId", seat.Id)
+                    )
+                )
+                {
+                    // If no ticket is found, return null
+                    if (result.Rows.Count == 0)
+                    {
+                        return null;
+                    }
+
+                    // Create the ticket object
+                    return await CreateFromRowAsync(result.Rows[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting the ticket for the given representation and seat", ex);
+            }
+        }
+
+        /// <summary>
         /// Creates a new Ticket object from a data row
         /// </summary>
         /// <param name="dataRow">The data row.</param>
@@ -76,7 +114,7 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 ?? throw new Exception("TicketStatus cannot be null");
             int seatId = dataRow.Field<int>("SeatId");
             int representationId = dataRow.Field<int>("RepresentationId");
-            int orderId = dataRow.Field<int>("OrderId");
+            int? orderId = dataRow.Field<int?>("OrderId");
 
             // Convert the enum to a string
             TicketStatus ticketStatusEnum = (TicketStatus)Enum.Parse(typeof(TicketStatus), ticketStatus);
@@ -96,7 +134,11 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             }
 
             // Get the order from the database using the orderId it can be null
-            Order order = await new OrderFactory().GetByIdAsync(orderId);
+            Order order = null;
+            if (orderId.HasValue)
+            {
+                order = await new OrderFactory().GetByIdAsync(orderId.Value);
+            }
 
             Ticket ticket = new Ticket(id, isActive, reservationNumber, ticketStatusEnum, representation, seat, order);
 
