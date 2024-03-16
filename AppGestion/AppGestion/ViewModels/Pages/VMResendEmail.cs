@@ -91,6 +91,8 @@ namespace AppGestion.ViewModels.Pages
                         {
                             // Send the email
                             await EmailTools.SendEmailWithSMTP2GO(SelectedOrder.Client.Email, emailSubjectFormat, emailContent);
+
+                            MessageBox.Show("L.envoie du courriel a réussi!", "Courriel envoyé", MessageBoxButton.OK, MessageBoxImage.Information);
                         }
                         else
                         {
