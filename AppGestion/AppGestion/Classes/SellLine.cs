@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AppGestion.Classes
 {
@@ -71,7 +67,12 @@ namespace AppGestion.Classes
         /// <param name="representationDate">The of the representation</param>
         /// <param name="showName">The name of the show</param>
         /// <param name="totalAmountBeforeTaxe">The total amount of the sell before taxes</param>
-        public SellLine(int ticketsSold, DateTime representationDate, string showName, double totalAmountBeforeTaxe)
+        public SellLine(
+            int ticketsSold,
+            DateTime representationDate,
+            string showName,
+            double totalAmountBeforeTaxe
+        )
         {
             this.TicketsSold = ticketsSold;
             this.RepresentationDate = representationDate;
@@ -120,6 +121,5 @@ namespace AppGestion.Classes
         }
 
         #endregion
-
     }
 }

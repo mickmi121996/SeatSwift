@@ -7,7 +7,6 @@ using SeatSwiftDLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -128,14 +127,16 @@ namespace AppGestion.ViewModels.Windows
                     Auditorium = SelectedAuditorium,
                     Date = SelectedDateTime,
                     Status = RepresentationStatus.Available
-
                 };
 
                 // Add the representation to the database
                 await DAL.RepresentationFactory.CreateAsync(representation);
 
                 // Get a representation in the database
-                Representation = await DAL.RepresentationFactory.GetByShowAndDateAsync(Show, SelectedDateTime);
+                Representation = await DAL.RepresentationFactory.GetByShowAndDateAsync(
+                    Show,
+                    SelectedDateTime
+                );
 
                 // Create the tickets
                 await CreateTickets();
@@ -143,14 +144,16 @@ namespace AppGestion.ViewModels.Windows
                 IsCreatingTicketsVisibility = Visibility.Hidden;
 
                 // Close the window
-                Application.Current.Windows.OfType<AddEditRepresentation>().FirstOrDefault()?.Close();
+                Application.Current.Windows
+                    .OfType<AddEditRepresentation>()
+                    .FirstOrDefault()
+                    ?.Close();
             }
             catch (Exception ex)
             {
                 IsCreatingTicketsVisibility = Visibility.Hidden;
                 // Open a message box
                 MessageBox.Show(ex.Message, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-
             }
         }
 
@@ -198,7 +201,6 @@ namespace AppGestion.ViewModels.Windows
                     SelectedAuditorium = Auditoriums[0];
                 }
             }
-
         }
 
         /// <summary>
@@ -209,8 +211,10 @@ namespace AppGestion.ViewModels.Windows
             if (Representation.Auditorium is not null)
             {
                 // Get the list of seats
-                var seats = await DAL.SeatFactory.GetAllByAuditoriumIdAsync(Representation.Auditorium.Id);
-                
+                var seats = await DAL.SeatFactory.GetAllByAuditoriumIdAsync(
+                    Representation.Auditorium.Id
+                );
+
                 // Create a list of tickets
                 List<Ticket> tickets = new List<Ticket>();
 
@@ -254,12 +258,16 @@ namespace AppGestion.ViewModels.Windows
         {
             if (SelectedDate != null && SelectedTime != null)
             {
-                SelectedDateTime = new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDate.Day, SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second);
+                SelectedDateTime = new DateTime(
+                    SelectedDate.Year,
+                    SelectedDate.Month,
+                    SelectedDate.Day,
+                    SelectedTime.Hour,
+                    SelectedTime.Minute,
+                    SelectedTime.Second
+                );
             }
         }
-
-        /// <summary>
-        /// 
 
         /// <summary>
         /// Get the current date

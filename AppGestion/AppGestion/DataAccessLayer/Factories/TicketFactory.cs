@@ -1,13 +1,11 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AppGestion.Tools;
+using MySql.Data.MySqlClient;
 using SeatSwiftDLL;
 using SeatSwiftDLL.Enums;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using AppGestion.Tools;
+using System.Threading.Tasks;
 
 namespace AppGestion.DataAccessLayer.Factories
 {
@@ -38,7 +36,8 @@ namespace AppGestion.DataAccessLayer.Factories
             int orderId = dataReader.GetInt32("OrderId");
 
             // Convert the enum to a string
-            TicketStatus ticketStatusEnum = (TicketStatus)Enum.Parse(typeof(TicketStatus), ticketStatus);
+            TicketStatus ticketStatusEnum = (TicketStatus)
+                Enum.Parse(typeof(TicketStatus), ticketStatus);
 
             // Get the seat from the database using the seatId
             Seat seat = await new SeatFactory().GetByIdAsync(seatId);
@@ -47,7 +46,9 @@ namespace AppGestion.DataAccessLayer.Factories
                 throw new Exception("Seat cannot be null");
             }
             // Get the representation from the database using the representationId
-            Representation representation = await new RepresentationFactory().GetByIdAsync(representationId);
+            Representation representation = await new RepresentationFactory().GetByIdAsync(
+                representationId
+            );
             if (representation == null)
             {
                 throw new Exception("Representation cannot be null");
@@ -56,7 +57,15 @@ namespace AppGestion.DataAccessLayer.Factories
             // Get the order from the database using the orderId it can be null
             Order order = await new OrderFactory().GetByIdAsync(orderId);
 
-            Ticket ticket = new Ticket(id, isActive, reservationNumber, ticketStatusEnum, representation, seat, order);
+            Ticket ticket = new Ticket(
+                id,
+                isActive,
+                reservationNumber,
+                ticketStatusEnum,
+                representation,
+                seat,
+                order
+            );
 
             return ticket;
         }
@@ -70,16 +79,19 @@ namespace AppGestion.DataAccessLayer.Factories
         {
             int id = dataRow.Field<int>("Id");
             bool isActive = dataRow.Field<bool>("IsActive");
-            string reservationNumber = dataRow.Field<string>("ReservationNumber")
+            string reservationNumber =
+                dataRow.Field<string>("ReservationNumber")
                 ?? throw new Exception("ReservationNumber cannot be null");
-            string ticketStatus = dataRow.Field<string>("TicketStatus")
+            string ticketStatus =
+                dataRow.Field<string>("TicketStatus")
                 ?? throw new Exception("TicketStatus cannot be null");
             int seatId = dataRow.Field<int>("SeatId");
             int representationId = dataRow.Field<int>("RepresentationId");
             int orderId = dataRow.Field<int>("OrderId");
 
             // Convert the enum to a string
-            TicketStatus ticketStatusEnum = (TicketStatus)Enum.Parse(typeof(TicketStatus), ticketStatus);
+            TicketStatus ticketStatusEnum = (TicketStatus)
+                Enum.Parse(typeof(TicketStatus), ticketStatus);
 
             // Get the seat from the database using the seatId
             Seat seat = await new SeatFactory().GetByIdAsync(seatId);
@@ -89,7 +101,9 @@ namespace AppGestion.DataAccessLayer.Factories
             }
 
             // Get the representation from the database using the representationId
-            Representation representation = await new RepresentationFactory().GetByIdAsync(representationId);
+            Representation representation = await new RepresentationFactory().GetByIdAsync(
+                representationId
+            );
             if (representation == null)
             {
                 throw new Exception("Representation cannot be null");
@@ -98,7 +112,15 @@ namespace AppGestion.DataAccessLayer.Factories
             // Get the order from the database using the orderId it can be null
             Order order = await new OrderFactory().GetByIdAsync(orderId);
 
-            Ticket ticket = new Ticket(id, isActive, reservationNumber, ticketStatusEnum, representation, seat, order);
+            Ticket ticket = new Ticket(
+                id,
+                isActive,
+                reservationNumber,
+                ticketStatusEnum,
+                representation,
+                seat,
+                order
+            );
 
             return ticket;
         }
@@ -121,17 +143,19 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get the ticket with the given id
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM ticket WHERE Id = @id;",
-                    new MySqlParameter("@id", id)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM ticket WHERE Id = @id;",
+                        new MySqlParameter("@id", id)
                     )
                 )
                 {
                     // If no ticket is found, throw an exception
                     if (result.Rows.Count == 0)
                     {
-                        throw new KeyNotFoundException("No ticket with the id " + id + " was found");
+                        throw new KeyNotFoundException(
+                            "No ticket with the id " + id + " was found"
+                        );
                     }
 
                     // Create the ticket object
@@ -140,7 +164,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the ticket with the given id", ex);
+                throw new Exception(
+                    "An error occurred while getting the ticket with the given id",
+                    ex
+                );
             }
         }
 
@@ -157,10 +184,10 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get the tickets for the given representation
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM ticket WHERE RepresentationId = @representationId;",
-                    new MySqlParameter("@representationId", representation.Id)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM ticket WHERE RepresentationId = @representationId;",
+                        new MySqlParameter("@representationId", representation.Id)
                     )
                 )
                 {
@@ -175,7 +202,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the tickets for the given representation", ex);
+                throw new Exception(
+                    "An error occurred while getting the tickets for the given representation",
+                    ex
+                );
             }
         }
 
@@ -186,17 +216,19 @@ namespace AppGestion.DataAccessLayer.Factories
         /// <returns>A list of available Ticket objects for the given representation.</returns>
         /// <exception cref="Exception">A delegate callback throws an exception.</exception>
         /// <exception cref="MySqlException">A MySQL exception was thrown.</exception>
-        public async Task<List<Ticket>> GetAvailableByRepresentationAsync(Representation representation)
+        public async Task<List<Ticket>> GetAvailableByRepresentationAsync(
+            Representation representation
+        )
         {
             try
             {
                 // Get the available tickets for the given representation
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM ticket WHERE RepresentationId = @representationId AND TicketStatus = @ticketStatus;",
-                    new MySqlParameter("@representationId", representation.Id),
-                    new MySqlParameter("@ticketStatus", TicketStatus.Available.ToString())
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM ticket WHERE RepresentationId = @representationId AND TicketStatus = @ticketStatus;",
+                        new MySqlParameter("@representationId", representation.Id),
+                        new MySqlParameter("@ticketStatus", TicketStatus.Available.ToString())
                     )
                 )
                 {
@@ -211,7 +243,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the available tickets for the given representation", ex);
+                throw new Exception(
+                    "An error occurred while getting the available tickets for the given representation",
+                    ex
+                );
             }
         }
 
@@ -228,12 +263,12 @@ namespace AppGestion.DataAccessLayer.Factories
             try
             {
                 // Asign the ticket to the order
-                int rowsAffected = await DataBaseTool.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "UPDATE ticket SET TicketStatus = @ticketStatus, OrderId = @orderId WHERE Id = @id;",
-                new MySqlParameter("@ticketStatus", TicketStatus.Purchased.ToString()),
-                new MySqlParameter("@orderId", order.Id),
-                new MySqlParameter("@id", ticket.Id)
+                int rowsAffected = await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "UPDATE ticket SET TicketStatus = @ticketStatus, OrderId = @orderId WHERE Id = @id;",
+                    new MySqlParameter("@ticketStatus", TicketStatus.Purchased.ToString()),
+                    new MySqlParameter("@orderId", order.Id),
+                    new MySqlParameter("@id", ticket.Id)
                 );
 
                 // Return true if the ticket was asigned to the order
@@ -253,17 +288,20 @@ namespace AppGestion.DataAccessLayer.Factories
         /// <returns>The Ticket object for the given representation and seat, or null if no such object exists.</returns>
         /// <exception cref="Exception">A delegate callback throws an exception.</exception>
         /// <exception cref="MySqlException">A MySQL exception was thrown.</exception>
-        public async Task<Ticket> GetByRepresentationAndSeatAsync(Representation representation, Seat seat)
+        public async Task<Ticket> GetByRepresentationAndSeatAsync(
+            Representation representation,
+            Seat seat
+        )
         {
             try
             {
                 // Get the ticket for the given representation and seat
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM ticket WHERE RepresentationId = @representationId AND SeatId = @seatId;",
-                    new MySqlParameter("@representationId", representation.Id),
-                    new MySqlParameter("@seatId", seat.Id)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM ticket WHERE RepresentationId = @representationId AND SeatId = @seatId;",
+                        new MySqlParameter("@representationId", representation.Id),
+                        new MySqlParameter("@seatId", seat.Id)
                     )
                 )
                 {
@@ -279,10 +317,12 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the ticket for the given representation and seat", ex);
+                throw new Exception(
+                    "An error occurred while getting the ticket for the given representation and seat",
+                    ex
+                );
             }
         }
-        
 
         /// <summary>
         /// Get all Ticket objects for a given order.
@@ -297,10 +337,10 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get the tickets for the given order
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM ticket WHERE OrderId = @orderId;",
-                    new MySqlParameter("@orderId", order.Id)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM ticket WHERE OrderId = @orderId;",
+                        new MySqlParameter("@orderId", order.Id)
                     )
                 )
                 {
@@ -315,7 +355,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the tickets for the given order", ex);
+                throw new Exception(
+                    "An error occurred while getting the tickets for the given order",
+                    ex
+                );
             }
         }
 
@@ -332,14 +375,14 @@ namespace AppGestion.DataAccessLayer.Factories
                 // Create the tickets
                 foreach (var ticket in tickets)
                 {
-                    await DataBaseTool.ExecuteNonQueryAsync
-                    (this.ConnectionString,
-                    "INSERT INTO ticket (IsActive, ReservationNumber, TicketStatus, RepresentationId, SeatId ) VALUES (@isActive, @reservationNumber, @ticketStatus, @representationId, @seatId);",
-                    new MySqlParameter("@isActive", ticket.IsActive),
-                    new MySqlParameter("@reservationNumber", ticket.ReservationNumber),
-                    new MySqlParameter("@ticketStatus", ticket.TicketStatus.ToString()),
-                    new MySqlParameter("@representationId", ticket.Representation.Id),
-                    new MySqlParameter("@seatId", ticket.Seat.Id)
+                    await DataBaseTool.ExecuteNonQueryAsync(
+                        this.ConnectionString,
+                        "INSERT INTO ticket (IsActive, ReservationNumber, TicketStatus, RepresentationId, SeatId ) VALUES (@isActive, @reservationNumber, @ticketStatus, @representationId, @seatId);",
+                        new MySqlParameter("@isActive", ticket.IsActive),
+                        new MySqlParameter("@reservationNumber", ticket.ReservationNumber),
+                        new MySqlParameter("@ticketStatus", ticket.TicketStatus.ToString()),
+                        new MySqlParameter("@representationId", ticket.Representation.Id),
+                        new MySqlParameter("@seatId", ticket.Seat.Id)
                     );
                 }
             }
@@ -360,11 +403,11 @@ namespace AppGestion.DataAccessLayer.Factories
             try
             {
                 // Reserve the ticket
-                await DataBaseTool.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "UPDATE ticket SET TicketStatus = @ticketStatus WHERE Id = @id;",
-                new MySqlParameter("@ticketStatus", TicketStatus.Reserved.ToString()),
-                new MySqlParameter("@id", ticket.Id)
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "UPDATE ticket SET TicketStatus = @ticketStatus WHERE Id = @id;",
+                    new MySqlParameter("@ticketStatus", TicketStatus.Reserved.ToString()),
+                    new MySqlParameter("@id", ticket.Id)
                 );
             }
             catch (Exception ex)
@@ -384,11 +427,11 @@ namespace AppGestion.DataAccessLayer.Factories
             try
             {
                 // Make the ticket available
-                await DataBaseTool.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "UPDATE ticket SET TicketStatus = @ticketStatus WHERE Id = @id;",
-                new MySqlParameter("@ticketStatus", TicketStatus.Available.ToString()),
-                new MySqlParameter("@id", ticket.Id)
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "UPDATE ticket SET TicketStatus = @ticketStatus WHERE Id = @id;",
+                    new MySqlParameter("@ticketStatus", TicketStatus.Available.ToString()),
+                    new MySqlParameter("@id", ticket.Id)
                 );
             }
             catch (Exception ex)
@@ -408,11 +451,11 @@ namespace AppGestion.DataAccessLayer.Factories
             try
             {
                 // Make the ticket inactive
-                await DataBaseTool.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "UPDATE ticket SET IsActive = @isActive WHERE Id = @id;",
-                new MySqlParameter("@isActive", false),
-                new MySqlParameter("@id", ticket.Id)
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "UPDATE ticket SET IsActive = @isActive WHERE Id = @id;",
+                    new MySqlParameter("@isActive", false),
+                    new MySqlParameter("@id", ticket.Id)
                 );
             }
             catch (Exception ex)

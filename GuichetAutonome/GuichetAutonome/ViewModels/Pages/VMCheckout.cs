@@ -1,17 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GuichetAutonome.Views.Pages;
-using System;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using SeatSwiftDLL;
 using GuichetAutonome.DataAccessLayer;
 using GuichetAutonome.Properties;
 using GuichetAutonome.Tools;
+using GuichetAutonome.Views.Pages;
+using SeatSwiftDLL;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace GuichetAutonome.ViewModels.Pages
 {
@@ -43,7 +43,7 @@ namespace GuichetAutonome.ViewModels.Pages
         [ObservableProperty]
         private decimal _totalAmountAfterTaxe;
 
-        /// <summary> 
+        /// <summary>
         /// The first name on the credit card
         /// </summary>
         [ObservableProperty]
@@ -122,7 +122,7 @@ namespace GuichetAutonome.ViewModels.Pages
         private Visibility _invalidSecurityCodeMessageVisibility;
 
         /// <summary>
-        /// The list of order 
+        /// The list of order
         /// </summary>
         public List<Order> Orders { get; set; }
 
@@ -154,7 +154,6 @@ namespace GuichetAutonome.ViewModels.Pages
         [RelayCommand(CanExecute = nameof(CanChangePageToThanks))]
         public async Task ChangePageToThanks()
         {
-            // Crée les commandes pour les groupes de tickets
             var ticketGroups = GroupTicketsByRepresentation();
             Orders = new List<Order>();
 
@@ -166,15 +165,11 @@ namespace GuichetAutonome.ViewModels.Pages
 
                     do
                     {
-                        // Génère un numéro de commande aléatoire
                         orderNumber = GenerateRandomOrderNumber();
-
                     } while (!await DAL.OrderFactory.IsOrderNumberUniqueAsync(orderNumber));
 
-                    // Calcule le prix total du groupe
                     decimal totalPrice = CalculateTotalPrice(group);
 
-                    // Crée la commande
                     var order = new Order
                     {
                         IsActive = true,
@@ -184,38 +179,29 @@ namespace GuichetAutonome.ViewModels.Pages
                         Client = VMMainWindow.Instance.Client
                     };
 
-                    // Crée la commande dans la base de données
                     await DAL.OrderFactory.CreateAsync(order);
 
-                    // Récupère la commande de la base de données
                     order = await DAL.OrderFactory.GetByOrderNumberAsync(orderNumber);
 
-                    // Assigne les tickets à la commande
                     foreach (var ticket in group)
                     {
                         await DAL.TicketFactory.AsignToOrderAsync(ticket, order);
                     }
 
-                    // Ajoute la commande à la liste des commandes
                     Orders.Add(order);
 
-                    // Envoie l'email de confirmation
                     await SendOrderConfirmationEmail(order, group);
                 }
 
-                // Vide le panier
                 VMMainWindow.Instance.Cart.Clear();
 
-                // Change la page vers la page de remerciements
                 VMMainWindow.Instance.ChangePage(typeof(Thanks));
             }
             catch (Exception ex)
             {
-                // Affiche un message d'erreur
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
 
         public async Task SendOrderConfirmationEmail(Order order, List<Ticket> tickets)
         {
@@ -223,22 +209,30 @@ namespace GuichetAutonome.ViewModels.Pages
             foreach (Ticket ticket in tickets)
             {
                 string qrCodeBase64 = CodeQRTools.GenerateQRCodeBase64(ticket.QRCodeData);
-                qrCodesHtml.AppendFormat("<img src=\"data:image/png;base64,{0}\" style=\"width: 270px; height: 270px;\" alt=\"QR Code\" /><br/>", qrCodeBase64);
+                qrCodesHtml.AppendFormat(
+                    "<img src=\"data:image/png;base64,{0}\" style=\"width: 270px; height: 270px;\" alt=\"QR Code\" /><br/>",
+                    qrCodeBase64
+                );
             }
 
             string emailTemplate = Resources.EmailCore;
-            string emailContent = string.Format(emailTemplate, order.OrderNumber, qrCodesHtml.ToString());
+            string emailContent = string.Format(
+                emailTemplate,
+                order.OrderNumber,
+                qrCodesHtml.ToString()
+            );
 
             string emailSubject = "Confirmation de votre commande #" + order.OrderNumber;
 
             if (VMMainWindow.Instance.Client != null)
             {
-                await EmailTools.SendEmailWithSMTP2GO(VMMainWindow.Instance.Client.Email, emailSubject, emailContent);
+                await EmailTools.SendEmailWithSMTP2GO(
+                    VMMainWindow.Instance.Client.Email,
+                    emailSubject,
+                    emailContent
+                );
             }
         }
-
-
-
 
         /// <summary>
         /// Can execute the command to the thanks page
@@ -246,18 +240,18 @@ namespace GuichetAutonome.ViewModels.Pages
         /// <returns></returns>
         private bool CanChangePageToThanks()
         {
-            // Validation des champs vides
-            if (string.IsNullOrWhiteSpace(FirstName) ||
-                string.IsNullOrWhiteSpace(LastName) ||
-                string.IsNullOrWhiteSpace(CreditCardNumber) ||
-                string.IsNullOrWhiteSpace(ExpirationDate) ||
-                string.IsNullOrWhiteSpace(SecurityCode) ||
-                string.IsNullOrWhiteSpace(City))
+            if (
+                string.IsNullOrWhiteSpace(FirstName)
+                || string.IsNullOrWhiteSpace(LastName)
+                || string.IsNullOrWhiteSpace(CreditCardNumber)
+                || string.IsNullOrWhiteSpace(ExpirationDate)
+                || string.IsNullOrWhiteSpace(SecurityCode)
+                || string.IsNullOrWhiteSpace(City)
+            )
             {
                 return false;
             }
 
-            // Validation du numéro de carte de crédit
             if (!Regex.IsMatch(CreditCardNumber, @"^\d{16}$"))
             {
                 InvalidCreditCardNumberMessage = "Le numéro de carte de crédit est invalide";
@@ -265,7 +259,6 @@ namespace GuichetAutonome.ViewModels.Pages
                 return false;
             }
 
-            // Validation du code de sécurité
             if (!Regex.IsMatch(SecurityCode, @"^\d{3}$"))
             {
                 InvalidSecurityCodeMessage = "Le code de sécurité est invalide";
@@ -273,7 +266,6 @@ namespace GuichetAutonome.ViewModels.Pages
                 return false;
             }
 
-            // Validation de la date d'expiration
             if (!Regex.IsMatch(ExpirationDate, @"^(0[1-9]|1[0-2])\/(\d{2})$"))
             {
                 InvalidExpirationDateMessage = "La date d'expiration est invalide";
@@ -281,12 +273,10 @@ namespace GuichetAutonome.ViewModels.Pages
                 return false;
             }
 
-            // Retirer les messages d'erreur
             InvalidCreditCardMessageVisibility = Visibility.Collapsed;
             InvalidExpirationDateMessageVisibility = Visibility.Collapsed;
             InvalidSecurityCodeMessageVisibility = Visibility.Collapsed;
 
-            // Toutes les validations passent
             return true;
         }
 
@@ -305,7 +295,7 @@ namespace GuichetAutonome.ViewModels.Pages
         #region Methods
 
         /// <summary>
-        /// The method to get the list of 
+        /// The method to get the list of
 
         /// <summary>
         /// The method to calculate the total price of the cart
@@ -364,7 +354,11 @@ namespace GuichetAutonome.ViewModels.Pages
         /// <param name="tps">The tps amount</param>
         /// <param name="tvq">The tvq amount</param>
         /// <returns>The total amount after taxes</returns>
-        private decimal TotalAmountAfterTaxeCalculation(decimal totalAmountBeforeTaxe, decimal tps, decimal tvq)
+        private decimal TotalAmountAfterTaxeCalculation(
+            decimal totalAmountBeforeTaxe,
+            decimal tps,
+            decimal tvq
+        )
         {
             return totalAmountBeforeTaxe + tps + tvq;
         }

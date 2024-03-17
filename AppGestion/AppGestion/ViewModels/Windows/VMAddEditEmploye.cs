@@ -4,12 +4,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SeatSwiftDLL;
 using SeatSwiftDLL.Enums;
-using SeatSwiftDLL.Tools;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -167,7 +164,7 @@ namespace AppGestion.ViewModels.Windows
                 // Check if we are in edit mode
                 if (IsEditMode)
                 {
-                    if(User is not  null)
+                    if (User is not null)
                     {
                         // Edit the user
                         User.FirstName = FirstName;
@@ -179,12 +176,20 @@ namespace AppGestion.ViewModels.Windows
                         await DAL.UserFactory.UpdateAsync(User);
 
                         // Close the window
-                        Application.Current.Windows.OfType<AddEditEmploye>().FirstOrDefault()?.Close();
+                        Application.Current.Windows
+                            .OfType<AddEditEmploye>()
+                            .FirstOrDefault()
+                            ?.Close();
                     }
                     else
                     {
                         // SHow an error message box
-                        MessageBox.Show("Aucun utilisateur sélectionné", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(
+                            "Aucun utilisateur sélectionné",
+                            "Erreur",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error
+                        );
                     }
                 }
                 else
@@ -204,17 +209,16 @@ namespace AppGestion.ViewModels.Windows
                     await DAL.UserFactory.CreateAsync(User);
 
                     // Create the salt and hash the password
-                    await DAL.UserFactory.CreateSaltAndHashAsync(Password, User);       
+                    await DAL.UserFactory.CreateSaltAndHashAsync(Password, User);
 
                     // Close the window
-                    Application.Current.Windows.OfType<AddEditEmploye>().FirstOrDefault()?.Close();   
+                    Application.Current.Windows.OfType<AddEditEmploye>().FirstOrDefault()?.Close();
                 }
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
 
         /// <summary>
@@ -223,14 +227,14 @@ namespace AppGestion.ViewModels.Windows
         public bool CanExecuteConfirm()
         {
             if (
-                string.IsNullOrWhiteSpace(FirstName) ||
-                string.IsNullOrWhiteSpace(LastName) ||
-                string.IsNullOrWhiteSpace(Email) ||
-                string.IsNullOrWhiteSpace(PhoneNumber) ||
-                string.IsNullOrWhiteSpace(EmployeeNumber) ||
-                string.IsNullOrWhiteSpace(SelectedRole) ||
-                string.IsNullOrWhiteSpace(Password)
-                )
+                string.IsNullOrWhiteSpace(FirstName)
+                || string.IsNullOrWhiteSpace(LastName)
+                || string.IsNullOrWhiteSpace(Email)
+                || string.IsNullOrWhiteSpace(PhoneNumber)
+                || string.IsNullOrWhiteSpace(EmployeeNumber)
+                || string.IsNullOrWhiteSpace(SelectedRole)
+                || string.IsNullOrWhiteSpace(Password)
+            )
             {
                 return false;
             }

@@ -1,21 +1,10 @@
-﻿using AppGestion.Views.Windows;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using AppGestion.ViewModels;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using AppGestion.ViewModels;
+using AppGestion.Views.Windows;
 using SeatSwiftDLL;
+using System;
+using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace AppGestion.Views
 {
@@ -30,7 +19,9 @@ namespace AppGestion.Views
             VMMainWindow.Instance.ChangeUser(user);
             VMMainWindow vm = VMMainWindow.Instance;
             DataContext = vm;
-            fContainer.Navigate(new System.Uri("Views/Pages/Home.xaml", UriKind.RelativeOrAbsolute));
+            fContainer.Navigate(
+                new System.Uri("Views/Pages/Home.xaml", UriKind.RelativeOrAbsolute)
+            );
             vm.Title = "Accueil";
         }
 
@@ -245,7 +236,7 @@ namespace AppGestion.Views
         #endregion
 
 
-        #region Button Close | Restore | Minimize 
+        #region Button Close | Restore | Minimize
 
         /// <summary>
         /// Close the application
@@ -288,14 +279,16 @@ namespace AppGestion.Views
         #endregion
 
 
-        #region Navigation 
+        #region Navigation
 
         /// <summary>
         /// Navigate to the Home page
         /// </summary>
         private void btnHome_Click(object sender, RoutedEventArgs e)
         {
-            fContainer.Navigate(new System.Uri("Views/Pages/Home.xaml", UriKind.RelativeOrAbsolute));
+            fContainer.Navigate(
+                new System.Uri("Views/Pages/Home.xaml", UriKind.RelativeOrAbsolute)
+            );
             VMMainWindow.Instance.Title = "Accueil";
         }
 
@@ -304,7 +297,9 @@ namespace AppGestion.Views
         /// </summary>
         private void btnDashboard_Click(object sender, RoutedEventArgs e)
         {
-            fContainer.Navigate(new System.Uri("Views/Pages/DashBoard.xaml", UriKind.RelativeOrAbsolute));
+            fContainer.Navigate(
+                new System.Uri("Views/Pages/DashBoard.xaml", UriKind.RelativeOrAbsolute)
+            );
             VMMainWindow.Instance.Title = "Tableau de bord";
         }
 
@@ -313,7 +308,9 @@ namespace AppGestion.Views
         /// </summary>
         private void btnManageEvent_Click(object sender, RoutedEventArgs e)
         {
-            fContainer.Navigate(new System.Uri("Views/Pages/ManageEvent.xaml", UriKind.RelativeOrAbsolute));
+            fContainer.Navigate(
+                new System.Uri("Views/Pages/ManageEvent.xaml", UriKind.RelativeOrAbsolute)
+            );
             VMMainWindow.Instance.Title = "Gestion des événements";
         }
 
@@ -322,7 +319,9 @@ namespace AppGestion.Views
         /// </summary>
         private void btnManageEmp_Click(object sender, RoutedEventArgs e)
         {
-            fContainer.Navigate(new System.Uri("Views/Pages/ManageEmploye.xaml", UriKind.RelativeOrAbsolute));
+            fContainer.Navigate(
+                new System.Uri("Views/Pages/ManageEmploye.xaml", UriKind.RelativeOrAbsolute)
+            );
             VMMainWindow.Instance.Title = "Gestion des employés";
         }
 
@@ -331,7 +330,9 @@ namespace AppGestion.Views
         /// </summary>
         private void btnManageTheater_Click(object sender, RoutedEventArgs e)
         {
-            fContainer.Navigate(new System.Uri("Views/Pages/ManageTheater.xaml", UriKind.RelativeOrAbsolute));
+            fContainer.Navigate(
+                new System.Uri("Views/Pages/ManageTheater.xaml", UriKind.RelativeOrAbsolute)
+            );
             VMMainWindow.Instance.Title = "Configuration des salles";
         }
 
@@ -340,9 +341,10 @@ namespace AppGestion.Views
         /// </summary>
         private void btnSalesReport_Click(object sender, RoutedEventArgs e)
         {
-            fContainer.Navigate(new System.Uri("Views/Pages/SalesReport.xaml", UriKind.RelativeOrAbsolute));
+            fContainer.Navigate(
+                new System.Uri("Views/Pages/SalesReport.xaml", UriKind.RelativeOrAbsolute)
+            );
             VMMainWindow.Instance.Title = "Rapport de vente";
-
         }
 
         /// <summary>
@@ -350,7 +352,9 @@ namespace AppGestion.Views
         /// </summary>
         private void btnTransactionReport_Click(object sender, RoutedEventArgs e)
         {
-            fContainer.Navigate(new System.Uri("Views/Pages/TransactionReport.xaml", UriKind.RelativeOrAbsolute));
+            fContainer.Navigate(
+                new System.Uri("Views/Pages/TransactionReport.xaml", UriKind.RelativeOrAbsolute)
+            );
             VMMainWindow.Instance.Title = "Rapport de transaction";
         }
 
@@ -359,7 +363,9 @@ namespace AppGestion.Views
         /// </summary>
         private void btnResend_Click(object sender, RoutedEventArgs e)
         {
-            fContainer.Navigate(new System.Uri("Views/Pages/ResendEmail.xaml", UriKind.RelativeOrAbsolute));
+            fContainer.Navigate(
+                new System.Uri("Views/Pages/ResendEmail.xaml", UriKind.RelativeOrAbsolute)
+            );
             VMMainWindow.Instance.Title = "Renvoyer billet";
         }
 
@@ -371,7 +377,7 @@ namespace AppGestion.Views
             About about = new About();
             about.ShowDialog();
         }
-    
+
         #endregion
     }
 }

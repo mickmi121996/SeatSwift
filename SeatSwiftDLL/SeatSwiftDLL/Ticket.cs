@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SeatSwiftDLL.Enums;
+﻿using SeatSwiftDLL.Enums;
 
 namespace SeatSwiftDLL
 {
@@ -95,10 +90,20 @@ namespace SeatSwiftDLL
         /// <param name="representation">The representation of the ticket. Must not be null.</param>
         /// <param name="seat">The seat of the ticket. Must not be null.</param>
         /// <param name="order">The order that purchased the ticket. Nullable if the ticket is not associated with an order.</param>
-        public Ticket(int id, bool isActive, string reservationNumber, TicketStatus ticketStatus, Representation representation, Seat seat, Order? order)
+        public Ticket(
+            int id,
+            bool isActive,
+            string reservationNumber,
+            TicketStatus ticketStatus,
+            Representation representation,
+            Seat seat,
+            Order? order
+        )
         {
-            if (representation == null) throw new ArgumentNullException(nameof(representation));
-            if (seat == null) throw new ArgumentNullException(nameof(seat));
+            if (representation == null)
+                throw new ArgumentNullException(nameof(representation));
+            if (seat == null)
+                throw new ArgumentNullException(nameof(seat));
 
             this.Id = id;
             this.IsActive = isActive;
@@ -119,7 +124,15 @@ namespace SeatSwiftDLL
         /// <param name="representation">The representation of the ticket. Must not be null.</param>
         /// <param name="seat">The seat of the ticket. Must not be null.</param>
         /// <param name="order">The order that purchased the ticket. Nullable if the ticket is not associated with an order.</param>
-        public Ticket(int id, bool isActive, string reservationNumber, TicketStatus ticketStatus, int representationId, int seatId, int? orderId)
+        public Ticket(
+            int id,
+            bool isActive,
+            string reservationNumber,
+            TicketStatus ticketStatus,
+            int representationId,
+            int seatId,
+            int? orderId
+        )
         {
             this.Id = id;
             this.IsActive = isActive;
@@ -129,7 +142,6 @@ namespace SeatSwiftDLL
             this.SeatId = seatId;
             this.OrderId = orderId;
         }
-
 
         #endregion
 

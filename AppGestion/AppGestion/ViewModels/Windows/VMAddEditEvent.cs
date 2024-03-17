@@ -6,13 +6,10 @@ using Microsoft.Win32;
 using SeatSwiftDLL;
 using SeatSwiftDLL.Enums;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation.Peers;
 
 namespace AppGestion.ViewModels.Windows
 {
@@ -124,11 +121,10 @@ namespace AppGestion.ViewModels.Windows
             _showTypes = new ObservableCollection<string>(Enum.GetNames(typeof(ShowType)));
             _selectedShowType = show.ShowType.ToString();
             _isModified = true;
-            if(show is not null)
+            if (show is not null)
             {
                 _show = show;
             }
-
         }
 
         #endregion
@@ -152,7 +148,7 @@ namespace AppGestion.ViewModels.Windows
 
             await Task.CompletedTask;
         }
-        
+
         /// <summary>
         /// Command to confirm the event
         /// </summary>
@@ -163,7 +159,7 @@ namespace AppGestion.ViewModels.Windows
             {
                 if (IsModified)
                 {
-                    if(Show is not null)
+                    if (Show is not null)
                     {
                         // Edit the show
                         Show.Name = Name;
@@ -175,12 +171,20 @@ namespace AppGestion.ViewModels.Windows
                         Show.ShowType = (ShowType)Enum.Parse(typeof(ShowType), SelectedShowType);
                         await DAL.ShowFactory.UpdateAsync(Show);
 
-                        Application.Current.Windows.OfType<AddEditEvent>().FirstOrDefault()?.Close(); 
+                        Application.Current.Windows
+                            .OfType<AddEditEvent>()
+                            .FirstOrDefault()
+                            ?.Close();
                     }
                     else
                     {
                         // pop a message box
-                        System.Windows.MessageBox.Show("The show is null", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                        System.Windows.MessageBox.Show(
+                            "The show is null",
+                            "Error",
+                            System.Windows.MessageBoxButton.OK,
+                            System.Windows.MessageBoxImage.Error
+                        );
                     }
                 }
                 else
@@ -205,9 +209,13 @@ namespace AppGestion.ViewModels.Windows
             catch (Exception ex)
             {
                 // Pop a message box with the exception message
-                System.Windows.MessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error
+                );
             }
-
         }
 
         /// <summary>
@@ -216,15 +224,15 @@ namespace AppGestion.ViewModels.Windows
         /// <returns>True if the command can be executed, otherwise false</returns>
         private bool CanConfirm()
         {
-            if(
-                string.IsNullOrWhiteSpace(Name) ||
-                string.IsNullOrWhiteSpace(Artist) ||
-                string.IsNullOrWhiteSpace(SelectedShowType) ||
-                string.IsNullOrWhiteSpace(SelectedImagePath) ||
-                string.IsNullOrWhiteSpace(EventDescription) ||
-                BasePrice <= 0 ||
-                MaxTicketsByClient <= 0||
-                string.IsNullOrWhiteSpace(SelectedShowType)
+            if (
+                string.IsNullOrWhiteSpace(Name)
+                || string.IsNullOrWhiteSpace(Artist)
+                || string.IsNullOrWhiteSpace(SelectedShowType)
+                || string.IsNullOrWhiteSpace(SelectedImagePath)
+                || string.IsNullOrWhiteSpace(EventDescription)
+                || BasePrice <= 0
+                || MaxTicketsByClient <= 0
+                || string.IsNullOrWhiteSpace(SelectedShowType)
             )
             {
                 return false;

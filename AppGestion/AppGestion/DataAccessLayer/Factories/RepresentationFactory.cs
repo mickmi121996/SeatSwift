@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AppGestion.DataAccessLayer.Factories
@@ -37,20 +36,28 @@ namespace AppGestion.DataAccessLayer.Factories
             int auditoriumId = dataReader.GetInt32("AuditoriumId");
 
             // Convert the representation status string to an enum
-            RepresentationStatus status = (RepresentationStatus)Enum.Parse(typeof(RepresentationStatus), representationStatus);
+            RepresentationStatus status = (RepresentationStatus)
+                Enum.Parse(typeof(RepresentationStatus), representationStatus);
 
             // Get the show and auditorium objects using there Ids
             Show show = await new ShowFactory().GetByIdAsync(showId);
             Auditorium auditorium = await new AuditoriumFactory().GetByIdAsync(auditoriumId);
 
             // Create the representation object
-            Representation representation = new Representation(id, isActive, date, status, show, auditorium);
+            Representation representation = new Representation(
+                id,
+                isActive,
+                date,
+                status,
+                show,
+                auditorium
+            );
 
             return representation;
         }
 
         /// <summary>
-        /// Created a representation object from a DataRow 
+        /// Created a representation object from a DataRow
         /// </summary>
         /// <param name="dataRow">The DataRow</param>
         /// <returns>The Representation object</returns>
@@ -59,23 +66,32 @@ namespace AppGestion.DataAccessLayer.Factories
             int id = dataRow.Field<int>("Id");
             DateTime date = dataRow.Field<DateTime>("Date");
             bool isActive = dataRow.Field<bool>("IsActive");
-            string representationStatus = dataRow.Field<string>("RepresentationStatus")
+            string representationStatus =
+                dataRow.Field<string>("RepresentationStatus")
                 ?? throw new ArgumentNullException("The representation status is null");
             int showId = dataRow.Field<int>("ShowId");
             int auditoriumId = dataRow.Field<int>("AuditoriumId");
-            
+
             // Convert the representation status string to an enum
-            RepresentationStatus status = (RepresentationStatus)Enum.Parse(typeof(RepresentationStatus), representationStatus);
+            RepresentationStatus status = (RepresentationStatus)
+                Enum.Parse(typeof(RepresentationStatus), representationStatus);
 
             // Get the show and auditorium objects using there Ids
             Show show = await new ShowFactory().GetByIdAsync(showId);
             Auditorium auditorium = await new AuditoriumFactory().GetByIdAsync(auditoriumId);
 
             // Create the representation object
-            Representation representation = new Representation(id, isActive, date, status, show, auditorium);
+            Representation representation = new Representation(
+                id,
+                isActive,
+                date,
+                status,
+                show,
+                auditorium
+            );
 
             return representation;
-        }  
+        }
 
         #endregion
 
@@ -94,17 +110,19 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get the show with the given id
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM representation WHERE Id = @id;",
-                    new MySqlParameter("@id", id)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM representation WHERE Id = @id;",
+                        new MySqlParameter("@id", id)
                     )
                 )
                 {
                     // If no show is found, throw an exception
                     if (result.Rows.Count == 0)
                     {
-                        throw new KeyNotFoundException("No representation with the id " + id + " was found");
+                        throw new KeyNotFoundException(
+                            "No representation with the id " + id + " was found"
+                        );
                     }
 
                     // Create the Show object
@@ -113,7 +131,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the representation with the given id", ex);
+                throw new Exception(
+                    "An error occurred while getting the representation with the given id",
+                    ex
+                );
             }
         }
 
@@ -135,10 +156,10 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get the representations for the given show
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM representation WHERE ShowId = @showId AND IsActive = 1;",
-                    new MySqlParameter("@showId", show.Id)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM representation WHERE ShowId = @showId AND IsActive = 1;",
+                        new MySqlParameter("@showId", show.Id)
                     )
                 )
                 {
@@ -157,7 +178,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the representations for the given show", ex);
+                throw new Exception(
+                    "An error occurred while getting the representations for the given show",
+                    ex
+                );
             }
         }
 
@@ -179,12 +203,12 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get the representations for the given show
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM representation WHERE ShowId = @showId AND Date >= @date AND IsActive = 1 AND RepresentationStatus = @status;",
-                    new MySqlParameter("@showId", show.Id),
-                    new MySqlParameter("@date", DateTime.Now),
-                    new MySqlParameter("@status", RepresentationStatus.Available.ToString())
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM representation WHERE ShowId = @showId AND Date >= @date AND IsActive = 1 AND RepresentationStatus = @status;",
+                        new MySqlParameter("@showId", show.Id),
+                        new MySqlParameter("@date", DateTime.Now),
+                        new MySqlParameter("@status", RepresentationStatus.Available.ToString())
                     )
                 )
                 {
@@ -203,7 +227,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the representations for the given show", ex);
+                throw new Exception(
+                    "An error occurred while getting the representations for the given show",
+                    ex
+                );
             }
         }
 
@@ -225,10 +252,10 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get the representations for the given auditorium
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM representation WHERE AuditoriumId = @auditoriumId AND IsActive = 1;",
-                    new MySqlParameter("@auditoriumId", auditorium.Id)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM representation WHERE AuditoriumId = @auditoriumId AND IsActive = 1;",
+                        new MySqlParameter("@auditoriumId", auditorium.Id)
                     )
                 )
                 {
@@ -247,7 +274,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the representations for the given auditorium", ex);
+                throw new Exception(
+                    "An error occurred while getting the representations for the given auditorium",
+                    ex
+                );
             }
         }
 
@@ -270,18 +300,24 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get the representation for the given show and date
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM representation WHERE ShowId = @showId AND Date = @date AND IsActive = 1;",
-                    new MySqlParameter("@showId", show.Id),
-                    new MySqlParameter("@date", date)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM representation WHERE ShowId = @showId AND Date = @date AND IsActive = 1;",
+                        new MySqlParameter("@showId", show.Id),
+                        new MySqlParameter("@date", date)
                     )
                 )
                 {
                     // If no representation is found, throw an exception
                     if (result.Rows.Count == 0)
                     {
-                        throw new KeyNotFoundException("No representation with the show id " + show.Id + " and the date " + date + " was found");
+                        throw new KeyNotFoundException(
+                            "No representation with the show id "
+                                + show.Id
+                                + " and the date "
+                                + date
+                                + " was found"
+                        );
                     }
 
                     // Create the Show object
@@ -290,7 +326,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the representation with the given show and date", ex);
+                throw new Exception(
+                    "An error occurred while getting the representation with the given show and date",
+                    ex
+                );
             }
         }
 
@@ -306,9 +345,10 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get all the representations
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM representation Where IsActive = 1;")
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM representation Where IsActive = 1;"
+                    )
                 )
                 {
                     // Create the list of representations
@@ -356,14 +396,14 @@ namespace AppGestion.DataAccessLayer.Factories
             try
             {
                 // Create the representation
-                await DataBaseTool.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "INSERT INTO representation (Date, IsActive, RepresentationStatus, ShowId, AuditoriumId) VALUES (@date, @isActive, @representationStatus, @showId, @auditoriumId);",
-                new MySqlParameter("@date", representation.Date),
-                new MySqlParameter("@isActive", representation.IsActive),
-                new MySqlParameter("@representationStatus", representation.Status.ToString()),
-                new MySqlParameter("@showId", representation.Show.Id),
-                new MySqlParameter("@auditoriumId", representation.Auditorium.Id)
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "INSERT INTO representation (Date, IsActive, RepresentationStatus, ShowId, AuditoriumId) VALUES (@date, @isActive, @representationStatus, @showId, @auditoriumId);",
+                    new MySqlParameter("@date", representation.Date),
+                    new MySqlParameter("@isActive", representation.IsActive),
+                    new MySqlParameter("@representationStatus", representation.Status.ToString()),
+                    new MySqlParameter("@showId", representation.Show.Id),
+                    new MySqlParameter("@auditoriumId", representation.Auditorium.Id)
                 );
             }
             catch (Exception ex)
@@ -398,15 +438,15 @@ namespace AppGestion.DataAccessLayer.Factories
             try
             {
                 // Update the representation
-                await DataBaseTool.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "UPDATE representation SET Date = @date, IsActive = @isActive, RepresentationStatus = @representationStatus, ShowId = @showId, AuditoriumId = @auditoriumId WHERE Id = @id;",
-                new MySqlParameter("@date", representation.Date),
-                new MySqlParameter("@isActive", representation.IsActive),
-                new MySqlParameter("@representationStatus", representation.Status.ToString()),
-                new MySqlParameter("@showId", representation.Show.Id),
-                new MySqlParameter("@auditoriumId", representation.Auditorium.Id),
-                new MySqlParameter("@id", representation.Id)
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "UPDATE representation SET Date = @date, IsActive = @isActive, RepresentationStatus = @representationStatus, ShowId = @showId, AuditoriumId = @auditoriumId WHERE Id = @id;",
+                    new MySqlParameter("@date", representation.Date),
+                    new MySqlParameter("@isActive", representation.IsActive),
+                    new MySqlParameter("@representationStatus", representation.Status.ToString()),
+                    new MySqlParameter("@showId", representation.Show.Id),
+                    new MySqlParameter("@auditoriumId", representation.Auditorium.Id),
+                    new MySqlParameter("@id", representation.Id)
                 );
             }
             catch (Exception ex)
@@ -431,15 +471,18 @@ namespace AppGestion.DataAccessLayer.Factories
             try
             {
                 // Set the representation as inactive
-                await DataBaseTool.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "UPDATE representation SET IsActive = 0 WHERE Id = @id;",
-                new MySqlParameter("@id", representation.Id)
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "UPDATE representation SET IsActive = 0 WHERE Id = @id;",
+                    new MySqlParameter("@id", representation.Id)
                 );
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while setting the representation as inactive", ex);
+                throw new Exception(
+                    "An error occurred while setting the representation as inactive",
+                    ex
+                );
             }
         }
 
@@ -454,10 +497,10 @@ namespace AppGestion.DataAccessLayer.Factories
             try
             {
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT COUNT(*) FROM representation WHERE Date >= @date;",
-                    new MySqlParameter("@date", DateTime.Now)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT COUNT(*) FROM representation WHERE Date >= @date;",
+                        new MySqlParameter("@date", DateTime.Now)
                     )
                 )
                 {
@@ -468,16 +511,20 @@ namespace AppGestion.DataAccessLayer.Factories
                     }
                     else
                     {
-                        throw new OverflowException("The count of representations in coming is greater than int.MaxValue");
+                        throw new OverflowException(
+                            "The count of representations in coming is greater than int.MaxValue"
+                        );
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the count of representations in coming", ex);
+                throw new Exception(
+                    "An error occurred while getting the count of representations in coming",
+                    ex
+                );
             }
         }
-
 
         /// <summary>
         /// Get the count of representations passed
@@ -491,10 +538,10 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get the count of representations passed
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT COUNT(*) FROM representation WHERE Date < @date;",
-                    new MySqlParameter("@date", DateTime.Now)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT COUNT(*) FROM representation WHERE Date < @date;",
+                        new MySqlParameter("@date", DateTime.Now)
                     )
                 )
                 {
@@ -505,13 +552,18 @@ namespace AppGestion.DataAccessLayer.Factories
                     }
                     else
                     {
-                        throw new OverflowException("The count of representations in coming is greater than int.MaxValue");
+                        throw new OverflowException(
+                            "The count of representations in coming is greater than int.MaxValue"
+                        );
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the count of representations passed", ex);
+                throw new Exception(
+                    "An error occurred while getting the count of representations passed",
+                    ex
+                );
             }
         }
 
@@ -543,12 +595,12 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Check if the representation exists
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM representation WHERE ShowId = @showId AND AuditoriumId = @auditoriumId AND Date = @date;",
-                    new MySqlParameter("@showId", show.Id),
-                    new MySqlParameter("@auditoriumId", auditorium.Id),
-                    new MySqlParameter("@date", date)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM representation WHERE ShowId = @showId AND AuditoriumId = @auditoriumId AND Date = @date;",
+                        new MySqlParameter("@showId", show.Id),
+                        new MySqlParameter("@auditoriumId", auditorium.Id),
+                        new MySqlParameter("@date", date)
                     )
                 )
                 {
@@ -557,7 +609,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while checking if the representation exists", ex);
+                throw new Exception(
+                    "An error occurred while checking if the representation exists",
+                    ex
+                );
             }
         }
 

@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GuichetAutonome.DataAccessLayer;
 using GuichetAutonome.ViewModels.UserControls;
 using GuichetAutonome.Views.Pages;
 using GuichetAutonome.Views.UserControls;
@@ -9,8 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -114,24 +111,32 @@ namespace GuichetAutonome.ViewModels.Pages
                 {
                     List<Ticket> ticketsForCurrentRepresentation = group.ToList();
 
-                    var orderTemplateForCurrentRepresentation = new OrderTemplate(ticketsForCurrentRepresentation);
+                    var orderTemplateForCurrentRepresentation = new OrderTemplate(
+                        ticketsForCurrentRepresentation
+                    );
                     await Application.Current.Dispatcher.InvokeAsync(async () =>
                     {
-                        await orderTemplateForCurrentRepresentation.InitializeAsync(ticketsForCurrentRepresentation);
+                        await orderTemplateForCurrentRepresentation.InitializeAsync(
+                            ticketsForCurrentRepresentation
+                        );
                         UserControls.Add(orderTemplateForCurrentRepresentation);
                     });
                 }
 
-                // Ajustez l'ordre de la liste des UserControl, si nécessaire
-                Application.Current.Dispatcher.Invoke(() => UserControls = new ObservableCollection<UserControl>(
-                    UserControls.OrderBy(uc => (uc.DataContext as VMOrderTemplate)?.Show.Name)));
+                Application.Current.Dispatcher.Invoke(
+                    () =>
+                        UserControls = new ObservableCollection<UserControl>(
+                            UserControls.OrderBy(
+                                uc => (uc.DataContext as VMOrderTemplate)?.Show.Name
+                            )
+                        )
+                );
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
 
         /// <summary>
         /// The method to calculate the total price of the cart
@@ -190,7 +195,11 @@ namespace GuichetAutonome.ViewModels.Pages
         /// <param name="tps">The tps amount</param>
         /// <param name="tvq">The tvq amount</param>
         /// <returns>The total amount after taxes</returns>
-        private decimal TotalAmountAfterTaxeCalculation(decimal totalAmountBeforeTaxe, decimal tps, decimal tvq)
+        private decimal TotalAmountAfterTaxeCalculation(
+            decimal totalAmountBeforeTaxe,
+            decimal tps,
+            decimal tvq
+        )
         {
             return totalAmountBeforeTaxe + tps + tvq;
         }

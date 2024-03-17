@@ -5,8 +5,6 @@ using SeatSwiftDLL.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AppGestion.DataAccessLayer.Factories
@@ -22,7 +20,7 @@ namespace AppGestion.DataAccessLayer.Factories
     {
         #region Create methods
 
-                /// <summary>
+        /// <summary>
         /// Create seat from data reader
         /// </summary>
         /// <param name="dataReader">Data reader</param>
@@ -46,7 +44,16 @@ namespace AppGestion.DataAccessLayer.Factories
             Auditorium auditorium = await new AuditoriumFactory().GetByIdAsync(auditoriumId);
 
             // Create the order
-            return new Seat(id, seatNumber, status,auditorium, section, rowName, XCoordinate, YCoordinate);
+            return new Seat(
+                id,
+                seatNumber,
+                status,
+                auditorium,
+                section,
+                rowName,
+                XCoordinate,
+                YCoordinate
+            );
         }
 
         /// <summary>
@@ -59,11 +66,14 @@ namespace AppGestion.DataAccessLayer.Factories
             int id = dataRow.Field<int>("Id");
             int auditoriumId = dataRow.Field<int>("AuditoriumId");
             int seatNumber = dataRow.Field<int>("SeatNumber");
-            string sectionName = dataRow.Field<string>("SectionName")
+            string sectionName =
+                dataRow.Field<string>("SectionName")
                 ?? throw new ArgumentNullException("The section name is null");
-            string rowName = dataRow.Field<string>("RowName")
+            string rowName =
+                dataRow.Field<string>("RowName")
                 ?? throw new ArgumentNullException("The row name is null");
-            string seatStatus = dataRow.Field<string>("SeatStatus")
+            string seatStatus =
+                dataRow.Field<string>("SeatStatus")
                 ?? throw new ArgumentNullException("The seat status is null");
             int XCoordinate = dataRow.Field<int>("XCoordinate");
             int YCoordinate = dataRow.Field<int>("YCoordinate");
@@ -76,7 +86,16 @@ namespace AppGestion.DataAccessLayer.Factories
             Auditorium auditorium = await new AuditoriumFactory().GetByIdAsync(auditoriumId);
 
             // Create the order
-            return new Seat(id, seatNumber, status, auditorium, section,rowName ,XCoordinate, YCoordinate);
+            return new Seat(
+                id,
+                seatNumber,
+                status,
+                auditorium,
+                section,
+                rowName,
+                XCoordinate,
+                YCoordinate
+            );
         }
 
         /// <summary>
@@ -89,11 +108,14 @@ namespace AppGestion.DataAccessLayer.Factories
             int id = dataRow.Field<int>("Id");
             int auditoriumId = dataRow.Field<int>("AuditoriumId");
             int seatNumber = dataRow.Field<int>("SeatNumber");
-            string sectionName = dataRow.Field<string>("SectionName")
+            string sectionName =
+                dataRow.Field<string>("SectionName")
                 ?? throw new ArgumentNullException("The section name is null");
-            string rowName = dataRow.Field<string>("RowName")
+            string rowName =
+                dataRow.Field<string>("RowName")
                 ?? throw new ArgumentNullException("The row name is null");
-            string seatStatus = dataRow.Field<string>("SeatStatus")
+            string seatStatus =
+                dataRow.Field<string>("SeatStatus")
                 ?? throw new ArgumentNullException("The seat status is null");
             int XCoordinate = dataRow.Field<int>("XCoordinate");
             int YCoordinate = dataRow.Field<int>("YCoordinate");
@@ -103,7 +125,16 @@ namespace AppGestion.DataAccessLayer.Factories
             SeatStatus status = (SeatStatus)Enum.Parse(typeof(SeatStatus), seatStatus);
 
             // Create the order
-            return new Seat(id, seatNumber, status, auditoriumId, section, rowName, XCoordinate, YCoordinate);
+            return new Seat(
+                id,
+                seatNumber,
+                status,
+                auditoriumId,
+                section,
+                rowName,
+                XCoordinate,
+                YCoordinate
+            );
         }
 
         #endregion
@@ -115,7 +146,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// Get all seats of an auditorium
         /// </summary>
         /// <param name="auditoriumId">The id of the auditorium</param>
-        /// <returns>The list of seats</returns>    
+        /// <returns>The list of seats</returns>
         /// <exception cref="Exception">Throws an exception if the data could not be retrieved</exception>
         public async Task<List<Seat>> GetAllByAuditoriumIdAsync(int auditoriumId)
         {
@@ -141,7 +172,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception e)
             {
-                throw new Exception("An error occurred while getting the seats of the auditorium", e);
+                throw new Exception(
+                    "An error occurred while getting the seats of the auditorium",
+                    e
+                );
             }
         }
 
@@ -149,7 +183,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// Get all seats of an auditorium
         /// </summary>
         /// <param name="auditoriumId">The id of the auditorium</param>
-        /// <returns>The list of seats</returns>    
+        /// <returns>The list of seats</returns>
         /// <exception cref="Exception">Throws an exception if the data could not be retrieved</exception>
         public async Task<List<Seat>> GetAllByAuditoriumIdSimpleAsync(int auditoriumId)
         {
@@ -175,10 +209,12 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception e)
             {
-                throw new Exception("An error occurred while getting the seats of the auditorium", e);
+                throw new Exception(
+                    "An error occurred while getting the seats of the auditorium",
+                    e
+                );
             }
         }
-
 
         /// <summary>
         /// Get a seat by its id
@@ -236,7 +272,7 @@ namespace AppGestion.DataAccessLayer.Factories
                 {
                     throw new Exception("The auditorium is null");
                 }
-                
+
                 // Insert the seat
                 await DataBaseTool.ExecuteNonQueryAsync(
                     this.ConnectionString,
@@ -261,7 +297,7 @@ namespace AppGestion.DataAccessLayer.Factories
         /// <param name="seatId">The Id of the seat to update</param>
         /// <param name="status">The new status of the seat</param>
         /// <exception cref="Exception">Throws an exception if the data could not be updated</exception>
-        /// <exception cref="Exception">Throws an exception if the seat does not exist</exception>  
+        /// <exception cref="Exception">Throws an exception if the seat does not exist</exception>
         public async Task UpdateStatusAsync(int seatId, SeatStatus status)
         {
             try
@@ -285,7 +321,6 @@ namespace AppGestion.DataAccessLayer.Factories
                 throw new Exception("An error occurred while updating the status of the seat", e);
             }
         }
-
 
         #endregion
     }

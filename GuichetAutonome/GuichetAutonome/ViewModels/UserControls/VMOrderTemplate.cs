@@ -5,8 +5,6 @@ using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -45,7 +43,6 @@ namespace GuichetAutonome.ViewModels.UserControls
         /// </summary>
         [ObservableProperty]
         private decimal _totalPrice;
-
 
         /// <summary>
         /// Number of tickets
@@ -99,15 +96,16 @@ namespace GuichetAutonome.ViewModels.UserControls
 
                         // Remove the ticket from the collection
                         _tickets.Remove(ticket);
-                    }    
+                    }
                 }
             }
             catch (Exception ex)
             {
                 // Make a message box
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }  
+            }
         }
+
         public async Task InitializeTicketsAsync(List<Ticket> tickets)
         {
             foreach (var ticket in tickets)
@@ -128,15 +126,14 @@ namespace GuichetAutonome.ViewModels.UserControls
             CreateOrder();
         }
 
-
-
-
         public async Task<Ticket> GiveTicketObject(Ticket ticket)
         {
             try
             {
                 ticket.Seat = await DAL.SeatFactory.GetByIdAsync(ticket.SeatId);
-                ticket.Representation = await DAL.RepresentationFactory.GetByIdAsync(ticket.RepresentationId);
+                ticket.Representation = await DAL.RepresentationFactory.GetByIdAsync(
+                    ticket.RepresentationId
+                );
 
                 return ticket;
             }

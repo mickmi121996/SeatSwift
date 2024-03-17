@@ -8,8 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -134,9 +132,8 @@ namespace GuichetAutonome.ViewModels.Pages
             VMMainWindow.Instance.ChangePage(typeof(EventSelection));
         }
 
-
         /// <summary>
-        /// Command to add the order to the cart 
+        /// Command to add the order to the cart
         /// </summary>
         [RelayCommand]
         public void AddOrderToCart()
@@ -176,8 +173,10 @@ namespace GuichetAutonome.ViewModels.Pages
         {
             if (seat != null)
             {
-                seat.Status = seat.Status == SeatStatus.InService ? SeatStatus.OutOfService : SeatStatus.InService;
-                // Mettre à jour la base de données ou le service web si nécessaire ici
+                seat.Status =
+                    seat.Status == SeatStatus.InService
+                        ? SeatStatus.OutOfService
+                        : SeatStatus.InService;
                 try
                 {
                     await DAL.SeatFactory.UpdateStatusAsync(seat.Id, seat.Status);
@@ -185,12 +184,18 @@ namespace GuichetAutonome.ViewModels.Pages
                 catch (Exception ex)
                 {
                     // Message box error
-                    MessageBox.Show("Erreur lors de la mise à jour du siège.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(
+                        "Erreur lors de la mise à jour du siège.",
+                        "Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                    );
                 }
             }
         }
 
         public event Action SeatsInitialized;
+
         /// <summary>
         /// Get the list of seat for the selected representation
         /// </summary>
@@ -198,44 +203,32 @@ namespace GuichetAutonome.ViewModels.Pages
         {
             if (Representation.Auditorium is not null)
             {
-                // Récupérer les informations de l'auditorium
                 Auditorium = await DAL.AuditoriumFactory.GetByIdAsync(Representation.Auditorium.Id);
 
-                // Récupérer la liste des sièges pour cet auditorium
                 var seatList = await DAL.SeatFactory.GetAllByAuditoriumIdAsync(Auditorium.Id);
 
-                // Récupérer les tickets pour cette représentation
                 var tickets = await DAL.TicketFactory.GetByRepresentationAsync(Representation);
 
-                // Initialiser la liste des sièges avec la correction de la coordonnée X
                 foreach (var seat in seatList)
                 {
-                    seat.XCoordinate -= 1; // Ajuster la coordonnée X si nécessaire
-                    Seats.Add(seat); // Ajouter le siège à la liste (si c'est ce que vous voulez faire ici)
+                    seat.XCoordinate -= 1;
+                    Seats.Add(seat);
                 }
 
-                // Associer chaque siège au ticket correspondant
                 foreach (var ticket in tickets)
                 {
-                    // Trouver le siège correspondant au ticket basé sur SeatId
                     var matchingSeat = seatList.FirstOrDefault(seat => seat.Id == ticket.SeatId);
                     if (matchingSeat != null)
                     {
-                        // Associer le siège au ticket
                         ticket.Seat = matchingSeat;
                         Tickets.Add(ticket);
                     }
                 }
 
-                // Déclencher l'événement indiquant que les sièges ont été initialisés
                 SeatsInitialized?.Invoke();
-
-
             }
         }
 
-
-        // Déclaration d'un événement public
         public event Action FilterOrSectionChanged;
 
         /// <summary>

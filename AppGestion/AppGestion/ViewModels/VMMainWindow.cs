@@ -1,16 +1,10 @@
-﻿using AppGestion.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using SeatSwiftDLL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace AppGestion.ViewModels
 {
-    public partial class VMMainWindow :ObservableObject
+    public partial class VMMainWindow : ObservableObject
     {
         #region Instance
 
@@ -98,12 +92,8 @@ namespace AppGestion.ViewModels
             IsConnected = true;
 
             // Check the employee type of the user
-            if(User.Type == SeatSwiftDLL.Enums.EmployeeType.Administrator) 
-            {
-            }
-            else
-            {
-            }
+            if (User.Type == SeatSwiftDLL.Enums.EmployeeType.Administrator) { }
+            else { }
         }
 
         #endregion

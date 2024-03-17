@@ -5,8 +5,6 @@ using SeatSwiftDLL.Tools;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GuichetAutonome.DataAccessLayer.Factories
@@ -25,11 +23,14 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             // Read the data from the data reader
             int id = dataReader.GetInt32("Id");
             bool isActive = dataReader.GetBoolean("IsActive");
-            string FirstName = dataReader.GetString("FirstName")
+            string FirstName =
+                dataReader.GetString("FirstName")
                 ?? throw new ArgumentNullException("The first name of the client cannot be null");
-            string LastName = dataReader.GetString("LastName")
+            string LastName =
+                dataReader.GetString("LastName")
                 ?? throw new ArgumentNullException("The last name of the client cannot be null");
-            string email = dataReader.GetString("Email")
+            string email =
+                dataReader.GetString("Email")
                 ?? throw new ArgumentNullException("The email of the client cannot be null");
             string phone = dataReader.GetString("Phone");
             string city = dataReader.GetString("City");
@@ -51,11 +52,14 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             // Read the data from the data row
             int id = row.Field<int>("Id");
             bool isActive = row.Field<bool>("IsActive");
-            string FirstName = row.Field<string>("FirstName")
+            string FirstName =
+                row.Field<string>("FirstName")
                 ?? throw new ArgumentNullException("The first name of the client cannot be null");
-            string LastName = row.Field<string>("LastName")
+            string LastName =
+                row.Field<string>("LastName")
                 ?? throw new ArgumentNullException("The last name of the client cannot be null");
-            string email = row.Field<string>("Email")
+            string email =
+                row.Field<string>("Email")
                 ?? throw new ArgumentNullException("The email of the client cannot be null");
             string? phone = row.Field<string>("Phone");
             string? city = row.Field<string>("City");
@@ -220,15 +224,20 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             try
             {
                 // SQL query to get all clients with at least one order
-                string query = @"
+                string query =
+                    @"
                     SELECT DISTINCT c.* 
                     FROM client c
                     JOIN orders o ON c.Id = o.ClientId
                     WHERE c.IsActive = 1
-                "
-                ;
+                ";
 
-                using (DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(this.ConnectionString, query))
+                using (
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        query
+                    )
+                )
                 {
                     // Check if the result is not null
                     if (result != null && result.Rows.Count > 0)
@@ -257,7 +266,6 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 throw new Exception("An error occurred while getting the clients with orders", ex);
             }
         }
-
 
         /// <summary>
         /// Method to create a client
@@ -368,13 +376,18 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                     }
                     else
                     {
-                        throw new Exception("An error occurred while getting the count of active clients");
+                        throw new Exception(
+                            "An error occurred while getting the count of active clients"
+                        );
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the count of active clients", ex);
+                throw new Exception(
+                    "An error occurred while getting the count of active clients",
+                    ex
+                );
             }
         }
 
@@ -409,7 +422,9 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                     }
                     else
                     {
-                        throw new Exception("An error occurred while checking if the client exists");
+                        throw new Exception(
+                            "An error occurred while checking if the client exists"
+                        );
                     }
                 }
             }
@@ -438,7 +453,8 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 byte[] hash = PasswordTools.HashPassword(password, salt);
 
                 // Create a new command
-                int result = await DataBaseTools.ExecuteNonQueryAsync(this.ConnectionString,
+                int result = await DataBaseTools.ExecuteNonQueryAsync(
+                    this.ConnectionString,
                     "UPDATE Client SET PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt WHERE Email = @Email",
                     new MySqlParameter("@PasswordHash", hash),
                     new MySqlParameter("@PasswordSalt", salt),
@@ -450,7 +466,6 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 {
                     throw new Exception("The salt and the hash were not created");
                 }
-
             }
             catch (Exception ex)
             {
@@ -471,10 +486,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             {
                 // Create a new command
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT PasswordHash, PasswordSalt FROM Client WHERE Id = @Id",
-                    new MySqlParameter("@Id", id)
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT PasswordHash, PasswordSalt FROM Client WHERE Id = @Id",
+                        new MySqlParameter("@Id", id)
                     )
                 )
                 {
@@ -482,8 +497,16 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                     if (result.Rows.Count == 1)
                     {
                         // Get the salt and the hash
-                        byte[] salt = result.Rows[0].Field<byte[]>("PasswordSalt") ?? throw new ArgumentNullException("The salt of the password cannot be null");
-                        byte[] hash = result.Rows[0].Field<byte[]>("PasswordHash") ?? throw new ArgumentNullException("The hash of the password cannot be null");
+                        byte[] salt =
+                            result.Rows[0].Field<byte[]>("PasswordSalt")
+                            ?? throw new ArgumentNullException(
+                                "The salt of the password cannot be null"
+                            );
+                        byte[] hash =
+                            result.Rows[0].Field<byte[]>("PasswordHash")
+                            ?? throw new ArgumentNullException(
+                                "The hash of the password cannot be null"
+                            );
 
                         // Return the salt and the hash
                         return (salt, hash);
@@ -495,7 +518,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occured while getting the salt and the hash of the password", ex);
+                throw new Exception(
+                    "An error occured while getting the salt and the hash of the password",
+                    ex
+                );
             }
         }
 

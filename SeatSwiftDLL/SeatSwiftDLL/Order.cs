@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SeatSwiftDLL
+﻿namespace SeatSwiftDLL
 {
     /// <summary>
     /// The order class
@@ -61,7 +55,6 @@ namespace SeatSwiftDLL
         /// </summary>
         public Client? Client { get; set; }
 
-
         #endregion
 
 
@@ -92,9 +85,19 @@ namespace SeatSwiftDLL
         /// <param name="orderDate">The date of the order</param>
         /// <param name="totalPrice">The total price of the order</param>
         /// <param name="client">The client of the order</param>
-        public Order(int id, bool isActive, string orderNumber, DateTime orderDate, decimal totalPrice, Client client)
+        public Order(
+            int id,
+            bool isActive,
+            string orderNumber,
+            DateTime orderDate,
+            decimal totalPrice,
+            Client client
+        )
         {
-            if (client == null) { throw new ArgumentNullException(nameof(client)); }
+            if (client == null)
+            {
+                throw new ArgumentNullException(nameof(client));
+            }
 
             this.Id = id;
             this.IsActive = isActive;
@@ -149,7 +152,11 @@ namespace SeatSwiftDLL
         /// <param name="tps">The tps amount</param>
         /// <param name="tvq">The tvq amount</param>
         /// <returns>The total amount after taxes</returns>
-        public decimal TotalAmountAfterTaxeCalculation(decimal totalAmountBeforeTaxe, decimal tps, decimal tvq)
+        public decimal TotalAmountAfterTaxeCalculation(
+            decimal totalAmountBeforeTaxe,
+            decimal tps,
+            decimal tvq
+        )
         {
             return totalAmountBeforeTaxe + tps + tvq;
         }

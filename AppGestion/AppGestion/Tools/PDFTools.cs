@@ -1,7 +1,6 @@
-﻿using QuestPDF.Fluent;
+﻿using AppGestion.Classes;
+using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
-using AppGestion.Classes;
-using System.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +24,12 @@ namespace AppGestion.Tools
         /// <remarks>
         /// The sell lines are the list of sales
         /// </remarks>
-        public static void CreateSalesReportPdf(string filePath, List<SellLine> sellLines, DateTime reportDate, string reportType)
+        public static void CreateSalesReportPdf(
+            string filePath,
+            List<SellLine> sellLines,
+            DateTime reportDate,
+            string reportType
+        )
         {
             QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
             var document = Document.Create(container =>
@@ -33,14 +37,17 @@ namespace AppGestion.Tools
                 container.Page(page =>
                 {
                     page.Margin(50);
-                    page.Header().Element(container => ComposeHeader(container, reportDate, reportType));
+                    page.Header()
+                        .Element(container => ComposeHeader(container, reportDate, reportType));
                     page.Content().Element(content => ComposeContent(content, sellLines));
-                    page.Footer().AlignCenter().Text(x => 
-                    {
-                        x.CurrentPageNumber();
-                        x.Span(" / ");
-                        x.TotalPages();
-                    });
+                    page.Footer()
+                        .AlignCenter()
+                        .Text(x =>
+                        {
+                            x.CurrentPageNumber();
+                            x.Span(" / ");
+                            x.TotalPages();
+                        });
                 });
             });
 
@@ -56,11 +63,16 @@ namespace AppGestion.Tools
         /// <remarks>
         /// The report type can be "Quotidien" or "Annuel"
         /// </remarks>
-        private static void ComposeHeader(IContainer container, DateTime reportDate, string reportType)
+        private static void ComposeHeader(
+            IContainer container,
+            DateTime reportDate,
+            string reportType
+        )
         {
-            string headerText = reportType == "Quotidien"
-                ? $"Rapport de vente pour le {reportDate:D}"
-                : $"Rapport de vente pour {reportDate:Y}";
+            string headerText =
+                reportType == "Quotidien"
+                    ? $"Rapport de vente pour le {reportDate:D}"
+                    : $"Rapport de vente pour {reportDate:Y}";
 
             container.Row(row =>
             {
@@ -87,7 +99,11 @@ namespace AppGestion.Tools
             // Style for the table headers
             static IContainer HeaderCellStyle(IContainer container)
             {
-                return container.DefaultTextStyle(x => x.Bold()).PaddingVertical(5).BorderBottom(2).BorderColor("#000000");
+                return container
+                    .DefaultTextStyle(x => x.Bold())
+                    .PaddingVertical(5)
+                    .BorderBottom(2)
+                    .BorderColor("#000000");
             }
 
             // Style for the table cells
@@ -116,30 +132,69 @@ namespace AppGestion.Tools
                 // Table header with the defined style
                 table.Header(header =>
                 {
-                    header.Cell().Element(HeaderCellStyle).AlignMiddle().Text("Spectacle").FontSize(10);
+                    header
+                        .Cell()
+                        .Element(HeaderCellStyle)
+                        .AlignMiddle()
+                        .Text("Spectacle")
+                        .FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignMiddle().Text("Date").FontSize(10);
-                    header.Cell().Element(HeaderCellStyle).AlignMiddle().Text("Tickets").FontSize(10);
-                    header.Cell().Element(HeaderCellStyle).AlignMiddle().Text("Montant Avant Taxes").FontSize(10);
+                    header
+                        .Cell()
+                        .Element(HeaderCellStyle)
+                        .AlignMiddle()
+                        .Text("Tickets")
+                        .FontSize(10);
+                    header
+                        .Cell()
+                        .Element(HeaderCellStyle)
+                        .AlignMiddle()
+                        .Text("Montant Avant Taxes")
+                        .FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignMiddle().Text("TPS").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignMiddle().Text("TVQ").FontSize(10);
-                    header.Cell().Element(HeaderCellStyle).AlignMiddle().AlignRight().Text("Montant Après Taxes").FontSize(10);
+                    header
+                        .Cell()
+                        .Element(HeaderCellStyle)
+                        .AlignMiddle()
+                        .AlignRight()
+                        .Text("Montant Après Taxes")
+                        .FontSize(10);
                 });
 
                 // Table content with each sell line
                 foreach (var line in sellLines)
                 {
                     table.Cell().Element(CellStyle).Text(line.ShowName).FontSize(8);
-                    table.Cell().Element(CellStyle).Text(line.RepresentationDate.ToString("U")).FontSize(8);
+                    table
+                        .Cell()
+                        .Element(CellStyle)
+                        .Text(line.RepresentationDate.ToString("U"))
+                        .FontSize(8);
                     table.Cell().Element(CellStyle).Text(line.TicketsSold.ToString()).FontSize(8);
-                    table.Cell().Element(CellStyle).Text($"{line.TotalAmountBeforeTaxe:C}").FontSize(8);
+                    table
+                        .Cell()
+                        .Element(CellStyle)
+                        .Text($"{line.TotalAmountBeforeTaxe:C}")
+                        .FontSize(8);
                     table.Cell().Element(CellStyle).Text($"{line.TPS:C}").FontSize(8);
                     table.Cell().Element(CellStyle).Text($"{line.TVQ:C}").FontSize(8);
-                    table.Cell().Element(CellStyle).AlignRight().Text($"{line.TotalAmountAfterTaxe:C}").FontSize(8);
+                    table
+                        .Cell()
+                        .Element(CellStyle)
+                        .AlignRight()
+                        .Text($"{line.TotalAmountAfterTaxe:C}")
+                        .FontSize(8);
                 }
 
                 //  Grand Total line with the adapted style
                 table.Cell().Element(HeaderCellStyle).Text("Grand Total").FontSize(10);
-                table.Cell().Element(HeaderCellStyle).AlignRight().Text($"{grandTotal:C}").FontSize(10);
+                table
+                    .Cell()
+                    .Element(HeaderCellStyle)
+                    .AlignRight()
+                    .Text($"{grandTotal:C}")
+                    .FontSize(10);
             });
         }
 
@@ -162,7 +217,12 @@ namespace AppGestion.Tools
         /// The transaction lines are the list of transactions
         /// </remarks>
         /// <remarks>
-        public static void CreateTransactionsReportPdf(string filePath, List<TransactionLine> transactionLines, DateTime reportDate, string reportType)
+        public static void CreateTransactionsReportPdf(
+            string filePath,
+            List<TransactionLine> transactionLines,
+            DateTime reportDate,
+            string reportType
+        )
         {
             QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
             var document = Document.Create(container =>
@@ -170,14 +230,21 @@ namespace AppGestion.Tools
                 container.Page(page =>
                 {
                     page.Margin(50);
-                    page.Header().Element(container => ComposeTransactionsHeader(container, reportDate, reportType));
-                    page.Content().Element(content => ComposeTransactionsContent(content, transactionLines));
-                    page.Footer().AlignCenter().Text(x =>
-                    {
-                        x.CurrentPageNumber();
-                        x.Span(" / ");
-                        x.TotalPages();
-                    });
+                    page.Header()
+                        .Element(
+                            container =>
+                                ComposeTransactionsHeader(container, reportDate, reportType)
+                        );
+                    page.Content()
+                        .Element(content => ComposeTransactionsContent(content, transactionLines));
+                    page.Footer()
+                        .AlignCenter()
+                        .Text(x =>
+                        {
+                            x.CurrentPageNumber();
+                            x.Span(" / ");
+                            x.TotalPages();
+                        });
                 });
             });
 
@@ -193,11 +260,16 @@ namespace AppGestion.Tools
         /// <remarks>
         /// The report type can be "Quotidien" or "Annuel"
         /// </remarks>
-        private static void ComposeTransactionsHeader(IContainer container, DateTime reportDate, string reportType)
+        private static void ComposeTransactionsHeader(
+            IContainer container,
+            DateTime reportDate,
+            string reportType
+        )
         {
-            string headerText = reportType == "Quotidien"
-                ? $"Rapport de transaction pour le {reportDate:D}"
-                : $"Rapport de transaction pour {reportDate:Y}";
+            string headerText =
+                reportType == "Quotidien"
+                    ? $"Rapport de transaction pour le {reportDate:D}"
+                    : $"Rapport de transaction pour {reportDate:Y}";
 
             container.Row(row =>
             {
@@ -219,12 +291,19 @@ namespace AppGestion.Tools
         /// <remarks>
         /// The grand total is the sum of the Montant Après Taxes
         /// </remarks>
-        private static void ComposeTransactionsContent(IContainer container, List<TransactionLine> transactionLines)
+        private static void ComposeTransactionsContent(
+            IContainer container,
+            List<TransactionLine> transactionLines
+        )
         {
             // Style for the table headers
             static IContainer HeaderCellStyle(IContainer container)
             {
-                return container.DefaultTextStyle(x => x.Bold()).PaddingVertical(5).BorderBottom(2).BorderColor("#000000");
+                return container
+                    .DefaultTextStyle(x => x.Bold())
+                    .PaddingVertical(5)
+                    .BorderBottom(2)
+                    .BorderColor("#000000");
             }
 
             // Style for the table cells
@@ -254,35 +333,91 @@ namespace AppGestion.Tools
                 // Table header with the defined style
                 table.Header(header =>
                 {
-                    header.Cell().Element(HeaderCellStyle).AlignMiddle().Text("commande").FontSize(10);
+                    header
+                        .Cell()
+                        .Element(HeaderCellStyle)
+                        .AlignMiddle()
+                        .Text("commande")
+                        .FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignMiddle().Text("Date").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignMiddle().Text("Email").FontSize(10);
-                    header.Cell().Element(HeaderCellStyle).AlignMiddle().Text("Billets vendues").FontSize(10);
-                    header.Cell().Element(HeaderCellStyle).AlignMiddle().Text("$ Avant taxe").FontSize(10);
+                    header
+                        .Cell()
+                        .Element(HeaderCellStyle)
+                        .AlignMiddle()
+                        .Text("Billets vendues")
+                        .FontSize(10);
+                    header
+                        .Cell()
+                        .Element(HeaderCellStyle)
+                        .AlignMiddle()
+                        .Text("$ Avant taxe")
+                        .FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignMiddle().Text("TPS").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignMiddle().Text("TVQ").FontSize(10);
-                    header.Cell().Element(HeaderCellStyle).AlignMiddle().AlignRight().Text("$ Après taxe").FontSize(10);
+                    header
+                        .Cell()
+                        .Element(HeaderCellStyle)
+                        .AlignMiddle()
+                        .AlignRight()
+                        .Text("$ Après taxe")
+                        .FontSize(10);
                 });
 
                 // Table content with each transaction line
                 foreach (var line in transactionLines)
                 {
-                    table.Cell().Element(CellStyle).AlignMiddle().Text(line.OrderNumber).FontSize(8);
-                    table.Cell().Element(CellStyle).AlignMiddle().Text(line.TransactionDate.ToString("U")).FontSize(8);
-                    table.Cell().Element(CellStyle).AlignMiddle().Text(line.ClientEmail).FontSize(8);
-                    table.Cell().Element(CellStyle).AlignMiddle().Text(line.TicketsSold.ToString()).FontSize(8);
-                    table.Cell().Element(CellStyle).AlignMiddle().Text($"{line.TotalAmountBeforeTaxe:C}").FontSize(8);
+                    table
+                        .Cell()
+                        .Element(CellStyle)
+                        .AlignMiddle()
+                        .Text(line.OrderNumber)
+                        .FontSize(8);
+                    table
+                        .Cell()
+                        .Element(CellStyle)
+                        .AlignMiddle()
+                        .Text(line.TransactionDate.ToString("U"))
+                        .FontSize(8);
+                    table
+                        .Cell()
+                        .Element(CellStyle)
+                        .AlignMiddle()
+                        .Text(line.ClientEmail)
+                        .FontSize(8);
+                    table
+                        .Cell()
+                        .Element(CellStyle)
+                        .AlignMiddle()
+                        .Text(line.TicketsSold.ToString())
+                        .FontSize(8);
+                    table
+                        .Cell()
+                        .Element(CellStyle)
+                        .AlignMiddle()
+                        .Text($"{line.TotalAmountBeforeTaxe:C}")
+                        .FontSize(8);
                     table.Cell().Element(CellStyle).AlignMiddle().Text($"{line.TPS:C}").FontSize(8);
                     table.Cell().Element(CellStyle).AlignMiddle().Text($"{line.TVQ:C}").FontSize(8);
-                    table.Cell().Element(CellStyle).AlignMiddle().AlignRight().Text($"{line.TotalAmountAfterTaxe:C}").FontSize(8);
+                    table
+                        .Cell()
+                        .Element(CellStyle)
+                        .AlignMiddle()
+                        .AlignRight()
+                        .Text($"{line.TotalAmountAfterTaxe:C}")
+                        .FontSize(8);
                 }
 
                 // Grand Total line with the adapted style
                 table.Cell().Element(HeaderCellStyle).Text("Grand Total").FontSize(10);
-                table.Cell().Element(HeaderCellStyle).AlignRight().Text($"{grandTotal:C}").FontSize(10);
+                table
+                    .Cell()
+                    .Element(HeaderCellStyle)
+                    .AlignRight()
+                    .Text($"{grandTotal:C}")
+                    .FontSize(10);
             });
         }
-
 
         #endregion
     }

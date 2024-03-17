@@ -1,12 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GuichetAutonome.DataAccessLayer;
-using GuichetAutonome.Views;
 using GuichetAutonome.Views.Pages;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -78,18 +74,21 @@ namespace GuichetAutonome.ViewModels.Pages
                     VMMainWindow.Instance.Client = client;
 
                     VMMainWindow.Instance.ChangePage(typeof(EventSelection));
-
                 }
                 else
                 {
-                    MessageBox.Show("le mot de passe est incorrect", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(
+                        "le mot de passe est incorrect",
+                        "Erreur",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                    );
                 }
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
 
         /// <summary>
@@ -98,10 +97,7 @@ namespace GuichetAutonome.ViewModels.Pages
         /// <returns></returns>
         public bool CanConnect()
         {
-            if (
-                string.IsNullOrEmpty(Email) ||
-                string.IsNullOrEmpty(Password)
-            )
+            if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
             {
                 return false;
             }

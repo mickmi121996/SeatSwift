@@ -1,10 +1,6 @@
 ﻿using SeatSwiftDLL.Enums;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace AppGestion.Converters
@@ -23,7 +19,12 @@ namespace AppGestion.Converters
             return false;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(
+            object value,
+            Type targetType,
+            object parameter,
+            CultureInfo culture
+        )
         {
             // Convertit le booléen de retour en SeatStatus
             if (value is bool inService)

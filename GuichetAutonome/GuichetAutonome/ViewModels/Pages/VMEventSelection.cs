@@ -6,10 +6,8 @@ using GuichetAutonome.Views.Pages;
 using GuichetAutonome.Views.UserControls;
 using SeatSwiftDLL;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -130,11 +128,9 @@ namespace GuichetAutonome.ViewModels.Pages
                 Application.Current.Dispatcher.Invoke(
                     () =>
                         UserControls = new ObservableCollection<UserControl>(
-                            UserControls
-                                .OrderBy(
-                                    uc =>
-                                        (uc.DataContext as VMEventTemplate)?.Show.Name
-                                )
+                            UserControls.OrderBy(
+                                uc => (uc.DataContext as VMEventTemplate)?.Show.Name
+                            )
                         )
                 );
             }

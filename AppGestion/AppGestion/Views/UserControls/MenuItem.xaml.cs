@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AppGestion.Views.UserControls
 {
@@ -37,10 +26,11 @@ namespace AppGestion.Views.UserControls
         /// <summary>
         /// The icon to display in the menu
         /// </summary>
-        public static readonly DependencyProperty IconProperty =
-            DependencyProperty.Register("Icon", typeof(PathGeometry), typeof(MenuItem));
-
-
+        public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
+            "Icon",
+            typeof(PathGeometry),
+            typeof(MenuItem)
+        );
 
         /// <summary>
         /// The width of the icon
@@ -54,9 +44,11 @@ namespace AppGestion.Views.UserControls
         /// <summary>
         /// The width of the icon
         /// </summary>
-        public static readonly DependencyProperty IconWidthProperty =
-            DependencyProperty.Register("IconWidth", typeof(int), typeof(MenuItem));
-
+        public static readonly DependencyProperty IconWidthProperty = DependencyProperty.Register(
+            "IconWidth",
+            typeof(int),
+            typeof(MenuItem)
+        );
 
         /// <summary>
         /// The brush for the Indicator
@@ -71,8 +63,11 @@ namespace AppGestion.Views.UserControls
         /// The brush for the Indicator
         /// </summary>
         public static readonly DependencyProperty IndicatorBrushProperty =
-            DependencyProperty.Register("IndicatorBrush", typeof(SolidColorBrush), typeof(MenuItem));
-
+            DependencyProperty.Register(
+                "IndicatorBrush",
+                typeof(SolidColorBrush),
+                typeof(MenuItem)
+            );
 
         /// <summary>
         /// The corner radius of the indicator
@@ -87,8 +82,11 @@ namespace AppGestion.Views.UserControls
         /// The corner radius of the indicator
         /// </summary>
         public static readonly DependencyProperty IndicatorIndicatorCornerRadiusProperty =
-            DependencyProperty.Register("IndicatorIndicatorCornerRadius", typeof(int), typeof(MenuItem));
-
+            DependencyProperty.Register(
+                "IndicatorIndicatorCornerRadius",
+                typeof(int),
+                typeof(MenuItem)
+            );
 
         /// <summary>
         /// The display text of the menu item
@@ -98,13 +96,15 @@ namespace AppGestion.Views.UserControls
             get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
-        
+
         /// <summary>
         /// The display text of the menu item
         /// </summary>
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(MenuItem));
-
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+            "Text",
+            typeof(string),
+            typeof(MenuItem)
+        );
 
         /// <summary>
         /// the padding of the menu item
@@ -118,9 +118,11 @@ namespace AppGestion.Views.UserControls
         /// <summary>
         /// the padding of the menu item
         /// </summary>
-        public static new readonly DependencyProperty PaddingProperty =
-            DependencyProperty.Register("Padding", typeof(Thickness), typeof(MenuItem));
-
+        public static new readonly DependencyProperty PaddingProperty = DependencyProperty.Register(
+            "Padding",
+            typeof(Thickness),
+            typeof(MenuItem)
+        );
 
         /// <summary>
         /// Check if the menu item is selected
@@ -134,9 +136,11 @@ namespace AppGestion.Views.UserControls
         /// <summary>
         /// Check if the menu item is selected
         /// </summary>
-        public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register("IsSelected", typeof(bool), typeof(MenuItem));
-
+        public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register(
+            "IsSelected",
+            typeof(bool),
+            typeof(MenuItem)
+        );
 
         /// <summary>
         /// The group name of the menu item
@@ -150,7 +154,10 @@ namespace AppGestion.Views.UserControls
         /// <summary>
         /// The group name of the menu item
         /// </summary>
-        public static readonly DependencyProperty GroupNameProperty =
-            DependencyProperty.Register("GroupName", typeof(string), typeof(MenuItem));
+        public static readonly DependencyProperty GroupNameProperty = DependencyProperty.Register(
+            "GroupName",
+            typeof(string),
+            typeof(MenuItem)
+        );
     }
 }

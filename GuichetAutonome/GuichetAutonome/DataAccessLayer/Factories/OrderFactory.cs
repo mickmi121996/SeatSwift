@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GuichetAutonome.DataAccessLayer.Factories
@@ -57,7 +56,8 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             int id = dataRow.Field<int>("Id");
             bool isActive = dataRow.Field<bool>("IsActive");
             DateTime orderDate = dataRow.Field<DateTime>("OrderDate");
-            string orderNumber = dataRow.Field<string>("OrderNumber")
+            string orderNumber =
+                dataRow.Field<string>("OrderNumber")
                 ?? throw new Exception("The order number is null");
             int clientId = dataRow.Field<int>("ClientId");
             decimal totalPrice = dataRow.Field<decimal>("TotalPrice");
@@ -89,10 +89,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             {
                 // Get the show with the given id
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM orders WHERE Id = @id;",
-                    new MySqlParameter("@id", id)
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM orders WHERE Id = @id;",
+                        new MySqlParameter("@id", id)
                     )
                 )
                 {
@@ -108,7 +108,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the show with the given id", ex);
+                throw new Exception(
+                    "An error occurred while getting the show with the given id",
+                    ex
+                );
             }
         }
 
@@ -122,9 +125,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             {
                 // Get all shows
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM orders WHERE IsActive = 1;")
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM orders WHERE IsActive = 1;"
+                    )
                 )
                 {
                     // Create the list of shows
@@ -158,17 +162,19 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             {
                 // Get the show with the given id
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM orders WHERE OrderNumber = @orderNumber;",
-                    new MySqlParameter("@orderNumber", orderNumber)
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM orders WHERE OrderNumber = @orderNumber;",
+                        new MySqlParameter("@orderNumber", orderNumber)
                     )
                 )
                 {
                     // If no show is found, throw an exception
                     if (result.Rows.Count == 0)
                     {
-                        throw new KeyNotFoundException("No order with the order number " + orderNumber + " was found");
+                        throw new KeyNotFoundException(
+                            "No order with the order number " + orderNumber + " was found"
+                        );
                     }
 
                     // Create the Show object
@@ -177,7 +183,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the order with the given order number", ex);
+                throw new Exception(
+                    "An error occurred while getting the order with the given order number",
+                    ex
+                );
             }
         }
 
@@ -196,15 +205,17 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 Client client = await new ClientFactory().GetByIdAsync(clientId);
                 if (client is null)
                 {
-                    throw new KeyNotFoundException("No client with the id " + clientId + " was found");
+                    throw new KeyNotFoundException(
+                        "No client with the id " + clientId + " was found"
+                    );
                 }
 
                 // Get all shows
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM orders WHERE IsActive = 1 AND ClientId = @clientId;",
-                    new MySqlParameter("@clientId", clientId)
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM orders WHERE IsActive = 1 AND ClientId = @clientId;",
+                        new MySqlParameter("@clientId", clientId)
                     )
                 )
                 {
@@ -222,7 +233,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the orders of the client with the given id", ex);
+                throw new Exception(
+                    "An error occurred while getting the orders of the client with the given id",
+                    ex
+                );
             }
         }
 
@@ -239,10 +253,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             {
                 // Get all shows
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM orders WHERE IsActive = 1 AND OrderDate = @date;",
-                    new MySqlParameter("@date", date)
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM orders WHERE IsActive = 1 AND OrderDate = @date;",
+                        new MySqlParameter("@date", date)
                     )
                 )
                 {
@@ -260,7 +274,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the orders of the client with the given id", ex);
+                throw new Exception(
+                    "An error occurred while getting the orders of the client with the given id",
+                    ex
+                );
             }
         }
 
@@ -278,11 +295,11 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             {
                 // Get all shows
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM orders WHERE IsActive = 1 AND MONTH(OrderDate) = @month AND YEAR(OrderDate) = @year;",
-                    new MySqlParameter("@month", month),
-                    new MySqlParameter("@year", year)
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM orders WHERE IsActive = 1 AND MONTH(OrderDate) = @month AND YEAR(OrderDate) = @year;",
+                        new MySqlParameter("@month", month),
+                        new MySqlParameter("@year", year)
                     )
                 )
                 {
@@ -300,7 +317,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the orders of the client with the given id", ex);
+                throw new Exception(
+                    "An error occurred while getting the orders of the client with the given id",
+                    ex
+                );
             }
         }
 
@@ -327,14 +347,14 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             try
             {
                 // Create the order
-                await DataBaseTools.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "INSERT INTO orders (IsActive, OrderDate, OrderNumber, ClientId, TotalPrice) VALUES (@isActive, @orderDate, @orderNumber, @clientId, @totalPrice);",
-                new MySqlParameter("@isActive", order.IsActive),
-                new MySqlParameter("@orderDate", order.OrderDate),
-                new MySqlParameter("@orderNumber", order.OrderNumber),
-                new MySqlParameter("@clientId", order.Client.Id),
-                new MySqlParameter("@totalPrice", order.TotalPrice)
+                await DataBaseTools.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "INSERT INTO orders (IsActive, OrderDate, OrderNumber, ClientId, TotalPrice) VALUES (@isActive, @orderDate, @orderNumber, @clientId, @totalPrice);",
+                    new MySqlParameter("@isActive", order.IsActive),
+                    new MySqlParameter("@orderDate", order.OrderDate),
+                    new MySqlParameter("@orderNumber", order.OrderNumber),
+                    new MySqlParameter("@clientId", order.Client.Id),
+                    new MySqlParameter("@totalPrice", order.TotalPrice)
                 );
             }
             catch (Exception ex)
@@ -354,17 +374,22 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             {
                 var countsByShowType = new List<Tuple<ShowType, int>>();
 
-                string query = @"
+                string query =
+                    @"
                 SELECT s.ShowType, COUNT(t.Id) AS TicketsSold
                 FROM shows s
                 JOIN representation r ON s.Id = r.ShowId
                 JOIN ticket t ON r.Id = t.RepresentationId
                 WHERE t.IsActive = 1 AND t.TicketStatus = 'Purchased'
                 GROUP BY s.ShowType;
-            "
-                ;
+            ";
 
-                using (DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(this.ConnectionString, query))
+                using (
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        query
+                    )
+                )
                 {
                     foreach (DataRow row in result.Rows)
                     {
@@ -387,7 +412,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the counts of tickets for show types", ex);
+                throw new Exception(
+                    "An error occurred while getting the counts of tickets for show types",
+                    ex
+                );
             }
         }
 
@@ -403,19 +431,27 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             {
                 var sellByMonth = new List<Tuple<string, int>>();
 
-                string query = @"
+                string query =
+                    @"
                 SELECT MONTH(OrderDate) AS Month, SUM(TotalPrice) AS Sell
                 FROM orders
                 WHERE YEAR(OrderDate) = YEAR(CURDATE())
                 GROUP BY MONTH(OrderDate);
             ";
 
-                using (DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(this.ConnectionString, query))
+                using (
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        query
+                    )
+                )
                 {
                     for (int i = 1; i <= 12; i++)
                     {
                         var month = i.ToString("00");
-                        var row = result.AsEnumerable().FirstOrDefault(r => r.Field<int>("Month") == i);
+                        var row = result
+                            .AsEnumerable()
+                            .FirstOrDefault(r => r.Field<int>("Month") == i);
                         if (row is null)
                         {
                             sellByMonth.Add(Tuple.Create(month, 0));
@@ -460,10 +496,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             {
                 // Check if the order number is unique
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM orders WHERE OrderNumber = @orderNumber;",
-                    new MySqlParameter("@orderNumber", orderNumber)
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM orders WHERE OrderNumber = @orderNumber;",
+                        new MySqlParameter("@orderNumber", orderNumber)
                     )
                 )
                 {
@@ -472,7 +508,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while checking if the order number is unique", ex);
+                throw new Exception(
+                    "An error occurred while checking if the order number is unique",
+                    ex
+                );
             }
         }
 

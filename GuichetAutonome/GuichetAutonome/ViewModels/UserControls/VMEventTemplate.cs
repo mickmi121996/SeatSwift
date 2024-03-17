@@ -3,11 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using GuichetAutonome.DataAccessLayer;
 using GuichetAutonome.Views.Pages;
 using SeatSwiftDLL;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GuichetAutonome.ViewModels.UserControls
@@ -82,7 +78,10 @@ namespace GuichetAutonome.ViewModels.UserControls
         public void Continue()
         {
             // Go to the seat selection page
-            VMMainWindow.Instance.CurrentPage = new SeatSelection(SelectedRepresentation, NumberOfTickets);
+            VMMainWindow.Instance.CurrentPage = new SeatSelection(
+                SelectedRepresentation,
+                NumberOfTickets
+            );
         }
 
         /// <summary>
@@ -92,10 +91,8 @@ namespace GuichetAutonome.ViewModels.UserControls
         private bool CanContinue()
         {
             if (
-                SelectedAuditorium is null ||
-                SelectedRepresentation is null ||
-                NumberOfTickets <= 0
-                )
+                SelectedAuditorium is null || SelectedRepresentation is null || NumberOfTickets <= 0
+            )
             {
                 return false;
             }
@@ -152,7 +149,11 @@ namespace GuichetAutonome.ViewModels.UserControls
             Representations.Clear();
 
             // get the representations
-            var representations = await DAL.RepresentationFactory.GetInComingActiveAvailableByShowAndAuditoriumAsync(Show, SelectedAuditorium);
+            var representations =
+                await DAL.RepresentationFactory.GetInComingActiveAvailableByShowAndAuditoriumAsync(
+                    Show,
+                    SelectedAuditorium
+                );
 
             // add the representations to the list
             foreach (var representation in representations)

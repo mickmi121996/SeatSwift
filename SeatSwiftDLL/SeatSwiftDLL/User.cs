@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SeatSwiftDLL.Enums;
+﻿using SeatSwiftDLL.Enums;
 using SeatSwiftDLL.Tools;
 
 namespace SeatSwiftDLL
@@ -54,7 +49,7 @@ namespace SeatSwiftDLL
 
         /// <summary>
         /// The password Hash of the user
-        /// </summary>  
+        /// </summary>
         public byte[]? PasswordHash { get; set; }
 
         /// <summary>
@@ -93,7 +88,16 @@ namespace SeatSwiftDLL
         /// <param name="lastName">The last name of the user</param>
         /// <param name="email">The email of the user</param>
         /// <param name="phoneNumber">The phone number of the user</param>
-        public User(int id, bool isActive, string firstName, string lastName, string employeeNumber, EmployeeType type,string email, string phoneNumber)
+        public User(
+            int id,
+            bool isActive,
+            string firstName,
+            string lastName,
+            string employeeNumber,
+            EmployeeType type,
+            string email,
+            string phoneNumber
+        )
         {
             this.Id = id;
             this.IsActive = isActive;

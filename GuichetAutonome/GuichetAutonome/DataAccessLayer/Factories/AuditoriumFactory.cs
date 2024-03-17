@@ -4,8 +4,6 @@ using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GuichetAutonome.DataAccessLayer.Factories
@@ -29,7 +27,13 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             int numberOfColumns = dataReader.GetInt32("NumberOfColumns");
 
             // Create the auditorium
-            Auditorium auditorium = new Auditorium(id, isActive, name, numberOfRows, numberOfColumns);
+            Auditorium auditorium = new Auditorium(
+                id,
+                isActive,
+                name,
+                numberOfRows,
+                numberOfColumns
+            );
 
             // Return the auditorium
             return auditorium;
@@ -45,13 +49,20 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             // Read the data from the data row
             int id = row.Field<int>("Id");
             bool isActive = row.Field<bool>("IsActive");
-            string name = row.Field<string>("AuditoriumName") ??
-            throw new ArgumentNullException("The name of the auditorium cannot be null");
+            string name =
+                row.Field<string>("AuditoriumName")
+                ?? throw new ArgumentNullException("The name of the auditorium cannot be null");
             int numberOfRows = row.Field<int>("NumberOfRows");
             int numberOfColumns = row.Field<int>("NumberOfColumns");
 
             // Create the auditorium
-            Auditorium auditorium = new Auditorium(id, isActive, name, numberOfRows, numberOfColumns);
+            Auditorium auditorium = new Auditorium(
+                id,
+                isActive,
+                name,
+                numberOfRows,
+                numberOfColumns
+            );
 
             // Return the auditorium
             return auditorium;
@@ -71,9 +82,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             try
             {
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM Auditorium WHERE IsActive = 1")
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Auditorium WHERE IsActive = 1"
+                    )
                 )
                 {
                     // Create a list to hold the auditoriums
@@ -113,10 +125,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 }
 
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM auditorium WHERE Id = @Id",
-                    new MySqlParameter("@Id", id)
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM auditorium WHERE Id = @Id",
+                        new MySqlParameter("@Id", id)
                     )
                 )
                 {
@@ -153,10 +165,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 }
 
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM Auditorium WHERE AuditoriumName = @Name)",
-                    new MySqlParameter("@Name", name)
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Auditorium WHERE AuditoriumName = @Name)",
+                        new MySqlParameter("@Name", name)
                     )
                 )
                 {
@@ -193,10 +205,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 }
 
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM Auditorium WHERE Id IN (SELECT DISTINCT AuditoriumId FROM Representation WHERE ShowId = @ShowId)",
-                    new MySqlParameter("@ShowId", show.Id)
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Auditorium WHERE Id IN (SELECT DISTINCT AuditoriumId FROM Representation WHERE ShowId = @ShowId)",
+                        new MySqlParameter("@ShowId", show.Id)
                     )
                 )
                 {
@@ -238,16 +250,18 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 // Check if the auditorium already exists
                 if (await ExistsByNameAsync(auditorium.Name))
                 {
-                    throw new Exception("An auditorium with the name " + auditorium.Name + " already exists");
+                    throw new Exception(
+                        "An auditorium with the name " + auditorium.Name + " already exists"
+                    );
                 }
 
-                await DataBaseTools.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "INSERT INTO Auditorium (AuditoriumName, IsActive, NumberOfRows, NumberOfColumns) VALUES (@Name, @IsActive, @NumberOfRows, @NumberOfColumns)",
-                new MySqlParameter("@Name", auditorium.Name),
-                new MySqlParameter("@IsActive", auditorium.IsActive),
-                new MySqlParameter("@NumberOfRows", auditorium.NumberOfRows),
-                new MySqlParameter("@NumberOfColumns", auditorium.NumberOfColumns)
+                await DataBaseTools.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "INSERT INTO Auditorium (AuditoriumName, IsActive, NumberOfRows, NumberOfColumns) VALUES (@Name, @IsActive, @NumberOfRows, @NumberOfColumns)",
+                    new MySqlParameter("@Name", auditorium.Name),
+                    new MySqlParameter("@IsActive", auditorium.IsActive),
+                    new MySqlParameter("@NumberOfRows", auditorium.NumberOfRows),
+                    new MySqlParameter("@NumberOfColumns", auditorium.NumberOfColumns)
                 );
             }
             catch (Exception ex)
@@ -266,14 +280,14 @@ namespace GuichetAutonome.DataAccessLayer.Factories
         {
             try
             {
-                await DataBaseTools.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "UPDATE Auditorium SET AuditoriumName = @Name, IsActive = @IsActive, NumberOfRows = @NumberOfRows, NumberOfColumns = @NumberOfColumns WHERE Id = @Id",
-                new MySqlParameter("@Name", auditorium.Name),
-                new MySqlParameter("@IsActive", auditorium.IsActive),
-                new MySqlParameter("@NumberOfRows", auditorium.NumberOfRows),
-                new MySqlParameter("@NumberOfColumns", auditorium.NumberOfColumns),
-                new MySqlParameter("@Id", auditorium.Id)
+                await DataBaseTools.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "UPDATE Auditorium SET AuditoriumName = @Name, IsActive = @IsActive, NumberOfRows = @NumberOfRows, NumberOfColumns = @NumberOfColumns WHERE Id = @Id",
+                    new MySqlParameter("@Name", auditorium.Name),
+                    new MySqlParameter("@IsActive", auditorium.IsActive),
+                    new MySqlParameter("@NumberOfRows", auditorium.NumberOfRows),
+                    new MySqlParameter("@NumberOfColumns", auditorium.NumberOfColumns),
+                    new MySqlParameter("@Id", auditorium.Id)
                 );
             }
             catch (Exception ex)
@@ -292,10 +306,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
         {
             try
             {
-                await DataBaseTools.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "UPDATE Auditorium SET IsActive = 0 WHERE Id = @Id",
-                new MySqlParameter("@Id", auditorium.Id)
+                await DataBaseTools.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "UPDATE Auditorium SET IsActive = 0 WHERE Id = @Id",
+                    new MySqlParameter("@Id", auditorium.Id)
                 );
             }
             catch (Exception ex)
@@ -326,10 +340,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 }
 
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM Auditorium WHERE AuditoriumName = @Name)",
-                    new MySqlParameter("@Name", name)
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Auditorium WHERE AuditoriumName = @Name)",
+                        new MySqlParameter("@Name", name)
                     )
                 )
                 {

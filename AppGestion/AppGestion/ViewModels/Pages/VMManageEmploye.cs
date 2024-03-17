@@ -4,10 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SeatSwiftDLL;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -97,7 +94,12 @@ namespace AppGestion.ViewModels.Pages
             try
             {
                 // Ask for confirmation
-                MessageBoxResult result = MessageBox.Show("Voulez-vous vraiment supprimer cet employé ?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                MessageBoxResult result = MessageBox.Show(
+                    "Voulez-vous vraiment supprimer cet employé ?",
+                    "Confirmation",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question
+                );
 
                 // if the user doesn't want to delete the user, return
                 if (result == MessageBoxResult.No)

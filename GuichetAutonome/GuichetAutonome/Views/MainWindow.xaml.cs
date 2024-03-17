@@ -1,18 +1,6 @@
 ﻿using GuichetAutonome.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GuichetAutonome.Views
 {
@@ -27,28 +15,28 @@ namespace GuichetAutonome.Views
             VMMainWindow vMainWindow = VMMainWindow.Instance;
             this.DataContext = vMainWindow;
 
-            // Assurez-vous d'attacher le gestionnaire d'événements KeyDown
             this.KeyDown += MainWindow_KeyDown;
         }
 
-
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            // Exemple : Afficher avec Ctrl + Alt + S, cacher avec Ctrl + Alt + H
-            if ((Keyboard.Modifiers & (ModifierKeys.Control | ModifierKeys.Alt)) == (ModifierKeys.Control | ModifierKeys.Alt))
+            if (
+                (Keyboard.Modifiers & (ModifierKeys.Control | ModifierKeys.Alt))
+                == (ModifierKeys.Control | ModifierKeys.Alt)
+            )
             {
-                if (e.Key == Key.S) // Pour afficher
+                if (e.Key == Key.S)
                 {
                     NavigationBar.Visibility = Visibility.Visible;
                 }
-                else if (e.Key == Key.H) // Pour cacher
+                else if (e.Key == Key.H)
                 {
                     NavigationBar.Visibility = Visibility.Collapsed;
                 }
             }
         }
 
-        #region Button Close | Restore | Minimize 
+        #region Button Close | Restore | Minimize
 
         /// <summary>
         /// Close the application

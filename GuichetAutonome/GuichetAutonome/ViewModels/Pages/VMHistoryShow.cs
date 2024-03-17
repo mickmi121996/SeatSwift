@@ -8,8 +8,6 @@ using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -82,33 +80,59 @@ namespace GuichetAutonome.ViewModels.Pages
                         foreach (Ticket ticket in tickets)
                         {
                             // Generate the QR code
-                            string qrCodeBase64 = CodeQRTools.GenerateQRCodeBase64(ticket.QRCodeData);
+                            string qrCodeBase64 = CodeQRTools.GenerateQRCodeBase64(
+                                ticket.QRCodeData
+                            );
 
                             // Add the QR code to the StringBuilder
-                            qrCodesHtml.AppendFormat("<img src=\"{0}\" style=\"width: 270px; height: 270px;\" alt=\"QR Code\" /><br/>", qrCodeBase64);
+                            qrCodesHtml.AppendFormat(
+                                "<img src=\"{0}\" style=\"width: 270px; height: 270px;\" alt=\"QR Code\" /><br/>",
+                                qrCodeBase64
+                            );
                         }
 
                         // Get the email template
                         string emailTemplate = Resources.EmailCore;
-                        string emailContent = string.Format(emailTemplate, SelectedOrder.OrderNumber, qrCodesHtml.ToString());
+                        string emailContent = string.Format(
+                            emailTemplate,
+                            SelectedOrder.OrderNumber,
+                            qrCodesHtml.ToString()
+                        );
 
                         string emailSubject = Resources.ResendEmailSubject;
-                        string emailSubjectFormat = string.Format(emailSubject, SelectedOrder.OrderNumber);
+                        string emailSubjectFormat = string.Format(
+                            emailSubject,
+                            SelectedOrder.OrderNumber
+                        );
 
                         if (SelectedOrder.Client is not null)
                         {
                             // Send the email
-                            await EmailTools.SendEmailWithSMTP2GO(VMMainWindow.Instance.Client.Email, emailSubjectFormat, emailContent);
+                            await EmailTools.SendEmailWithSMTP2GO(
+                                VMMainWindow.Instance.Client.Email,
+                                emailSubjectFormat,
+                                emailContent
+                            );
                         }
                         else
                         {
-                            MessageBox.Show("The client of the order is null", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show(
+                                "The client of the order is null",
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error
+                            );
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Please select an order", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(
+                        "Please select an order",
+                        "Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                    );
                 }
             }
             catch (Exception e)
@@ -117,13 +141,12 @@ namespace GuichetAutonome.ViewModels.Pages
             }
         }
 
-
         /// <summary>
         /// The command to check if the resend email command can be executed
         /// </summary>
         public bool CanResendEmail()
         {
-            if(SelectedOrder is not null)
+            if (SelectedOrder is not null)
             {
                 return true;
             }
@@ -150,7 +173,7 @@ namespace GuichetAutonome.ViewModels.Pages
             {
                 Orders.Add(order);
             }
-            
+
             // If there is at least one order
             if (Orders.Count > 0)
             {

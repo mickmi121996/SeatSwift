@@ -1,9 +1,4 @@
 ﻿using SeatSwiftDLL.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeatSwiftDLL
 {
@@ -93,7 +88,15 @@ namespace SeatSwiftDLL
         /// <param name="email">The email of the client</param>
         /// <param name="phoneNumber">The nullable phone number of the client</param>
         /// <param name="city">The nullable city of the client</param>
-        public Client(int id, bool isActive, string firstName, string lastName, string email, string? phoneNumber, string? city)
+        public Client(
+            int id,
+            bool isActive,
+            string firstName,
+            string lastName,
+            string email,
+            string? phoneNumber,
+            string? city
+        )
         {
             this.Id = id;
             this.IsActive = isActive;
@@ -107,6 +110,7 @@ namespace SeatSwiftDLL
         }
 
         #endregion
+
 
         #region Account validation
 
@@ -122,6 +126,7 @@ namespace SeatSwiftDLL
         }
 
         #endregion
+
 
         #region Interface methods
 

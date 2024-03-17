@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using AppGestion.ViewModels.Windows;
+﻿using AppGestion.ViewModels.Windows;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsPresentation;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace AppGestion.Views.Windows
 {
@@ -31,7 +23,6 @@ namespace AppGestion.Views.Windows
             VMAbout vMAbout = new VMAbout();
             this.DataContext = vMAbout;
         }
-
 
         #region Map
 
@@ -121,7 +112,7 @@ namespace AppGestion.Views.Windows
         #endregion
 
 
-        #region Button Close | Restore | Minimize 
+        #region Button Close | Restore | Minimize
 
         /// <summary>
         /// Close the application

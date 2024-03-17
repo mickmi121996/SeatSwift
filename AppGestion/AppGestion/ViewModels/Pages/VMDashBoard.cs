@@ -3,15 +3,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
-using Mysqlx.Crud;
-using MySqlX.XDevAPI;
-using SeatSwiftDLL;
 using SeatSwiftDLL.Enums;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -90,30 +85,30 @@ namespace AppGestion.ViewModels.Pages
             Initialize();
 
             Task.Run(async () =>
-            {
-                await UpdatePageAsync();
-
-                // Use Dispatcher to update UI elements
-                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    LoadPieChart();
-                    LoadLineChart();
-                });
+                    await UpdatePageAsync();
 
-            }).ContinueWith((task) =>
-            {
-                if (task.Exception != null)
-                {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        MessageBox.Show("An error occurred: " + task.Exception.Message);
+                        LoadPieChart();
+                        LoadLineChart();
                     });
-                }
-            });
+                })
+                .ContinueWith(
+                    (task) =>
+                    {
+                        if (task.Exception != null)
+                        {
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                MessageBox.Show("An error occurred: " + task.Exception.Message);
+                            });
+                        }
+                    }
+                );
 
             Task.Run(() => GetYear());
         }
-
 
         #endregion
 
@@ -136,12 +131,17 @@ namespace AppGestion.ViewModels.Pages
 
             foreach (var show in ShowByType)
             {
-                PieSeries.Add(new PieSeries
-                {
-                    Title = show.Item1.ToString(),
-                    Values = new ChartValues<ObservableValue> { new ObservableValue(show.Item2) },
-                    DataLabels = true
-                });
+                PieSeries.Add(
+                    new PieSeries
+                    {
+                        Title = show.Item1.ToString(),
+                        Values = new ChartValues<ObservableValue>
+                        {
+                            new ObservableValue(show.Item2)
+                        },
+                        DataLabels = true
+                    }
+                );
             }
         }
 
@@ -152,8 +152,18 @@ namespace AppGestion.ViewModels.Pages
         {
             MonthLabels = new string[]
             {
-            "Jan", "Fev", "Mar", "Avr", "Mai", "Jun",
-            "Jul", "Aou", "Sep", "Oct", "Nov", "Dec"
+                "Jan",
+                "Fev",
+                "Mar",
+                "Avr",
+                "Mai",
+                "Jun",
+                "Jul",
+                "Aou",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
             };
 
             LineSeries = new SeriesCollection
@@ -163,18 +173,66 @@ namespace AppGestion.ViewModels.Pages
                     Title = "Montants pour le mois :",
                     Values = new ChartValues<ObservableValue>
                     {
-                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "01").Item2)),
-                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "02").Item2)),
-                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "03").Item2)),
-                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "04").Item2)),
-                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "05").Item2)),
-                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "06").Item2)),
-                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "07").Item2)),
-                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "08").Item2)),
-                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "09").Item2)),
-                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "10").Item2)),
-                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "11").Item2)),
-                        new ObservableValue(Convert.ToDouble(OrderByMonth.FirstOrDefault(x => x.Item1 == "12").Item2)),
+                        new ObservableValue(
+                            Convert.ToDouble(
+                                OrderByMonth.FirstOrDefault(x => x.Item1 == "01").Item2
+                            )
+                        ),
+                        new ObservableValue(
+                            Convert.ToDouble(
+                                OrderByMonth.FirstOrDefault(x => x.Item1 == "02").Item2
+                            )
+                        ),
+                        new ObservableValue(
+                            Convert.ToDouble(
+                                OrderByMonth.FirstOrDefault(x => x.Item1 == "03").Item2
+                            )
+                        ),
+                        new ObservableValue(
+                            Convert.ToDouble(
+                                OrderByMonth.FirstOrDefault(x => x.Item1 == "04").Item2
+                            )
+                        ),
+                        new ObservableValue(
+                            Convert.ToDouble(
+                                OrderByMonth.FirstOrDefault(x => x.Item1 == "05").Item2
+                            )
+                        ),
+                        new ObservableValue(
+                            Convert.ToDouble(
+                                OrderByMonth.FirstOrDefault(x => x.Item1 == "06").Item2
+                            )
+                        ),
+                        new ObservableValue(
+                            Convert.ToDouble(
+                                OrderByMonth.FirstOrDefault(x => x.Item1 == "07").Item2
+                            )
+                        ),
+                        new ObservableValue(
+                            Convert.ToDouble(
+                                OrderByMonth.FirstOrDefault(x => x.Item1 == "08").Item2
+                            )
+                        ),
+                        new ObservableValue(
+                            Convert.ToDouble(
+                                OrderByMonth.FirstOrDefault(x => x.Item1 == "09").Item2
+                            )
+                        ),
+                        new ObservableValue(
+                            Convert.ToDouble(
+                                OrderByMonth.FirstOrDefault(x => x.Item1 == "10").Item2
+                            )
+                        ),
+                        new ObservableValue(
+                            Convert.ToDouble(
+                                OrderByMonth.FirstOrDefault(x => x.Item1 == "11").Item2
+                            )
+                        ),
+                        new ObservableValue(
+                            Convert.ToDouble(
+                                OrderByMonth.FirstOrDefault(x => x.Item1 == "12").Item2
+                            )
+                        ),
                     }
                 }
             };
@@ -196,7 +254,21 @@ namespace AppGestion.ViewModels.Pages
         {
             PieSeries = new SeriesCollection();
             LineSeries = new SeriesCollection();
-            MonthLabels = new string[] { "Jan", "Fev", "Mar", "Avr", "Mai", "Jun", "Jul", "Aou", "Sep", "Oct", "Nov", "Dec" };
+            MonthLabels = new string[]
+            {
+                "Jan",
+                "Fev",
+                "Mar",
+                "Avr",
+                "Mai",
+                "Jun",
+                "Jul",
+                "Aou",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
+            };
             EventsToCome = 0;
             PassedEvents = 0;
             ActifClients = new ObservableCollection<SeatSwiftDLL.Client>();
@@ -248,11 +320,14 @@ namespace AppGestion.ViewModels.Pages
             catch (Exception ex)
             {
                 // Show a message box with the error
-                MessageBox.Show(ex.ToString(), "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(
+                    ex.ToString(),
+                    "Erreur",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
             }
         }
-
-
 
         #endregion
     }

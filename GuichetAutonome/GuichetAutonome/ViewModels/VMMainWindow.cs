@@ -1,15 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GuichetAutonome.DataAccessLayer;
-using GuichetAutonome.ViewModels.Pages;
-using GuichetAutonome.Views;
 using GuichetAutonome.Views.Pages;
 using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -18,7 +13,6 @@ namespace GuichetAutonome.ViewModels
 {
     public partial class VMMainWindow : ObservableObject
     {
-
         /// <summary>
         /// The instance of the MainWindowVM
         /// </summary>
@@ -109,7 +103,7 @@ namespace GuichetAutonome.ViewModels
             {
                 CurrentPage = new Registration();
             }
-            else if(pageType == typeof(EventSelection)) 
+            else if (pageType == typeof(EventSelection))
             {
                 CurrentPage = new EventSelection();
             }
@@ -133,10 +127,7 @@ namespace GuichetAutonome.ViewModels
 
         private void SetupInactivityTimer()
         {
-            _inactivityTimer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMinutes(5)
-            };
+            _inactivityTimer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(5) };
 
             _inactivityTimer.Tick += OnInactivityTimerExpired;
             _inactivityTimer.Start();
@@ -161,7 +152,7 @@ namespace GuichetAutonome.ViewModels
                 {
                     await DAL.TicketFactory.MakeAvailableAsync(ticket);
                 }
-                Cart.Clear(); 
+                Cart.Clear();
             }
 
             IsConnected = false;
@@ -171,7 +162,6 @@ namespace GuichetAutonome.ViewModels
 
             ResetInactivityTimer();
         }
-
 
         public void ChangeUser(Client client)
         {

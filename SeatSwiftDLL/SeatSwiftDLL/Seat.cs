@@ -1,9 +1,4 @@
 ﻿using SeatSwiftDLL.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeatSwiftDLL
 {
@@ -87,10 +82,22 @@ namespace SeatSwiftDLL
         /// <param name="sectionName">The section name of the seat</param>
         /// <param name="xCoordinate">The x coordinates of the seat in the auditorium</param>
         /// <param name="yCoordinate">The y coordinates of the seat in the auditorium</param>
-        public Seat(int id, int seatNumber, SeatStatus status,Auditorium auditorium, SectionName sectionName,string rowName ,int xCoordinate, int yCoordinate)
+        public Seat(
+            int id,
+            int seatNumber,
+            SeatStatus status,
+            Auditorium auditorium,
+            SectionName sectionName,
+            string rowName,
+            int xCoordinate,
+            int yCoordinate
+        )
         {
-            if(auditorium == null) {throw new ArgumentNullException(nameof(auditorium));}
-                
+            if (auditorium == null)
+            {
+                throw new ArgumentNullException(nameof(auditorium));
+            }
+
             this.Id = id;
             this.SeatNumber = seatNumber;
             this.Status = status;
@@ -110,7 +117,16 @@ namespace SeatSwiftDLL
         /// <param name="sectionName">The section name of the seat</param>
         /// <param name="xCoordinate">The x coordinates of the seat in the auditorium</param>
         /// <param name="yCoordinate">The y coordinates of the seat in the auditorium</param>
-        public Seat(int id, int seatNumber, SeatStatus status, int auditoriumId, SectionName sectionName, string rowName, int xCoordinate, int yCoordinate)
+        public Seat(
+            int id,
+            int seatNumber,
+            SeatStatus status,
+            int auditoriumId,
+            SectionName sectionName,
+            string rowName,
+            int xCoordinate,
+            int yCoordinate
+        )
         {
             this.Id = id;
             this.SeatNumber = seatNumber;

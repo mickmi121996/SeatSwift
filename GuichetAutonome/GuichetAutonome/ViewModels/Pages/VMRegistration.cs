@@ -3,9 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using GuichetAutonome.DataAccessLayer;
 using GuichetAutonome.Views.Pages;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -227,11 +224,11 @@ namespace GuichetAutonome.ViewModels.Pages
         private bool CanRegister()
         {
             if (
-                string.IsNullOrEmpty(LastName) ||
-                string.IsNullOrEmpty(FirstName) ||
-                string.IsNullOrEmpty(Email) ||
-                string.IsNullOrEmpty(Password) ||
-                string.IsNullOrEmpty(Confirmation)
+                string.IsNullOrEmpty(LastName)
+                || string.IsNullOrEmpty(FirstName)
+                || string.IsNullOrEmpty(Email)
+                || string.IsNullOrEmpty(Password)
+                || string.IsNullOrEmpty(Confirmation)
             )
             {
                 return false;

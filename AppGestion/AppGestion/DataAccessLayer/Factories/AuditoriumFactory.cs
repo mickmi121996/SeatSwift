@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AppGestion.Tools;
 using MySql.Data.MySqlClient;
-using System.Text;
-using System.Threading.Tasks;
 using SeatSwiftDLL;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using AppGestion.Tools;
+using System.Threading.Tasks;
 
 namespace AppGestion.DataAccessLayer.Factories
 {
@@ -36,7 +34,13 @@ namespace AppGestion.DataAccessLayer.Factories
             int numberOfColumns = dataReader.GetInt32("NumberOfColumns");
 
             // Create the auditorium
-            Auditorium auditorium = new Auditorium(id, isActive, name, numberOfRows, numberOfColumns);
+            Auditorium auditorium = new Auditorium(
+                id,
+                isActive,
+                name,
+                numberOfRows,
+                numberOfColumns
+            );
 
             // Return the auditorium
             return auditorium;
@@ -52,13 +56,20 @@ namespace AppGestion.DataAccessLayer.Factories
             // Read the data from the data row
             int id = row.Field<int>("Id");
             bool isActive = row.Field<bool>("IsActive");
-            string name = row.Field<string>("AuditoriumName")??
-            throw new ArgumentNullException("The name of the auditorium cannot be null");
+            string name =
+                row.Field<string>("AuditoriumName")
+                ?? throw new ArgumentNullException("The name of the auditorium cannot be null");
             int numberOfRows = row.Field<int>("numberOfRows");
             int numberOfColumns = row.Field<int>("NumberOfColumns");
 
             // Create the auditorium
-            Auditorium auditorium = new Auditorium(id, isActive, name, numberOfRows, numberOfColumns);
+            Auditorium auditorium = new Auditorium(
+                id,
+                isActive,
+                name,
+                numberOfRows,
+                numberOfColumns
+            );
 
             // Return the auditorium
             return auditorium;
@@ -78,9 +89,10 @@ namespace AppGestion.DataAccessLayer.Factories
             try
             {
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM Auditorium WHERE IsActive = 1")
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Auditorium WHERE IsActive = 1"
+                    )
                 )
                 {
                     // Create a list to hold the auditoriums
@@ -97,7 +109,7 @@ namespace AppGestion.DataAccessLayer.Factories
                     return auditoriums;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Error in AuditoriumFactory.GetAllActiveAsync: " + ex.Message);
             }
@@ -120,11 +132,11 @@ namespace AppGestion.DataAccessLayer.Factories
                 }
 
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM auditorium WHERE Id = @Id",
-                    new MySqlParameter("@Id", id)
-                    )   
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM auditorium WHERE Id = @Id",
+                        new MySqlParameter("@Id", id)
+                    )
                 )
                 {
                     // Check if the result has any rows
@@ -137,7 +149,7 @@ namespace AppGestion.DataAccessLayer.Factories
                     return await CreateFromRowAsync(result.Rows[0]);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Error in AuditoriumFactory.GetByIdAsync: " + ex.Message);
             }
@@ -160,10 +172,10 @@ namespace AppGestion.DataAccessLayer.Factories
                 }
 
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM Auditorium WHERE AuditoriumName = @Name)",
-                    new MySqlParameter("@Name", name)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Auditorium WHERE AuditoriumName = @Name)",
+                        new MySqlParameter("@Name", name)
                     )
                 )
                 {
@@ -177,7 +189,7 @@ namespace AppGestion.DataAccessLayer.Factories
                     return await CreateFromRowAsync(result.Rows[0]);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Error in AuditoriumFactory.GetByNameAsync: " + ex.Message);
             }
@@ -201,19 +213,21 @@ namespace AppGestion.DataAccessLayer.Factories
                 // Check if the auditorium already exists
                 if (await ExistsByNameAsync(auditorium.Name))
                 {
-                    throw new Exception("An auditorium with the name " + auditorium.Name + " already exists");
+                    throw new Exception(
+                        "An auditorium with the name " + auditorium.Name + " already exists"
+                    );
                 }
 
-                await DataBaseTool.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "INSERT INTO Auditorium (AuditoriumName, IsActive, NumberOfRows, NumberOfColumns) VALUES (@Name, @IsActive, @NumberOfRows, @NumberOfColumns)",
-                new MySqlParameter("@Name", auditorium.Name),
-                new MySqlParameter("@IsActive", auditorium.IsActive),
-                new MySqlParameter("@NumberOfRows", auditorium.NumberOfRows),
-                new MySqlParameter("@NumberOfColumns", auditorium.NumberOfColumns)
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "INSERT INTO Auditorium (AuditoriumName, IsActive, NumberOfRows, NumberOfColumns) VALUES (@Name, @IsActive, @NumberOfRows, @NumberOfColumns)",
+                    new MySqlParameter("@Name", auditorium.Name),
+                    new MySqlParameter("@IsActive", auditorium.IsActive),
+                    new MySqlParameter("@NumberOfRows", auditorium.NumberOfRows),
+                    new MySqlParameter("@NumberOfColumns", auditorium.NumberOfColumns)
                 );
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Error in AuditoriumFactory.CreateAsync: " + ex.Message);
             }
@@ -229,17 +243,17 @@ namespace AppGestion.DataAccessLayer.Factories
         {
             try
             {
-                await DataBaseTool.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "UPDATE Auditorium SET AuditoriumName = @Name, IsActive = @IsActive, NumberOfRows = @NumberOfRows, NumberOfColumns = @NumberOfColumns WHERE Id = @Id",
-                new MySqlParameter("@Name", auditorium.Name),
-                new MySqlParameter("@IsActive", auditorium.IsActive),
-                new MySqlParameter("@NumberOfRows", auditorium.NumberOfRows),
-                new MySqlParameter("@NumberOfColumns", auditorium.NumberOfColumns),
-                new MySqlParameter("@Id", auditorium.Id)
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "UPDATE Auditorium SET AuditoriumName = @Name, IsActive = @IsActive, NumberOfRows = @NumberOfRows, NumberOfColumns = @NumberOfColumns WHERE Id = @Id",
+                    new MySqlParameter("@Name", auditorium.Name),
+                    new MySqlParameter("@IsActive", auditorium.IsActive),
+                    new MySqlParameter("@NumberOfRows", auditorium.NumberOfRows),
+                    new MySqlParameter("@NumberOfColumns", auditorium.NumberOfColumns),
+                    new MySqlParameter("@Id", auditorium.Id)
                 );
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Error in AuditoriumFactory.UpdateAsync: " + ex.Message);
             }
@@ -255,13 +269,13 @@ namespace AppGestion.DataAccessLayer.Factories
         {
             try
             {
-                await DataBaseTool.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "UPDATE Auditorium SET IsActive = 0 WHERE Id = @Id",
-                new MySqlParameter("@Id", auditorium.Id)
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "UPDATE Auditorium SET IsActive = 0 WHERE Id = @Id",
+                    new MySqlParameter("@Id", auditorium.Id)
                 );
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Error in AuditoriumFactory.SetInactiveAsync: " + ex.Message);
             }
@@ -289,10 +303,10 @@ namespace AppGestion.DataAccessLayer.Factories
                 }
 
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM Auditorium WHERE AuditoriumName = @Name)",
-                    new MySqlParameter("@Name", name)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Auditorium WHERE AuditoriumName = @Name)",
+                        new MySqlParameter("@Name", name)
                     )
                 )
                 {
@@ -300,7 +314,7 @@ namespace AppGestion.DataAccessLayer.Factories
                     return result.Rows.Count > 0;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Error in AuditoriumFactory.ExistsByNameAsync: " + ex.Message);
             }

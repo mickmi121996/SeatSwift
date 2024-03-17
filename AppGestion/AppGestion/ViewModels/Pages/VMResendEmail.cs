@@ -7,8 +7,6 @@ using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -49,7 +47,6 @@ namespace AppGestion.ViewModels.Pages
             Initialize();
         }
 
-
         #endregion
 
 
@@ -74,35 +71,66 @@ namespace AppGestion.ViewModels.Pages
                         foreach (Ticket ticket in tickets)
                         {
                             // Generate the QR code
-                            string qrCodeBase64 = CodeQRTools.GenerateQRCodeBase64(ticket.QRCodeData);
+                            string qrCodeBase64 = CodeQRTools.GenerateQRCodeBase64(
+                                ticket.QRCodeData
+                            );
 
                             // Add the QR code to the StringBuilder
-                            qrCodesHtml.AppendFormat("<img src=\"{0}\" style=\"width: 270px; height: 270px;\" alt=\"QR Code\" /><br/>", qrCodeBase64);
+                            qrCodesHtml.AppendFormat(
+                                "<img src=\"{0}\" style=\"width: 270px; height: 270px;\" alt=\"QR Code\" /><br/>",
+                                qrCodeBase64
+                            );
                         }
 
                         // Get the email template
                         string emailTemplate = Resources.EmailCore;
-                        string emailContent = string.Format(emailTemplate, SelectedOrder.OrderNumber, qrCodesHtml.ToString());
+                        string emailContent = string.Format(
+                            emailTemplate,
+                            SelectedOrder.OrderNumber,
+                            qrCodesHtml.ToString()
+                        );
 
                         string emailSubject = Resources.ResendEmailSubject;
-                        string emailSubjectFormat = string.Format(emailSubject, SelectedOrder.OrderNumber);
+                        string emailSubjectFormat = string.Format(
+                            emailSubject,
+                            SelectedOrder.OrderNumber
+                        );
 
-                        if(SelectedOrder.Client is not null)
+                        if (SelectedOrder.Client is not null)
                         {
                             // Send the email
-                            await EmailTools.SendEmailWithSMTP2GO(SelectedOrder.Client.Email, emailSubjectFormat, emailContent);
+                            await EmailTools.SendEmailWithSMTP2GO(
+                                SelectedOrder.Client.Email,
+                                emailSubjectFormat,
+                                emailContent
+                            );
 
-                            MessageBox.Show("L.envoie du courriel a réussi!", "Courriel envoyé", MessageBoxButton.OK, MessageBoxImage.Information);
+                            MessageBox.Show(
+                                "L.envoie du courriel a réussi!",
+                                "Courriel envoyé",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Information
+                            );
                         }
                         else
                         {
-                            MessageBox.Show("The client of the order is null", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show(
+                                "The client of the order is null",
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error
+                            );
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Please select an order", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(
+                        "Please select an order",
+                        "Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                    );
                 }
             }
             catch (Exception e)
@@ -110,7 +138,6 @@ namespace AppGestion.ViewModels.Pages
                 MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
 
         /// <summary>
         /// The command to check if the resend email command can be executed

@@ -1,17 +1,12 @@
-﻿using System;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MimeKit;
-using System.Collections.Generic;
-using System.Linq;
-using System.Resources;
-using System.Text;
+using System;
 using System.Threading.Tasks;
 
 namespace AppGestion.Tools
 {
     public static class EmailTools
     {
-
         /// <summary>
         /// Send an email with SMTP2GO
         /// </summary>

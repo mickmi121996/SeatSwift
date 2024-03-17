@@ -1,13 +1,11 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GuichetAutonome.Tools;
+﻿using GuichetAutonome.Tools;
+using MySql.Data.MySqlClient;
 using SeatSwiftDLL;
 using SeatSwiftDLL.Enums;
+using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace GuichetAutonome.DataAccessLayer.Factories
 {
@@ -46,7 +44,16 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             Auditorium auditorium = await new AuditoriumFactory().GetByIdAsync(auditoriumId);
 
             // Create the order
-            return new Seat(id, seatNumber, status, auditorium, section, rowName, XCoordinate, YCoordinate);
+            return new Seat(
+                id,
+                seatNumber,
+                status,
+                auditorium,
+                section,
+                rowName,
+                XCoordinate,
+                YCoordinate
+            );
         }
 
         /// <summary>
@@ -59,11 +66,14 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             int id = dataRow.Field<int>("Id");
             int auditoriumId = dataRow.Field<int>("AuditoriumId");
             int seatNumber = dataRow.Field<int>("SeatNumber");
-            string sectionName = dataRow.Field<string>("SectionName")
+            string sectionName =
+                dataRow.Field<string>("SectionName")
                 ?? throw new ArgumentNullException("The section name is null");
-            string rowName = dataRow.Field<string>("RowName")
+            string rowName =
+                dataRow.Field<string>("RowName")
                 ?? throw new ArgumentNullException("The row name is null");
-            string seatStatus = dataRow.Field<string>("SeatStatus")
+            string seatStatus =
+                dataRow.Field<string>("SeatStatus")
                 ?? throw new ArgumentNullException("The seat status is null");
             int XCoordinate = dataRow.Field<int>("XCoordinate");
             int YCoordinate = dataRow.Field<int>("YCoordinate");
@@ -76,7 +86,16 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             Auditorium auditorium = await new AuditoriumFactory().GetByIdAsync(auditoriumId);
 
             // Create the order
-            return new Seat(id, seatNumber, status, auditorium, section, rowName, XCoordinate, YCoordinate);
+            return new Seat(
+                id,
+                seatNumber,
+                status,
+                auditorium,
+                section,
+                rowName,
+                XCoordinate,
+                YCoordinate
+            );
         }
 
         /// <summary>
@@ -89,11 +108,14 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             int id = dataRow.Field<int>("Id");
             int auditoriumId = dataRow.Field<int>("AuditoriumId");
             int seatNumber = dataRow.Field<int>("SeatNumber");
-            string sectionName = dataRow.Field<string>("SectionName")
+            string sectionName =
+                dataRow.Field<string>("SectionName")
                 ?? throw new ArgumentNullException("The section name is null");
-            string rowName = dataRow.Field<string>("RowName")
+            string rowName =
+                dataRow.Field<string>("RowName")
                 ?? throw new ArgumentNullException("The row name is null");
-            string seatStatus = dataRow.Field<string>("SeatStatus")
+            string seatStatus =
+                dataRow.Field<string>("SeatStatus")
                 ?? throw new ArgumentNullException("The seat status is null");
             int XCoordinate = dataRow.Field<int>("XCoordinate");
             int YCoordinate = dataRow.Field<int>("YCoordinate");
@@ -103,7 +125,16 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             SeatStatus status = (SeatStatus)Enum.Parse(typeof(SeatStatus), seatStatus);
 
             // Create the order
-            return new Seat(id, seatNumber, status, auditoriumId, section, rowName, XCoordinate, YCoordinate);
+            return new Seat(
+                id,
+                seatNumber,
+                status,
+                auditoriumId,
+                section,
+                rowName,
+                XCoordinate,
+                YCoordinate
+            );
         }
 
         #endregion
@@ -115,7 +146,7 @@ namespace GuichetAutonome.DataAccessLayer.Factories
         /// Get all seats of an auditorium
         /// </summary>
         /// <param name="auditoriumId">The id of the auditorium</param>
-        /// <returns>The list of seats</returns>    
+        /// <returns>The list of seats</returns>
         /// <exception cref="Exception">Throws an exception if the data could not be retrieved</exception>
         public async Task<List<Seat>> GetAllByAuditoriumIdAsync(int auditoriumId)
         {
@@ -144,7 +175,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             }
             catch (Exception e)
             {
-                throw new Exception("An error occurred while getting the seats of the auditorium", e);
+                throw new Exception(
+                    "An error occurred while getting the seats of the auditorium",
+                    e
+                );
             }
         }
 
@@ -229,7 +263,7 @@ namespace GuichetAutonome.DataAccessLayer.Factories
         /// <param name="seatId">The Id of the seat to update</param>
         /// <param name="status">The new status of the seat</param>
         /// <exception cref="Exception">Throws an exception if the data could not be updated</exception>
-        /// <exception cref="Exception">Throws an exception if the seat does not exist</exception>  
+        /// <exception cref="Exception">Throws an exception if the seat does not exist</exception>
         public async Task UpdateStatusAsync(int seatId, SeatStatus status)
         {
             try
@@ -253,7 +287,6 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 throw new Exception("An error occurred while updating the status of the seat", e);
             }
         }
-
 
         #endregion
     }

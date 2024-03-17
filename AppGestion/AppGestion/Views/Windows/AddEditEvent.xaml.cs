@@ -1,19 +1,8 @@
 ﻿using AppGestion.ViewModels.Windows;
 using SeatSwiftDLL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace AppGestion.Views.Windows
 {
@@ -36,7 +25,7 @@ namespace AppGestion.Views.Windows
             this.DataContext = vMAddEditEvent;
         }
 
-        #region Button Close | Restore | Minimize 
+        #region Button Close | Restore | Minimize
 
         /// <summary>
         /// Close the application
@@ -72,6 +61,5 @@ namespace AppGestion.Views.Windows
                 e.Handled = true;
             }
         }
-
     }
 }

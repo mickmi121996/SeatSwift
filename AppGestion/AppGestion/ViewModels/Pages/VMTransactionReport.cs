@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -81,10 +80,11 @@ namespace AppGestion.ViewModels.Pages
         [RelayCommand(CanExecute = nameof(CanExecuteExport))]
         public void SaveReport()
         {
-            if(TransactionLines.Count  > 0)
+            if (TransactionLines.Count > 0)
             {
                 // Open the file explorer
-                Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+                Microsoft.Win32.SaveFileDialog saveFileDialog =
+                    new Microsoft.Win32.SaveFileDialog();
                 saveFileDialog.Filter = "PDF file (*.pdf)|*.pdf";
                 saveFileDialog.Title = "Save the report";
                 saveFileDialog.ShowDialog();
@@ -93,12 +93,21 @@ namespace AppGestion.ViewModels.Pages
                 if (saveFileDialog.FileName != "")
                 {
                     // Create the report
-                    PDFTools.CreateTransactionsReportPdf(saveFileDialog.FileName, TransactionLines.ToList(), SelectedDate, SelectedFilter);
+                    PDFTools.CreateTransactionsReportPdf(
+                        saveFileDialog.FileName,
+                        TransactionLines.ToList(),
+                        SelectedDate,
+                        SelectedFilter
+                    );
                 }
             }
             else
             {
-                MessageBox.Show("Aucune Transaction effectuée pour les dates sélectionnées","Warning",MessageBoxButton.OK);
+                MessageBox.Show(
+                    "Aucune Transaction effectuée pour les dates sélectionnées",
+                    "Warning",
+                    MessageBoxButton.OK
+                );
             }
         }
 
@@ -131,16 +140,17 @@ namespace AppGestion.ViewModels.Pages
                     var tickets = await DAL.TicketFactory.GetByOrderAsync(order);
                     if (tickets.Count > 0)
                     {
-                        // Calculer le nombre total de tickets et le montant total avant taxes pour cette commande
                         int ticketsSold = tickets.Count;
-                        double totalAmountBeforeTaxe = tickets.Sum(ticket => (double)ticket.Representation.Show.BasePrice);
+                        double totalAmountBeforeTaxe = tickets.Sum(
+                            ticket => (double)ticket.Representation.Show.BasePrice
+                        );
 
-                        // Vérifier si une TransactionLine avec le même OrderNumber existe déjà
-                        bool isLineExists = TransactionLines.Any(tl => tl.OrderNumber == order.OrderNumber);
+                        bool isLineExists = TransactionLines.Any(
+                            tl => tl.OrderNumber == order.OrderNumber
+                        );
 
                         if (!isLineExists)
                         {
-                            // Créer une nouvelle ligne de transaction pour cette commande
                             var transactionLine = new TransactionLine(
                                 order.OrderNumber,
                                 order.OrderDate,
@@ -149,7 +159,6 @@ namespace AppGestion.ViewModels.Pages
                                 ticketsSold
                             );
 
-                            // Ajouter la ligne de transaction à la liste
                             TransactionLines.Add(transactionLine);
                         }
                     }
@@ -158,10 +167,6 @@ namespace AppGestion.ViewModels.Pages
             CanExecuteExport();
             IsCurrentlyLoading = Visibility.Collapsed;
         }
-
-
-
-
 
         /// <summary>
         /// Method called when the selected Filter changes
@@ -195,7 +200,6 @@ namespace AppGestion.ViewModels.Pages
                 LoadOrdersForAMonthAsync(SelectedDate.Month, SelectedDate.Year);
             }
         }
-
 
         /// <summary>
         /// Method to load the orders for a date

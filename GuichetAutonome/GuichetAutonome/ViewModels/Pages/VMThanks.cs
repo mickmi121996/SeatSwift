@@ -1,10 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GuichetAutonome.Views.Pages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,13 +16,17 @@ namespace GuichetAutonome.ViewModels.Pages
 
             delayCancellation = new CancellationTokenSource();
 
-            Task.Delay(20000, delayCancellation.Token).ContinueWith(_ =>
-            {
-                if (!_.IsCanceled)
-                {
-                    ChangePageToConnection();
-                }
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+            Task.Delay(20000, delayCancellation.Token)
+                .ContinueWith(
+                    _ =>
+                    {
+                        if (!_.IsCanceled)
+                        {
+                            ChangePageToConnection();
+                        }
+                    },
+                    TaskScheduler.FromCurrentSynchronizationContext()
+                );
         }
 
         [RelayCommand]

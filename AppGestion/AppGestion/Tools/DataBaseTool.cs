@@ -1,10 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
 using System.Data;
-using System.Linq;
-using System.Text;
+using System.Data.Common;
 using System.Threading.Tasks;
 
 /* Le DataBaseTool est une gracieuseté de Charloux lors du travail que nous avions fait en équipe pour le projet gestion d'inventaire de la session 5*/
@@ -77,7 +73,7 @@ namespace AppGestion.Tools
                     }
                 }
             }
-            
+
             // Returns the result dataTable.
             return result;
         }

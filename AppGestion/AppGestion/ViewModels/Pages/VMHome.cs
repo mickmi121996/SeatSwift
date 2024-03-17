@@ -1,12 +1,7 @@
 ﻿using AppGestion.DataAccessLayer;
 using CommunityToolkit.Mvvm.ComponentModel;
 using SeatSwiftDLL;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AppGestion.ViewModels.Pages
 {
@@ -130,7 +125,9 @@ namespace AppGestion.ViewModels.Pages
             Role = VMMainWindow.Instance.User.Type.ToString();
             PhoneNumber = VMMainWindow.Instance.User.PhoneNumber;
 
-            var shows = await DAL.ShowFactory.GetAllActiveByUserIdAsync(VMMainWindow.Instance.User.Id);
+            var shows = await DAL.ShowFactory.GetAllActiveByUserIdAsync(
+                VMMainWindow.Instance.User.Id
+            );
             Shows.Clear();
             foreach (var show in shows)
             {
@@ -149,7 +146,10 @@ namespace AppGestion.ViewModels.Pages
         {
             if (SelectedShow != null)
             {
-                var representations = await DAL.RepresentationFactory.GetInComingActiveAvailableByShowAsync(SelectedShow);
+                var representations =
+                    await DAL.RepresentationFactory.GetInComingActiveAvailableByShowAsync(
+                        SelectedShow
+                    );
                 Representations = representations.Count;
             }
         }
@@ -159,7 +159,6 @@ namespace AppGestion.ViewModels.Pages
         /// </summary>
         partial void OnSelectedShowChanged(Show value)
         {
-            // Call the method to update representations when the selected show changes.
             UpdateRepresentations();
         }
 

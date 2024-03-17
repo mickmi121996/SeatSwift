@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AppGestion.DataAccessLayer.Factories
@@ -32,8 +31,9 @@ namespace AppGestion.DataAccessLayer.Factories
             // Get the data from the data reader
             int id = dataReader.GetInt32("Id");
             bool isActive = dataReader.GetBoolean("IsActive");
-            string name = dataReader.GetString("ShowName") ??
-                throw new InvalidOperationException("The ShowName field is null");
+            string name =
+                dataReader.GetString("ShowName")
+                ?? throw new InvalidOperationException("The ShowName field is null");
             string artist = dataReader.GetString("Artiste");
             string description = dataReader.GetString("Description");
             string showType = dataReader.GetString("ShowType");
@@ -49,7 +49,9 @@ namespace AppGestion.DataAccessLayer.Factories
             User user = await new UserFactory().GetByIdAsync(userId);
             if (user is null)
             {
-                throw new KeyNotFoundException("The user with the id " + userId + " does not exist");
+                throw new KeyNotFoundException(
+                    "The user with the id " + userId + " does not exist"
+                );
             }
 
             // Create the Show object
@@ -63,7 +65,8 @@ namespace AppGestion.DataAccessLayer.Factories
                 image,
                 maxTicketsByUser,
                 baseTicketPrice,
-                user);
+                user
+            );
 
             // Return the Show object
             return show;
@@ -79,16 +82,21 @@ namespace AppGestion.DataAccessLayer.Factories
             // Get the data from the data row
             int id = dataRow.Field<int>("Id");
             bool isActive = dataRow.Field<bool>("IsActive");
-            string name = dataRow.Field<string>("ShowName") ??
-                throw new InvalidOperationException("The ShowName field is null");
-            string artist = dataRow.Field<string>("Artiste") ??
-                throw new InvalidOperationException("The Artist field is null");
-            string description = dataRow.Field<string>("Description") ??
-                throw new InvalidOperationException("The Description field is null");
-            string showType = dataRow.Field<string>("ShowType") ??
-                throw new InvalidOperationException("The ShowType field is null");
-            string image = dataRow.Field<string>("ImageUrl") ??
-                throw new InvalidOperationException("The ImageUrl field is null");
+            string name =
+                dataRow.Field<string>("ShowName")
+                ?? throw new InvalidOperationException("The ShowName field is null");
+            string artist =
+                dataRow.Field<string>("Artiste")
+                ?? throw new InvalidOperationException("The Artist field is null");
+            string description =
+                dataRow.Field<string>("Description")
+                ?? throw new InvalidOperationException("The Description field is null");
+            string showType =
+                dataRow.Field<string>("ShowType")
+                ?? throw new InvalidOperationException("The ShowType field is null");
+            string image =
+                dataRow.Field<string>("ImageUrl")
+                ?? throw new InvalidOperationException("The ImageUrl field is null");
             int maxTicketsByUser = dataRow.Field<int>("NumberOfTicketsMaxByClient");
             decimal baseTicketPrice = dataRow.Field<decimal>("BaseTicketPrice");
             int userId = dataRow.Field<int>("UserId");
@@ -100,7 +108,9 @@ namespace AppGestion.DataAccessLayer.Factories
             User user = await new UserFactory().GetByIdAsync(userId);
             if (user is null)
             {
-                throw new KeyNotFoundException("The user with the id " + userId + " does not exist");
+                throw new KeyNotFoundException(
+                    "The user with the id " + userId + " does not exist"
+                );
             }
 
             // Create the Show object
@@ -114,7 +124,8 @@ namespace AppGestion.DataAccessLayer.Factories
                 image,
                 maxTicketsByUser,
                 baseTicketPrice,
-                user);
+                user
+            );
 
             // Return the Show object
             return show;
@@ -136,9 +147,10 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get all active shows
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM Shows WHERE IsActive = 1")
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Shows WHERE IsActive = 1"
+                    )
                 )
                 {
                     // Create a list of Show objects
@@ -171,9 +183,10 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get all shows
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM Shows")
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Shows"
+                    )
                 )
                 {
                     // Create a list of Show objects
@@ -195,7 +208,6 @@ namespace AppGestion.DataAccessLayer.Factories
             }
         }
 
-
         /// <summary>
         /// Get all active shows create by a user
         /// </summary>
@@ -216,10 +228,10 @@ namespace AppGestion.DataAccessLayer.Factories
 
                 // Get all shows of the user with the given id
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM Shows WHERE UserId = @userId AND IsActive = 1",
-                    new MySqlParameter("@userId", userId)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Shows WHERE UserId = @userId AND IsActive = 1",
+                        new MySqlParameter("@userId", userId)
                     )
                 )
                 {
@@ -238,7 +250,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting all shows of the user with the given id", ex);
+                throw new Exception(
+                    "An error occurred while getting all shows of the user with the given id",
+                    ex
+                );
             }
         }
 
@@ -253,21 +268,29 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 var showCounts = new List<Tuple<ShowType, int>>();
 
-                string query = @"
+                string query =
+                    @"
                 SELECT ShowType, COUNT(*) AS Count
                 FROM Shows
                 WHERE IsActive = 1
                 GROUP BY ShowType;
             ";
 
-                using (DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
-                    this.ConnectionString,
-                    query
-                ))
+                using (
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        query
+                    )
+                )
                 {
                     foreach (DataRow row in result.Rows)
                     {
-                        ShowType showType = (ShowType)Enum.Parse(typeof(ShowType), row["ShowType"].ToString()??throw new InvalidOperationException("ShowType is null"));
+                        ShowType showType = (ShowType)
+                            Enum.Parse(
+                                typeof(ShowType),
+                                row["ShowType"].ToString()
+                                    ?? throw new InvalidOperationException("ShowType is null")
+                            );
                         int count = Convert.ToInt32(row["Count"]);
                         showCounts.Add(Tuple.Create(showType, count));
                     }
@@ -282,7 +305,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the count of active shows by type", ex);
+                throw new Exception(
+                    "An error occurred while getting the count of active shows by type",
+                    ex
+                );
             }
         }
 
@@ -299,10 +325,10 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get the show with the given id
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM Shows WHERE Id = @id",
-                    new MySqlParameter("@id", id)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Shows WHERE Id = @id",
+                        new MySqlParameter("@id", id)
                     )
                 )
                 {
@@ -318,7 +344,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the show with the given id", ex);
+                throw new Exception(
+                    "An error occurred while getting the show with the given id",
+                    ex
+                );
             }
         }
 
@@ -335,17 +364,19 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get the show with the given name
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM Shows WHERE ShowName = @showName",
-                    new MySqlParameter("@showName", showName)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM Shows WHERE ShowName = @showName",
+                        new MySqlParameter("@showName", showName)
                     )
                 )
                 {
                     // If no show is found, throw an exception
                     if (result.Rows.Count == 0)
                     {
-                        throw new KeyNotFoundException("No show with the name " + showName + " was found");
+                        throw new KeyNotFoundException(
+                            "No show with the name " + showName + " was found"
+                        );
                     }
 
                     // Create the Show object
@@ -354,7 +385,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the show with the given name", ex);
+                throw new Exception(
+                    "An error occurred while getting the show with the given name",
+                    ex
+                );
             }
         }
 
@@ -378,10 +412,10 @@ namespace AppGestion.DataAccessLayer.Factories
 
                 // Get the number of shows of the user with the given id
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT COUNT(*) FROM Shows WHERE UserId = @userId AND IsActive = 1",
-                    new MySqlParameter("@userId", userId)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT COUNT(*) FROM Shows WHERE UserId = @userId AND IsActive = 1",
+                        new MySqlParameter("@userId", userId)
                     )
                 )
                 {
@@ -391,7 +425,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while getting the number of shows of the user with the given id", ex);
+                throw new Exception(
+                    "An error occurred while getting the number of shows of the user with the given id",
+                    ex
+                );
             }
         }
 
@@ -408,7 +445,9 @@ namespace AppGestion.DataAccessLayer.Factories
                 // Check if a show with the same name already exists
                 if (await ExistsAsync(show.Name))
                 {
-                    throw new InvalidOperationException("A show with the name " + show.Name + " already exists");
+                    throw new InvalidOperationException(
+                        "A show with the name " + show.Name + " already exists"
+                    );
                 }
 
                 // Check if the show is null
@@ -424,19 +463,19 @@ namespace AppGestion.DataAccessLayer.Factories
                 }
 
                 // Create the show
-                await DataBaseTool.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "INSERT INTO Shows (IsActive, ShowName, Artiste, Description, ShowType, ImageUrl, NumberOfTicketsMaxByClient, BaseTicketPrice, UserId) " +
-                "VALUES (@isActive, @showName, @artist, @description, @showType, @imageUrl, @maxTicketsByClient, @baseTicketPrice, @userId)",
-                new MySqlParameter("@isActive", show.IsActive),
-                new MySqlParameter("@showName", show.Name),
-                new MySqlParameter("@artist", show.Artist),
-                new MySqlParameter("@description", show.Description),
-                new MySqlParameter("@showType", show.ShowType.ToString()),
-                new MySqlParameter("@imageUrl", show.ImageUrl),
-                new MySqlParameter("@maxTicketsByClient", show.MaxTicketsByClient),
-                new MySqlParameter("@baseTicketPrice", show.BasePrice),
-                new MySqlParameter("@userId", show.User.Id)
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "INSERT INTO Shows (IsActive, ShowName, Artiste, Description, ShowType, ImageUrl, NumberOfTicketsMaxByClient, BaseTicketPrice, UserId) "
+                        + "VALUES (@isActive, @showName, @artist, @description, @showType, @imageUrl, @maxTicketsByClient, @baseTicketPrice, @userId)",
+                    new MySqlParameter("@isActive", show.IsActive),
+                    new MySqlParameter("@showName", show.Name),
+                    new MySqlParameter("@artist", show.Artist),
+                    new MySqlParameter("@description", show.Description),
+                    new MySqlParameter("@showType", show.ShowType.ToString()),
+                    new MySqlParameter("@imageUrl", show.ImageUrl),
+                    new MySqlParameter("@maxTicketsByClient", show.MaxTicketsByClient),
+                    new MySqlParameter("@baseTicketPrice", show.BasePrice),
+                    new MySqlParameter("@userId", show.User.Id)
                 );
             }
             catch (Exception ex)
@@ -468,18 +507,18 @@ namespace AppGestion.DataAccessLayer.Factories
             try
             {
                 // Update the show
-                await DataBaseTool.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "UPDATE Shows SET IsActive = @isActive, ShowName = @showName, Artiste = @artist, Description = @description, ShowType = @showType, ImageUrl = @imageUrl, NumberOfTicketsMaxByClient = @maxTicketsByClient, BaseTicketPrice = @baseTicketPrice WHERE Id = @id",
-                new MySqlParameter("@isActive", show.IsActive),
-                new MySqlParameter("@showName", show.Name),
-                new MySqlParameter("@artist", show.Artist),
-                new MySqlParameter("@description", show.Description),
-                new MySqlParameter("@showType", show.ShowType.ToString()),
-                new MySqlParameter("@imageUrl", show.ImageUrl),
-                new MySqlParameter("@maxTicketsByClient", show.MaxTicketsByClient),
-                new MySqlParameter("@baseTicketPrice", show.BasePrice),
-                new MySqlParameter("@id", show.Id)
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "UPDATE Shows SET IsActive = @isActive, ShowName = @showName, Artiste = @artist, Description = @description, ShowType = @showType, ImageUrl = @imageUrl, NumberOfTicketsMaxByClient = @maxTicketsByClient, BaseTicketPrice = @baseTicketPrice WHERE Id = @id",
+                    new MySqlParameter("@isActive", show.IsActive),
+                    new MySqlParameter("@showName", show.Name),
+                    new MySqlParameter("@artist", show.Artist),
+                    new MySqlParameter("@description", show.Description),
+                    new MySqlParameter("@showType", show.ShowType.ToString()),
+                    new MySqlParameter("@imageUrl", show.ImageUrl),
+                    new MySqlParameter("@maxTicketsByClient", show.MaxTicketsByClient),
+                    new MySqlParameter("@baseTicketPrice", show.BasePrice),
+                    new MySqlParameter("@id", show.Id)
                 );
             }
             catch (Exception ex)
@@ -499,10 +538,10 @@ namespace AppGestion.DataAccessLayer.Factories
             try
             {
                 // Set the show as inactive
-                await DataBaseTool.ExecuteNonQueryAsync
-                (this.ConnectionString,
-                "UPDATE Shows SET IsActive = 0 WHERE Id = @id",
-                new MySqlParameter("@id", showId)
+                await DataBaseTool.ExecuteNonQueryAsync(
+                    this.ConnectionString,
+                    "UPDATE Shows SET IsActive = 0 WHERE Id = @id",
+                    new MySqlParameter("@id", showId)
                 );
             }
             catch (Exception ex)
@@ -528,10 +567,10 @@ namespace AppGestion.DataAccessLayer.Factories
             {
                 // Get the total number of shows with the given name
                 using (
-                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT COUNT(*) FROM Shows WHERE ShowName = @showName",
-                    new MySqlParameter("@showName", showName)
+                    DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT COUNT(*) FROM Shows WHERE ShowName = @showName",
+                        new MySqlParameter("@showName", showName)
                     )
                 )
                 {
@@ -541,7 +580,10 @@ namespace AppGestion.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while checking if a show exists with the given name", ex);
+                throw new Exception(
+                    "An error occurred while checking if a show exists with the given name",
+                    ex
+                );
             }
         }
 

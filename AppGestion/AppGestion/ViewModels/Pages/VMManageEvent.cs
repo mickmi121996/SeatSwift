@@ -2,13 +2,9 @@
 using AppGestion.Views.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Mysqlx.Cursor;
 using SeatSwiftDLL;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AppGestion.ViewModels.Pages
@@ -111,7 +107,12 @@ namespace AppGestion.ViewModels.Pages
             catch (Exception e)
             {
                 // Pop a message box
-                System.Windows.MessageBox.Show(e.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(
+                    e.Message,
+                    "Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error
+                );
             }
         }
 
@@ -154,7 +155,12 @@ namespace AppGestion.ViewModels.Pages
             catch (Exception e)
             {
                 // Pop a message box
-                System.Windows.MessageBox.Show(e.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(
+                    e.Message,
+                    "Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error
+                );
             }
         }
 
@@ -166,7 +172,6 @@ namespace AppGestion.ViewModels.Pages
         {
             return SelectedRepresentation is not null;
         }
-
 
         #endregion
 
@@ -211,7 +216,6 @@ namespace AppGestion.ViewModels.Pages
             LoadRepresentation();
 
             _isInitialLoadComplete = true;
-
         }
 
         /// <summary>
@@ -224,7 +228,7 @@ namespace AppGestion.ViewModels.Pages
 
             SelectedRepresentation = null;
 
-            if(SelectedShow != null)
+            if (SelectedShow != null)
             {
                 // Get the list of representation
                 var representations = await DAL.RepresentationFactory.GetByShowAsync(SelectedShow);
@@ -254,7 +258,6 @@ namespace AppGestion.ViewModels.Pages
                 LoadRepresentation();
             }
         }
-
 
         #endregion
     }

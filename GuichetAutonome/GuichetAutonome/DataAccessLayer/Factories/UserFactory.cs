@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GuichetAutonome.DataAccessLayer.Factories
@@ -33,25 +32,39 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             // Read the data from the data reader
             int id = reader.GetInt32("Id");
             bool isActive = reader.GetBoolean("IsActive");
-            string firstName = reader.GetString("FirstName")
+            string firstName =
+                reader.GetString("FirstName")
                 ?? throw new ArgumentNullException("The first name of the user cannot be null");
-            string lastName = reader.GetString("LastName")
+            string lastName =
+                reader.GetString("LastName")
                 ?? throw new ArgumentNullException("The last name of the user cannot be null");
-            string employeeNumber = reader.GetString("EmployeeNumber")
+            string employeeNumber =
+                reader.GetString("EmployeeNumber")
                 ?? throw new ArgumentNullException("The username of the user cannot be null");
-            string Type = reader.GetString("Type")
+            string Type =
+                reader.GetString("Type")
                 ?? throw new ArgumentNullException("The type of the user cannot be null");
-            string email = reader.GetString("Email")
+            string email =
+                reader.GetString("Email")
                 ?? throw new ArgumentNullException("The email of the user cannot be null");
-            string phone = reader.GetString("Phone")
+            string phone =
+                reader.GetString("Phone")
                 ?? throw new ArgumentNullException("The phone of the user cannot be null");
-
 
             //Get the enum value from the type string
             EmployeeType employeeType = (EmployeeType)Enum.Parse(typeof(EmployeeType), Type);
 
             // Create the user object
-            User user = new User(id, isActive, firstName, lastName, employeeNumber, employeeType, email, phone);
+            User user = new User(
+                id,
+                isActive,
+                firstName,
+                lastName,
+                employeeNumber,
+                employeeType,
+                email,
+                phone
+            );
 
             // Return the user object
             return user;
@@ -67,26 +80,39 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             // Read the data from the data reader
             int id = row.Field<int>("Id");
             bool isActive = row.Field<bool>("IsActive");
-            string firstName = row.Field<string>("FirstName")
+            string firstName =
+                row.Field<string>("FirstName")
                 ?? throw new ArgumentNullException("The first name of the user cannot be null");
-            string lastName = row.Field<string>("LastName")
+            string lastName =
+                row.Field<string>("LastName")
                 ?? throw new ArgumentNullException("The last name of the user cannot be null");
-            string employeeNumber = row.Field<string>("EmployeeNumber")
+            string employeeNumber =
+                row.Field<string>("EmployeeNumber")
                 ?? throw new ArgumentNullException("The username of the user cannot be null");
-            string Type = row.Field<string>("Type")
+            string Type =
+                row.Field<string>("Type")
                 ?? throw new ArgumentNullException("The type of the user cannot be null");
-            string email = row.Field<string>("Email")
+            string email =
+                row.Field<string>("Email")
                 ?? throw new ArgumentNullException("The email of the user cannot be null");
-            string phone = row.Field<string>("Phone")
+            string phone =
+                row.Field<string>("Phone")
                 ?? throw new ArgumentNullException("The phone of the user cannot be null");
-
-
 
             //Get the enum value from the type string
             EmployeeType employeeType = (EmployeeType)Enum.Parse(typeof(EmployeeType), Type);
 
             // Create the user object
-            User user = new User(id, isActive, firstName, lastName, employeeNumber, employeeType, email, phone);
+            User user = new User(
+                id,
+                isActive,
+                firstName,
+                lastName,
+                employeeNumber,
+                employeeType,
+                email,
+                phone
+            );
 
             // Return the user object
             return user;
@@ -108,9 +134,9 @@ namespace GuichetAutonome.DataAccessLayer.Factories
 
             // Create a new command
             using (
-                DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                (this.ConnectionString,
-                "SELECT * FROM User WHERE IsActive = 1"
+                DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                    this.ConnectionString,
+                    "SELECT * FROM User WHERE IsActive = 1"
                 )
             )
             {
@@ -119,7 +145,6 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 {
                     // Create a new user object
                     users.Add(await CreateFromRowAsync(row));
-
                 }
             }
 
@@ -138,9 +163,9 @@ namespace GuichetAutonome.DataAccessLayer.Factories
 
             // Create a new command
             using (
-                DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                (this.ConnectionString,
-                "SELECT * FROM User"
+                DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                    this.ConnectionString,
+                    "SELECT * FROM User"
                 )
             )
             {
@@ -166,10 +191,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
         {
             // Create a new command
             using (
-                DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                (this.ConnectionString,
-                "SELECT * FROM User WHERE EmployeeNumber = @EmployeeNumber AND IsActive = 1",
-                new MySqlParameter("@EmployeeNumber", employeeNumber)
+                DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                    this.ConnectionString,
+                    "SELECT * FROM User WHERE EmployeeNumber = @EmployeeNumber AND IsActive = 1",
+                    new MySqlParameter("@EmployeeNumber", employeeNumber)
                 )
             )
             {
@@ -185,7 +210,9 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             }
 
             // If no user was found, return null
-            throw new ArgumentNullException("No user was found with the employee number " + employeeNumber);
+            throw new ArgumentNullException(
+                "No user was found with the employee number " + employeeNumber
+            );
         }
 
         /// <summary>
@@ -200,10 +227,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             {
                 // Create a new command
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT * FROM User WHERE Id = @Id",
-                    new MySqlParameter("@Id", id)
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT * FROM User WHERE Id = @Id",
+                        new MySqlParameter("@Id", id)
                     )
                 )
                 {
@@ -225,7 +252,6 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             {
                 throw new Exception("An error occurred while getting the user by its id", ex);
             }
-
         }
 
         /// <summary>
@@ -239,11 +265,14 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 // Check if the user exists
                 if (await IsEmployeeNumberOrEmailAlreadyUsedAsync(user.EmployeeNumber, user.Email))
                 {
-                    throw new ArgumentNullException("The employee number or the email is already used");
+                    throw new ArgumentNullException(
+                        "The employee number or the email is already used"
+                    );
                 }
 
                 // Create a new command
-                int result = await DataBaseTools.ExecuteNonQueryAsync(this.ConnectionString,
+                int result = await DataBaseTools.ExecuteNonQueryAsync(
+                    this.ConnectionString,
                     "INSERT INTO User (IsActive, FirstName, LastName, EmployeeNumber, Type, Email, Phone) VALUES (@IsActive, @FirstName, @LastName, @EmployeeNumber, @Type, @Email, @Phone)",
                     new MySqlParameter("@IsActive", user.IsActive),
                     new MySqlParameter("@FirstName", user.FirstName),
@@ -277,7 +306,8 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             try
             {
                 // Create a new command
-                int result = await DataBaseTools.ExecuteNonQueryAsync(this.ConnectionString,
+                int result = await DataBaseTools.ExecuteNonQueryAsync(
+                    this.ConnectionString,
                     "UPDATE User SET IsActive = @IsActive, FirstName = @FirstName, LastName = @LastName, Type = @Type, Email = @Email, EmployeeNumber = @EmployeeNumber, Phone = @Phone WHERE Id = @Id",
                     new MySqlParameter("@IsActive", user.IsActive),
                     new MySqlParameter("@FirstName", user.FirstName),
@@ -312,7 +342,8 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             try
             {
                 // Create a new command
-                int result = await DataBaseTools.ExecuteNonQueryAsync(this.ConnectionString,
+                int result = await DataBaseTools.ExecuteNonQueryAsync(
+                    this.ConnectionString,
                     "UPDATE User SET IsActive = 0 WHERE EmployeeNumber = @EmployeeNumber",
                     new MySqlParameter("@EmployeeNumber", employeeNumber)
                 );
@@ -340,9 +371,9 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             {
                 // Get the total number of active users
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT COUNT(*) FROM User WHERE IsActive = 1"
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT COUNT(*) FROM User WHERE IsActive = 1"
                     )
                 )
                 {
@@ -352,7 +383,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occured while counting the number of active users", ex);
+                throw new Exception(
+                    "An error occured while counting the number of active users",
+                    ex
+                );
             }
         }
 
@@ -367,17 +401,20 @@ namespace GuichetAutonome.DataAccessLayer.Factories
         /// <param name="employeeNumber">The employee number of the user</param>
         /// <param name="email">The email of the user</param>
         /// <returns>True if the employee number or the email is already used, false otherwise</returns>
-        public async Task<bool> IsEmployeeNumberOrEmailAlreadyUsedAsync(string employeeNumber, string email)
+        public async Task<bool> IsEmployeeNumberOrEmailAlreadyUsedAsync(
+            string employeeNumber,
+            string email
+        )
         {
             try
             {
                 // Get the total number of active users
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT COUNT(*) FROM User WHERE EmployeeNumber = @EmployeeNumber OR Email = @Email",
-                    new MySqlParameter("@EmployeeNumber", employeeNumber),
-                    new MySqlParameter("@Email", email)
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT COUNT(*) FROM User WHERE EmployeeNumber = @EmployeeNumber OR Email = @Email",
+                        new MySqlParameter("@EmployeeNumber", employeeNumber),
+                        new MySqlParameter("@Email", email)
                     )
                 )
                 {
@@ -387,7 +424,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occured while checking if the employee number or the email is already used", ex);
+                throw new Exception(
+                    "An error occured while checking if the employee number or the email is already used",
+                    ex
+                );
             }
         }
 
@@ -410,7 +450,8 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 byte[] hash = PasswordTools.HashPassword(password, salt);
 
                 // Create a new command
-                int result = await DataBaseTools.ExecuteNonQueryAsync(this.ConnectionString,
+                int result = await DataBaseTools.ExecuteNonQueryAsync(
+                    this.ConnectionString,
                     "UPDATE User SET PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt WHERE EmployeeNumber = @EmployeeNumber",
                     new MySqlParameter("@PasswordHash", hash),
                     new MySqlParameter("@PasswordSalt", salt),
@@ -422,7 +463,6 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 {
                     throw new Exception("The salt and the hash were not created");
                 }
-
             }
             catch (Exception ex)
             {
@@ -443,10 +483,10 @@ namespace GuichetAutonome.DataAccessLayer.Factories
             {
                 // Create a new command
                 using (
-                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync
-                    (this.ConnectionString,
-                    "SELECT PasswordHash, PasswordSalt FROM User WHERE EmployeeNumber = @EmployeeNumber",
-                    new MySqlParameter("@EmployeeNumber", employeeNumber)
+                    DataTable result = await DataBaseTools.GetDataTableFromQueryAsync(
+                        this.ConnectionString,
+                        "SELECT PasswordHash, PasswordSalt FROM User WHERE EmployeeNumber = @EmployeeNumber",
+                        new MySqlParameter("@EmployeeNumber", employeeNumber)
                     )
                 )
                 {
@@ -454,8 +494,16 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                     if (result.Rows.Count == 1)
                     {
                         // Get the salt and the hash
-                        byte[] salt = result.Rows[0].Field<byte[]>("PasswordSalt") ?? throw new ArgumentNullException("The salt of the password cannot be null");
-                        byte[] hash = result.Rows[0].Field<byte[]>("PasswordHash") ?? throw new ArgumentNullException("The hash of the password cannot be null");
+                        byte[] salt =
+                            result.Rows[0].Field<byte[]>("PasswordSalt")
+                            ?? throw new ArgumentNullException(
+                                "The salt of the password cannot be null"
+                            );
+                        byte[] hash =
+                            result.Rows[0].Field<byte[]>("PasswordHash")
+                            ?? throw new ArgumentNullException(
+                                "The hash of the password cannot be null"
+                            );
 
                         // Return the salt and the hash
                         return (salt, hash);
@@ -463,11 +511,16 @@ namespace GuichetAutonome.DataAccessLayer.Factories
                 }
 
                 // If no user was found, return null
-                throw new ArgumentNullException("No user was found with the employee number " + employeeNumber);
+                throw new ArgumentNullException(
+                    "No user was found with the employee number " + employeeNumber
+                );
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occured while getting the salt and the hash of the password", ex);
+                throw new Exception(
+                    "An error occured while getting the salt and the hash of the password",
+                    ex
+                );
             }
         }
 

@@ -1,16 +1,10 @@
 ﻿using AppGestion.DataAccessLayer;
-using AppGestion.Properties;
-using AppGestion.Tools;
 using AppGestion.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SeatSwiftDLL;
 using SeatSwiftDLL.Enums;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -75,7 +69,12 @@ namespace AppGestion.ViewModels.Windows
                 }
                 else
                 {
-                    MessageBox.Show("The password is incorrect", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(
+                        "The password is incorrect",
+                        "Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                    );
                 }
             }
             catch (ArgumentNullException ex)
@@ -85,7 +84,12 @@ namespace AppGestion.ViewModels.Windows
             catch (Exception ex)
             {
                 // Afficher le message d'erreur pour toute autre exception inattendue
-                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(
+                    $"An unexpected error occurred: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
             }
         }
 
@@ -182,7 +186,8 @@ namespace AppGestion.ViewModels.Windows
 
         #endregion
 
-        #region Fake user
+
+        #region Admin User
 
         /// <summary>
         /// This method is use to create a default admin user if the count of user in the data base is 0
@@ -204,7 +209,7 @@ namespace AppGestion.ViewModels.Windows
             await DAL.UserFactory.CreateAsync(user);
 
             // Set the salt and the hash of the password
-            await DAL.UserFactory.CreateSaltAndHashAsync("admin",user);
+            await DAL.UserFactory.CreateSaltAndHashAsync("admin", user);
         }
 
         #endregion

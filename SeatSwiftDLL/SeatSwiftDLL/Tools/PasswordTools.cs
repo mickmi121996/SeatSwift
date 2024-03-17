@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SeatSwiftDLL.Tools
 {
@@ -44,7 +40,6 @@ namespace SeatSwiftDLL.Tools
 
             byte[] hashedPassword = HashPassword(password, salt);
 
-            // Simple byte array comparison
             for (int i = 0; i < hashedPassword.Length; i++)
             {
                 if (hashedPassword[i] != hash[i])

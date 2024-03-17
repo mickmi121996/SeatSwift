@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AppGestion.Classes
 {
@@ -41,7 +37,7 @@ namespace AppGestion.Classes
         public double TotalAmountAfterTaxe { get; set; }
 
         /// <summary>
-        /// The client email    
+        /// The client email
         /// </summary>
         public string ClientEmail { get; set; }
 
@@ -78,7 +74,13 @@ namespace AppGestion.Classes
         /// <param name="totalAmountBeforeTaxe">The total amount of the transaction before taxes</param>
         /// <param name="clientEmail">The client email</param>
         /// <param name="ticketsSold">The number of tickets sold</param>
-        public TransactionLine(string orderNumber, DateTime transactionDate, double totalAmountBeforeTaxe, string clientEmail, int ticketsSold)
+        public TransactionLine(
+            string orderNumber,
+            DateTime transactionDate,
+            double totalAmountBeforeTaxe,
+            string clientEmail,
+            int ticketsSold
+        )
         {
             OrderNumber = orderNumber;
             TransactionDate = transactionDate;
@@ -122,7 +124,11 @@ namespace AppGestion.Classes
         /// <param name="tps">The tps amount</param>
         /// <param name="tvq">The tvq amount</param>
         /// <returns>The total amount after taxes</returns>
-        public double TotalAmountAfterTaxeCalculation(double totalAmountBeforeTaxe, double tps, double tvq)
+        public double TotalAmountAfterTaxeCalculation(
+            double totalAmountBeforeTaxe,
+            double tps,
+            double tvq
+        )
         {
             return totalAmountBeforeTaxe + tps + tvq;
         }

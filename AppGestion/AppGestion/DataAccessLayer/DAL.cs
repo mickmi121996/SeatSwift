@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AppGestion.DataAccessLayer.Factories;
+﻿using AppGestion.DataAccessLayer.Factories;
 
 namespace AppGestion.DataAccessLayer
 {
@@ -207,7 +202,7 @@ namespace AppGestion.DataAccessLayer
                 return Instance._ticketFactory;
             }
         }
-        
+
         #endregion
 
         #region Constructor

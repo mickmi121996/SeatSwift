@@ -30,7 +30,7 @@
 
   <ItemGroup>
     <Reference Include="SeatSwiftDLL">
-      <HintPath>..\..\SeatSwiftDLL\SeatSwiftDLL\bin\Debug\net6.0\SeatSwiftDLL.dll</HintPath>
+      <HintPath>..\..\SeatSwiftDLL\SeatSwiftDLL\bin\Release\net6.0\SeatSwiftDLL.dll</HintPath>
     </Reference>
   </ItemGroup>
 

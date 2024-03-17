@@ -1,9 +1,4 @@
 ﻿using SeatSwiftDLL.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeatSwiftDLL
 {
@@ -73,10 +68,23 @@ namespace SeatSwiftDLL
         /// <param name="date">The date of the representation</param>
         /// <param name="show">The show of the representation</param>
         /// <param name="auditorium">The auditorium of the representation</param>
-        public Representation(int id, bool isActive, DateTime date, RepresentationStatus status, Show show, Auditorium auditorium)
+        public Representation(
+            int id,
+            bool isActive,
+            DateTime date,
+            RepresentationStatus status,
+            Show show,
+            Auditorium auditorium
+        )
         {
-            if(show == null) { throw new NullReferenceException(nameof(show)); }
-            if(auditorium == null) { throw new NullReferenceException(nameof(auditorium)); }
+            if (show == null)
+            {
+                throw new NullReferenceException(nameof(show));
+            }
+            if (auditorium == null)
+            {
+                throw new NullReferenceException(nameof(auditorium));
+            }
 
             this.Id = id;
             this.IsActive = isActive;

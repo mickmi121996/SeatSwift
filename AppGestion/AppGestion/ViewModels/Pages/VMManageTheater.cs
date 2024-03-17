@@ -4,14 +4,10 @@ using CommunityToolkit.Mvvm.Input;
 using SeatSwiftDLL;
 using SeatSwiftDLL.Enums;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace AppGestion.ViewModels.Pages
 {
@@ -72,8 +68,10 @@ namespace AppGestion.ViewModels.Pages
         {
             if (seat != null)
             {
-                seat.Status = seat.Status == SeatStatus.InService ? SeatStatus.OutOfService : SeatStatus.InService;
-                // Mettre à jour la base de données ou le service web si nécessaire ici
+                seat.Status =
+                    seat.Status == SeatStatus.InService
+                        ? SeatStatus.OutOfService
+                        : SeatStatus.InService;
                 try
                 {
                     await DAL.SeatFactory.UpdateStatusAsync(seat.Id, seat.Status);
@@ -81,11 +79,15 @@ namespace AppGestion.ViewModels.Pages
                 catch (Exception ex)
                 {
                     // Message box error
-                    MessageBox.Show("Erreur lors de la mise à jour du siège.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(
+                        "Erreur lors de la mise à jour du siège.",
+                        "Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                    );
                 }
             }
         }
-
 
         /// <summary>
         /// Initialize the properties
@@ -98,13 +100,12 @@ namespace AppGestion.ViewModels.Pages
             SelectedAuditorium = new Auditorium();
         }
 
-
         /// <summary>
         /// Method called when the selected Auditorium changes
         /// </summary>
         partial void OnSelectedAuditoriumChanged(Auditorium value)
         {
-            if (value is not null && value.Id>0)
+            if (value is not null && value.Id > 0)
             {
                 _ = InitializeSeats();
             }
@@ -133,7 +134,9 @@ namespace AppGestion.ViewModels.Pages
         public async Task InitializeSeats()
         {
             VMMainWindow.Instance.IsCurrentlyWorking = Visibility.Visible;
-            var seatList = await DAL.SeatFactory.GetAllByAuditoriumIdSimpleAsync(SelectedAuditorium.Id);
+            var seatList = await DAL.SeatFactory.GetAllByAuditoriumIdSimpleAsync(
+                SelectedAuditorium.Id
+            );
             foreach (var seat in seatList)
             {
                 seat.XCoordinate -= 1;
