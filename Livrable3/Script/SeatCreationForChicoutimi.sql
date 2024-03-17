@@ -1,3 +1,6 @@
+INSERT INTO Auditorium (Id, IsActive, AuditoriumName, numberOfRows, NumberOfColumns) VALUES ('1', '1', 'Théatre Chic', '30', '60');
+
+
 INSERT INTO Seat (AuditoriumId, SeatNumber, SectionName, XCoordinate, YCoordinate, SeatStatus, RowName)
 VALUES
 

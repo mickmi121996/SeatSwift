@@ -200,8 +200,8 @@ namespace AppGestion.ViewModels.Windows
                 EmployeeNumber = "admin",
                 FirstName = "Admin",
                 LastName = "Admin",
-                Email = "mickmi12@hotmail.com",
-                PhoneNumber = "418-944-1603",
+                Email = "admin@seatswift.com",
+                PhoneNumber = "123-456-7890",
                 Type = EmployeeType.Administrator,
             };
 

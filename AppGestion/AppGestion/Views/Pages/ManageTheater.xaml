@@ -12,6 +12,27 @@
       Title="ManageTheater" FontFamily="Poppins">
     <Page.Resources>
         <Style x:Key="SeatToggleButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Background" Value="Gray"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource PrimaryGreenColor}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Background" Value="DarkGray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
     </Page.Resources>
@@ -21,12 +42,19 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <!-- Grille de la salle -->
-        <Grid Grid.Row="1" x:Name="SeatsGrid">
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource PrimaryBackgroundColor}" Background="{DynamicResource PrimaryGreenColor}" Content="SCÈNE"></Label>
+
+            <Grid Margin="15,0" Grid.Row="1" x:Name="SeatsGrid">
+            </Grid>
         </Grid>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5,5,5,5">
-            <!-- Nouveaux éléments pour la configuration de la grille -->
             <TextBlock FontSize="16" Foreground="{DynamicResource SecondaryBlueColor}" Text="Choix de l'auditorium :" FontWeight="Bold"/>
             <ComboBox ItemsSource="{Binding Auditoriums}" 
                               Padding="0"

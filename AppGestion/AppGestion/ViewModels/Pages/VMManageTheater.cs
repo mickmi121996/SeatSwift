@@ -117,7 +117,6 @@ namespace AppGestion.ViewModels.Pages
         private async void GetAuditoriums()
         {
             var auditoriums = await DAL.AuditoriumFactory.GetAllActiveAsync();
-            Auditoriums.Insert(0, new Auditorium { Name = "Sélectionner un auditorium" });
 
             // Create the list of auditoriums
             foreach (var auditorium in auditoriums)

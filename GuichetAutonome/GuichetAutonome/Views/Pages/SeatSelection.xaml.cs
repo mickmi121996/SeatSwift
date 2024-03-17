@@ -91,7 +91,6 @@ namespace GuichetAutonome.Views.Pages
                     IsChecked = false,
                     IsEnabled = false,
                     Tag = ticket,
-                    Foreground = GetColorFromSectionName(ticket.Seat.SectionName),
                     Style = (Style)FindResource("SeatToggleButtonStyle"),
                 };
 
@@ -100,6 +99,21 @@ namespace GuichetAutonome.Views.Pages
 
                 if (ticket.Seat.XCoordinate >= 0 && ticket.Seat.YCoordinate >= 0)
                 {
+                    if(ticket.Seat.Status == SeatStatus.OutOfService)
+                    {
+                        button.Background = new SolidColorBrush(Colors.DarkRed);
+                    }
+
+                    if (ticket.TicketStatus == TicketStatus.Reserved || ticket.TicketStatus == TicketStatus.Purchased)
+                    {
+                        button.Background = new SolidColorBrush(Colors.DarkOrange);
+                    }
+
+                    if(button.IsChecked == true) 
+                    {
+                        button.Background = new SolidColorBrush(Colors.DarkGreen);
+                    }
+
                     Grid.SetRow(button, ticket.Seat.YCoordinate);
                     Grid.SetColumn(button, ticket.Seat.XCoordinate);
                     grid.Children.Add(button);

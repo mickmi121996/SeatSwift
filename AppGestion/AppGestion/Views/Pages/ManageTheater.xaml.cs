@@ -1,5 +1,6 @@
 ﻿using AppGestion.ViewModels;
 using AppGestion.ViewModels.Pages;
+using SeatSwiftDLL;
 using SeatSwiftDLL.Enums;
 using System.Windows;
 using System.Windows.Controls;
@@ -81,7 +82,7 @@ namespace AppGestion.Views.Pages
 
                 if (seat.XCoordinate >= 0 && seat.YCoordinate >= 0)
                 {
-                    Grid.SetRow(button, seat.YCoordinate);
+                    Grid.SetRow(button, seat.YCoordinate - 1);
                     Grid.SetColumn(button, seat.XCoordinate);
                     grid.Children.Add(button);
                 }

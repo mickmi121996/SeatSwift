@@ -12,6 +12,24 @@
       Title="SeatSelection" FontFamily="Poppins">
     <Page.Resources>
         <Style x:Key="SeatToggleButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Background" Value="Gray"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource PrimaryGreenColor}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
     </Page.Resources>
@@ -34,9 +52,18 @@
             </ComboBox>
         </StackPanel>
 
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource PrimaryGreenColor}" Background="{DynamicResource FourthIconColor}" Content="SCÈNE"></Label>
 
-        <Grid Margin="15,0" Background="{DynamicResource FourthIconColor}" Grid.Row="1" x:Name="SeatsGrid">
+            <Grid Margin="15,0" Grid.Row="1" Background="{DynamicResource FourthIconColor}" x:Name="SeatsGrid">
+            </Grid>
         </Grid>
+        
 
         <Button Grid.Row="2" Command="{Binding AddOrderToCartCommand}" Margin="15,0" HorizontalAlignment="Right" Content="Ajouter au panier" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>
         <Button Grid.Row="2" Command="{Binding ChangePageToEventSelectionCommand}" Margin="15,0" HorizontalAlignment="Left" Content="Retour" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>
