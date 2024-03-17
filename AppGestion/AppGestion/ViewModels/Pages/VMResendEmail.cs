@@ -24,6 +24,12 @@ namespace AppGestion.ViewModels.Pages
         private ObservableCollection<Order> _orders;
 
         /// <summary>
+        /// The is creating ticket
+        /// </summary>
+        [ObservableProperty]
+        private Visibility _isAdminVisibility;
+
+        /// <summary>
         /// The selected order
         /// </summary>
         [ObservableProperty]
@@ -43,6 +49,7 @@ namespace AppGestion.ViewModels.Pages
             // Initialize the view model
             _orders = new ObservableCollection<Order>();
             _selectedOrder = new Order();
+            _isAdminVisibility = VMMainWindow.Instance.IsAdminVisibility;
 
             Initialize();
         }

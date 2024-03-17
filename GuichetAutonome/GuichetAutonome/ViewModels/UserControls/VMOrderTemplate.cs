@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GuichetAutonome.DataAccessLayer;
+using GuichetAutonome.Views.Pages;
 using SeatSwiftDLL;
 using System;
 using System.Collections.Generic;
@@ -80,28 +81,39 @@ namespace GuichetAutonome.ViewModels.UserControls
         /// <summary>
         /// Delete the ticket of the cart in VMMainWindow
         /// </summary>
+        /// <summary>
+        /// Delete the ticket from the cart in VMMainWindow.
+        /// </summary>
         [RelayCommand]
         public async Task DeleteTicket()
         {
             try
             {
-                // Check for each ticket in the cart with the same id
+                // Create a list to hold tickets to be removed
+                List<Ticket> ticketsToRemove = new List<Ticket>();
+
+                // Identify the tickets to be removed
                 foreach (var ticket in VMMainWindow.Instance.Cart)
                 {
-                    // Check if the ticket is the same as one of the ticket in the _tickets collection
                     if (_tickets.Contains(ticket))
                     {
-                        // Remove the ticket from the cart
-                        VMMainWindow.Instance.Cart.Remove(ticket);
-
-                        // Remove the ticket from the collection
-                        _tickets.Remove(ticket);
+                        ticketsToRemove.Add(ticket);
                     }
                 }
+
+                // Remove the tickets from the cart and the collection
+                foreach (var ticket in ticketsToRemove)
+                {
+                    VMMainWindow.Instance.Cart.Remove(ticket);
+                    _tickets.Remove(ticket);
+                    await DAL.TicketFactory.MakeAvailableAsync(ticket);
+                }
+
+                VMMainWindow.Instance.ChangePage(typeof(CartShow));
             }
             catch (Exception ex)
             {
-                // Make a message box
+                // Display a message box with the error
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

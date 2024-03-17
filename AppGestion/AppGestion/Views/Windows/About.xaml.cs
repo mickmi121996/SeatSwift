@@ -2,10 +2,14 @@
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsPresentation;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace AppGestion.Views.Windows
@@ -23,6 +27,26 @@ namespace AppGestion.Views.Windows
             VMAbout vMAbout = new VMAbout();
             this.DataContext = vMAbout;
         }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "AppGestion.Resources.GuideUtilisation.pdf";
+
+            var tempFilePath = System.IO.Path.GetTempFileName() + ".pdf";
+
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (FileStream fileStream = File.Create(tempFilePath))
+            {
+                stream.CopyTo(fileStream);
+            }
+
+            Process.Start(new ProcessStartInfo(tempFilePath) { UseShellExecute = true });
+
+            e.Handled = true;
+        }
+
 
         #region Map
 
@@ -75,7 +99,7 @@ namespace AppGestion.Views.Windows
             };
             PathGeometry pathGeometry = new PathGeometry { Figures = { pathFigure } };
 
-            Path path = new Path
+            System.Windows.Shapes.Path path = new System.Windows.Shapes.Path
             {
                 Width = 25,
                 Height = 35,

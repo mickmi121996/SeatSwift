@@ -70,7 +70,7 @@
                     </StackPanel>
                 </Grid>
 
-                <Button Margin="5" Grid.Row="3" Grid.Column="2" Command="{Binding}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Supprimer" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="30" FontWeight="Bold" FontSize="20"></Button>
+                <Button Margin="5" Grid.Row="3" Grid.Column="2" Command="{Binding DeleteTicketCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Supprimer" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="30" FontWeight="Bold" FontSize="20"></Button>
 
             </Grid>
         </meterialDesign:Card>

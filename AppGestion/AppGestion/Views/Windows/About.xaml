@@ -83,7 +83,13 @@
                         <TextBlock Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0" Text="{Binding Adress}"></TextBlock>
 
                         <Label Content="Guide de l'utilisateur" Grid.Row="7" Foreground="{DynamicResource SecondaryBlueColor}" FontSize="18" FontWeight="Bold" Grid.ColumnSpan="2" VerticalAlignment="Center"></Label>
-                        <TextBlock Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Foreground="{DynamicResource SecondaryBackGroundColor}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0"  Text="Cliquez ici pour ouvrir votre guide d'utilisation"><Hyperlink NavigateUri="http://www.bing.com"/></TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Foreground="{DynamicResource SecondaryBackGroundColor}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0" TextWrapping="Wrap">
+                            <Hyperlink RequestNavigate="Hyperlink_RequestNavigate">
+                                <Run Text="Cliquez ici pour ouvrir votre guide d'utilisation"/>
+                            </Hyperlink>
+                        </TextBlock>
+
+
                     </Grid>
                 </meterialDesign:Card>
                 <meterialDesign:Card Grid.Column="1" Margin="5,0,10,5" Padding="5">

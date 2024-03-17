@@ -46,6 +46,12 @@ namespace AppGestion.ViewModels
         private Visibility _isCurrentlyWorking;
 
         /// <summary>
+        /// The is creating ticket
+        /// </summary>
+        [ObservableProperty]
+        private Visibility _isAdminVisibility;
+
+        /// <summary>
         /// The the connection status of the user
         /// </summary>
         [ObservableProperty]
@@ -92,8 +98,14 @@ namespace AppGestion.ViewModels
             IsConnected = true;
 
             // Check the employee type of the user
-            if (User.Type == SeatSwiftDLL.Enums.EmployeeType.Administrator) { }
-            else { }
+            if (User.Type == SeatSwiftDLL.Enums.EmployeeType.Administrator) 
+            {
+                IsAdminVisibility = Visibility.Visible;
+            }
+            else 
+            {
+                IsAdminVisibility = Visibility.Collapsed;
+            }
         }
 
         #endregion

@@ -210,7 +210,7 @@ namespace GuichetAutonome.ViewModels.Pages
             {
                 string qrCodeBase64 = CodeQRTools.GenerateQRCodeBase64(ticket.QRCodeData);
                 qrCodesHtml.AppendFormat(
-                    "<img src=\"data:image/png;base64,{0}\" style=\"width: 270px; height: 270px;\" alt=\"QR Code\" /><br/>",
+                    "<img src=\"{0}\" style=\"width: 270px; height: 270px;\" alt=\"QR Code\" /><br/>",
                     qrCodeBase64
                 );
             }

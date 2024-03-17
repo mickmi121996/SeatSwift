@@ -21,6 +21,12 @@ namespace AppGestion.ViewModels.Pages
         private ObservableCollection<User> _users;
 
         /// <summary>
+        /// The is creating ticket
+        /// </summary>
+        [ObservableProperty]
+        private Visibility _isAdminVisibility;
+
+        /// <summary>
         /// The selected user
         /// </summary>
         [ObservableProperty]
@@ -38,6 +44,7 @@ namespace AppGestion.ViewModels.Pages
         /// </summary>
         public VMManageEmploye()
         {
+            _isAdminVisibility = VMMainWindow.Instance.IsAdminVisibility;
             InitializeProperties();
             LoadData();
         }

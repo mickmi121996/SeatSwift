@@ -270,11 +270,11 @@ namespace AppGestion.DataAccessLayer.Factories
 
                 string query =
                     @"
-                SELECT ShowType, COUNT(*) AS Count
-                FROM Shows
-                WHERE IsActive = 1
-                GROUP BY ShowType;
-            ";
+            SELECT ShowType, COUNT(*) AS Count
+            FROM Shows
+            WHERE IsActive = 1
+            GROUP BY ShowType;
+        ";
 
                 using (
                     DataTable result = await DataBaseTool.GetDataTableFromQueryAsync(
@@ -296,11 +296,7 @@ namespace AppGestion.DataAccessLayer.Factories
                     }
                 }
 
-                if (showCounts.Count == 0)
-                {
-                    throw new KeyNotFoundException("No active shows found");
-                }
-
+                // Retourne la liste vide si aucun spectacle actif n'est trouvé, au lieu de lancer une exception
                 return showCounts;
             }
             catch (Exception ex)
@@ -311,6 +307,7 @@ namespace AppGestion.DataAccessLayer.Factories
                 );
             }
         }
+
 
         /// <summary>
         /// Get a show by its id

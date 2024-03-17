@@ -92,7 +92,7 @@
                     <TextBlock Text="{Binding SelectedOrder.TotalPrice}" Padding="0"/>
                 </StackPanel>
 
-                <Button Grid.Row="7" Grid.Column="1" Command="{Binding ResendEmailCommand}"  HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Renvoyer courriel"  VerticalAlignment="Bottom"/>
+                <Button Visibility="{Binding IsAdminVisibility}" Grid.Row="7" Grid.Column="1" Command="{Binding ResendEmailCommand}"  HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Renvoyer courriel"  VerticalAlignment="Bottom"/>
 
             </Grid>
         </meterialDesign:Card>

@@ -6,6 +6,7 @@ using SeatSwiftDLL;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AppGestion.ViewModels.Pages
 {
@@ -18,6 +19,12 @@ namespace AppGestion.ViewModels.Pages
         /// </summary>
         [ObservableProperty]
         private ObservableCollection<Show> _Shows;
+
+        /// <summary>
+        /// The is creating ticket
+        /// </summary>
+        [ObservableProperty]
+        private Visibility _isAdminVisibility;
 
         /// <summary>
         /// The selected show
@@ -53,6 +60,7 @@ namespace AppGestion.ViewModels.Pages
         /// </summary>
         public VMManageEvent()
         {
+            _isAdminVisibility = VMMainWindow.Instance.IsAdminVisibility;
             InitializeProperties();
             LoadData();
         }
