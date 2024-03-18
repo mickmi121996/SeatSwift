@@ -49,11 +49,39 @@
                 <Path Data="{StaticResource customers}" Stretch="Uniform" Fill="{DynamicResource SecondaryBackGroundColor}" Width="50" Height="50"/>
             </Button>
 
-            <Button Command="{Binding ChangePageToHistoryCommand}" Margin="15,0" HorizontalAlignment="Right" Content="Historique" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>
+            <Button Command="{Binding ChangePageToHistoryCommand}" Margin="10,0" Width="60" Height="60" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" BorderThickness="1">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="2"/>
+                    </Style>
+                </Button.Resources>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+                <Path Data="{StaticResource history}" Stretch="Uniform" Fill="{DynamicResource SecondaryBackGroundColor}" Width="50" Height="50"/>
+            </Button>
         </StackPanel>
-        
-        <Button  Command="{Binding ChangePageToConnectionCommand}" Margin="15" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Déconnexion" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="25"></Button>
 
+
+        <Button Command="{Binding ChangePageToConnectionCommand}" Margin="15" VerticalAlignment="Center" HorizontalAlignment="Right" Width="60"  Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" BorderThickness="1" Height="60">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="2"/>
+                </Style>
+            </Button.Resources>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+            <Path Data="{StaticResource logout}" Stretch="Uniform" Fill="{DynamicResource SecondaryBackGroundColor}" Width="50" Height="50"/>
+        </Button>
 
         <ScrollViewer Margin="15" Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding UserControls}">

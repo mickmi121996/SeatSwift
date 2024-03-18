@@ -43,7 +43,7 @@
                 <Label DockPanel.Dock="Top" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBlueColor}" Content="Détails des commandes"></Label>
 
                 <StackPanel Grid.Row="4" >
-                    <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Total avant taxe :"></Label>
+                    <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Total avant taxes :"></Label>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Foreground="{DynamicResource SecondaryBackGroundColor}" Text="{Binding TotalPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:F2}}" FontSize="20"></TextBlock>
                         <Label VerticalAlignment="Center" Padding="0" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content=" $"></Label>

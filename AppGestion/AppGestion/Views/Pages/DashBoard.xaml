@@ -41,7 +41,7 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal" >
-                        <Label Padding="0" FontSize="16" FontWeight="Bold" Content="Vente par mois pour " VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"/>
+                        <Label Padding="0" FontSize="16" FontWeight="Bold" Content="Ventes par mois pour " VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"/>
                         <Label Padding="0" FontSize="16" FontWeight="Bold" Content="{Binding Year}" VerticalAlignment="Bottom" Foreground="{DynamicResource SecondaryBlueColor}" HorizontalAlignment="Left"/>
                     </StackPanel>
                     <lvc:CartesianChart Series="{Binding LineSeries}" Grid.Row="1">
@@ -76,16 +76,16 @@
             <meterialDesign:Card Margin="10,5,5,5" Padding="5">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="100" Text="{Binding EventsToCome}"></TextBlock>
-                    <Label FontSize="25" Padding="0" HorizontalAlignment="Center" Content="Représentations"></Label>
-                    <Label FontSize="25" Padding="0" HorizontalAlignment="Center" Content="à venir"></Label>
+                    <Label FontSize="23" Padding="0" HorizontalAlignment="Center" Content="Représentations"></Label>
+                    <Label FontSize="23" Padding="0" HorizontalAlignment="Center" Content="à venir"></Label>
                 </StackPanel>
             </meterialDesign:Card>
 
             <meterialDesign:Card Grid.Column="1" Margin="10,5,5,5" Padding="5">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="100" Text="{Binding PassedEvents}"></TextBlock>
-                    <Label FontSize="25" Padding="0" HorizontalAlignment="Center" Content="Représentations"></Label>
-                    <Label FontSize="25" Padding="0" HorizontalAlignment="Center" Content="Antérieurs"></Label>
+                    <Label FontSize="23" Padding="0" HorizontalAlignment="Center" Content="Représentations"></Label>
+                    <Label FontSize="23" Padding="0" HorizontalAlignment="Center" Content="Antérieurs"></Label>
                 </StackPanel>
             </meterialDesign:Card>
 

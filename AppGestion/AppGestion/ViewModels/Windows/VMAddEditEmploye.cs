@@ -102,6 +102,12 @@ namespace AppGestion.ViewModels.Windows
         [ObservableProperty]
         private string? _invalidEmailErrorMessage;
 
+        /// <summary>
+        /// The title
+        /// </summary>
+        [ObservableProperty]
+        private string? _title;
+
         #endregion
 
 
@@ -121,6 +127,7 @@ namespace AppGestion.ViewModels.Windows
             _password = string.Empty;
             _phoneNumber = string.Empty;
             _employeeNumber = string.Empty;
+            _title = "Ajouter un employé";
 
             // Select the first role by default
             _selectedRole = ListRole.FirstOrDefault().ToString();
@@ -142,6 +149,7 @@ namespace AppGestion.ViewModels.Windows
             _lastName = user.LastName;
             _email = user.Email;
             _password = "**********";
+            _title = $"Modifier {User.EmployeeNumber}";
             _phoneNumber = user.PhoneNumber;
             _employeeNumber = user.EmployeeNumber;
             _selectedRole = user.Type.ToString();

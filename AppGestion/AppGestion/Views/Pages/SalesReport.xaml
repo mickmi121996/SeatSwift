@@ -71,7 +71,7 @@
             <Grid >
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <ProgressBar IsIndeterminate="True" Style="{StaticResource MaterialDesignCircularProgressBar}" Width="50" Height="50"/>
-                    <TextBlock Text="Chargement des ventes ! veuillez patienter..." Foreground="White" Margin="5" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Chargement des ventes! veuillez patienter..." Foreground="White" Margin="5" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </Border>

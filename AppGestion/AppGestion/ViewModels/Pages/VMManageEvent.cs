@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using SeatSwiftDLL;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -226,35 +227,42 @@ namespace AppGestion.ViewModels.Pages
             _isInitialLoadComplete = true;
         }
 
+        private Show _lastLoadedShow = null;
+
         /// <summary>
         /// Load the representation for the selected show
         /// </summary>
         private async void LoadRepresentation()
         {
-            // Clear the list of representation
-            Representations.Clear();
-
-            SelectedRepresentation = null;
-
-            if (SelectedShow != null)
+            if(SelectedShow is not null && _lastLoadedShow != SelectedShow)
             {
-                // Get the list of representation
-                var representations = await DAL.RepresentationFactory.GetByShowAsync(SelectedShow);
+                _lastLoadedShow = SelectedShow;
+                Representations.Clear();
 
-                // Add the representation to the list
-                foreach (var representation in representations)
-                {
-                    Representations.Add(representation);
-                }
+                SelectedRepresentation = null;
 
-                // if the list is not empty
-                if (Representations.Count > 0)
+                if (SelectedShow != null)
                 {
-                    // Set the selected representation
-                    SelectedRepresentation = Representations[0];
+                    var representations = await DAL.RepresentationFactory.GetByShowAsync(SelectedShow);
+
+                    var distinctRepresentations = representations
+                        .GroupBy(r => r.Id)
+                        .Select(g => g.First());
+
+                    foreach (var representation in distinctRepresentations)
+                    {
+                        Representations.Add(representation);
+                    }
+
+                    if (Representations.Count > 0)
+                    {
+                        SelectedRepresentation = Representations[0];
+                    }
                 }
             }
+
         }
+
 
         /// <summary>
         /// Method called when the selected show changes

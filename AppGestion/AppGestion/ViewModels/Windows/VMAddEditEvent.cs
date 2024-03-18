@@ -24,6 +24,12 @@ namespace AppGestion.ViewModels.Windows
         private bool _isModified;
 
         /// <summary>
+        /// The title
+        /// </summary>
+        [ObservableProperty]
+        private string? _title;
+
+        /// <summary>
         /// The title of the window
         /// </summary>
         [ObservableProperty]
@@ -99,6 +105,7 @@ namespace AppGestion.ViewModels.Windows
             _basePrice = 0;
             _maxTicketsByClient = 0;
             _selectedImagePath = string.Empty;
+            _title = "Ajouter un événement";
             _eventDescription = string.Empty;
             _showTypes = new ObservableCollection<string>(Enum.GetNames(typeof(ShowType)));
             _selectedShowType = _showTypes.FirstOrDefault();
@@ -124,6 +131,7 @@ namespace AppGestion.ViewModels.Windows
             if (show is not null)
             {
                 _show = show;
+                _title = $"Modifier {Show.Name}";
             }
         }
 

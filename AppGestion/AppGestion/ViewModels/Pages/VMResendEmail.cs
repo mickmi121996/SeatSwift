@@ -113,7 +113,7 @@ namespace AppGestion.ViewModels.Pages
                             );
 
                             MessageBox.Show(
-                                "L.envoie du courriel a réussi!",
+                                "L'envoie du courriel a réussi!",
                                 "Courriel envoyé",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Information

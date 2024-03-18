@@ -85,7 +85,7 @@
             <meterialDesign:Card Grid.Row="3" Margin="5,5,5,5" Padding="5">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" FontSize="100" Text="{Binding Representations}"></TextBlock>
-                    <Label FontSize="25" Content="Représentation" HorizontalAlignment="Center"></Label>
+                    <Label FontSize="25" Content="Représentations" HorizontalAlignment="Center"></Label>
                     <Label FontSize="25" Content="Dispo et à venir" HorizontalAlignment="Center"></Label>
                 </StackPanel>
             </meterialDesign:Card>

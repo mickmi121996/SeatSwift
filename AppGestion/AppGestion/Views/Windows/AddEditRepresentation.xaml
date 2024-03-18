@@ -30,7 +30,7 @@
                     </Border.Background>
                 </Border>
 
-                <Label Content="[Ajouter/Modifier une représentation]" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}"></Label>
+                <Label Content="{Binding Title}" FontSize="15" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}"></Label>
             </StackPanel>
 
 

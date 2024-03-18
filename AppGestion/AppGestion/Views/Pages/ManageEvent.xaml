@@ -114,7 +114,7 @@
                 </Grid>
             </meterialDesign:Card>
 
-            <Button Visibility="{Binding IsAdminVisibility}" Grid.Row="1" Command="{Binding OpenEditEventCommand}" Margin="10,0,10,0" HorizontalAlignment="Right" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Content="Modifier événement"  VerticalAlignment="Center"/>
+            <Button Visibility="{Binding IsAdminVisibility}" Grid.Row="1" Command="{Binding OpenEditEventCommand}" Margin="10,0,10,0" HorizontalAlignment="Right" Background="{DynamicResource SecondaryBlueColor}" BorderBrush="{DynamicResource SecondaryBlueColor}" Content="Modifier événement"  VerticalAlignment="Center"/>
 
             <meterialDesign:Card Grid.Row="2" Margin="5,5,10,5" Padding="5,0,5,5">
                 <Grid >

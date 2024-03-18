@@ -28,13 +28,13 @@
                     <Image VerticalAlignment="Center" Source="/Resources/Logo.png"></Image>
                     <Label VerticalAlignment="Center" FontSize="50" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="SeatSwift"></Label>
                 </StackPanel>
-                <Label DockPanel.Dock="Top" Margin="15" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Passez  de bon événements!"></Label>
+                <Label DockPanel.Dock="Top" Margin="15" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="Profitez bien des événements !"></Label>
 
                 <Button Command="{Binding ChangePageToEventSelectionCommand}" Margin="15" DockPanel.Dock="Top" Content="Page événements" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="40"></Button>
 
                 <Label DockPanel.Dock="Top" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25" FontWeight="Bold" Foreground="{DynamicResource SecondaryBackGroundColor}" Content="OU"></Label>
 
-                <Button Command="{Binding ChangePageToConnectionCommand}" Margin="15" DockPanel.Dock="Top" Content="Se déconnecter" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource PrimaryGreenColor}" BorderBrush="{DynamicResource PrimaryGreenColor}" Height="60" FontWeight="Bold" FontSize="40"></Button>
+                <Button Command="{Binding ChangePageToConnectionCommand}" Margin="15" DockPanel.Dock="Top" Content="Se déconnecter" Foreground="{DynamicResource SecondaryBackGroundColor}" Background="{DynamicResource AlertColor}" BorderBrush="{DynamicResource AlertColor}" Height="60" FontWeight="Bold" FontSize="40"></Button>
 
             </DockPanel>
         </meterialDesign:Card>
